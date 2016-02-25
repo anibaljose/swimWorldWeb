@@ -5,10 +5,12 @@ config = require('./config/local.js'),
 db = require( './models'),
 rutas = require('./controllers'),
 validar = require('./validators'),
-validarAtletas = require('./validators/atletas.js'),
-validarEventos = require('./validators/eventos.js'),
-validarTipos = require('./validators/tipos.js'),
-validarEquipos = require('./validators/equipos.js'),
+validarUsuarios = require('./validators/usuarios'),
+validarAtletas = require('./validators/atletas'),
+validarEventos = require('./validators/eventos'),
+validarTipoEquipo = require('./validators/tipo_equipos'),
+validarEquipos = require('./validators/equipos'),
+validarTiemposNado = require('./validators/tiempos_nado'),
 
 server = new Hapi.Server();
 server.connection({
@@ -38,17 +40,17 @@ server.route({
   },
   handler: rutas.login
 });
-
-var validar = function (request, decodedToken, callback) {
-
-    var error,
-        credentials = config.accounts[decodedToken.accountId] || {};
-
-    if (!credentials) {
-        return callback(error, false, credentials);
+var validar = function (request, token, callback) {
+  var error;
+  db.User.findById(token.accountId, {username: 1, admin:1}, function(err, user){
+    if (err){
+      // Acceso no autorizado
+      return callback(error, false, err);
+    } else {
+      // Acceso autorizado
+      return callback(error, true, user);
     }
-
-    return callback(error, true, credentials)
+  });
 };
 server.register(require('hapi-auth-jwt'), (err) =>{
   if (err) {
@@ -58,6 +60,41 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     key: privateKey,
     validateFunc: validar,
     verifyOptions: { algorithms: [ 'HS256' ] }  // only allow HS256 algorithm
+  });
+  server.route({
+    method: 'POST',
+    path: '/usuarios/create',
+    config: {
+      validate: validarUsuarios.create
+    },
+    handler: rutas.usuarios.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/usuarios/save',
+    config: {
+      auth: config.auth,
+      validate: validarUsuarios.save
+    },
+    handler: rutas.usuarios.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/usuarios/{idUsuario?}',
+    config: {
+      auth: config.auth,
+      validate: validarUsuarios.idUsuario
+    },
+    handler: rutas.usuarios.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/usuarios/{idUsuario}',
+    config: {
+      auth: config.auth,
+      validate: validarUsuarios.idUsuario
+    },
+    handler: rutas.usuarios.delete
   });
   server.route({
     method: 'POST',
@@ -136,36 +173,36 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipos/create',
     config: {
       auth: config.auth,
-      validate: validarTipos.create
+      validate: validarTipoEquipo.create
     },
-    handler: rutas.tipos.create
+    handler: rutas.tipoEquipos.create
   });
   server.route({
     method: 'POST',
     path: '/tipo/{idTipo}/save',
     config: {
       auth: config.auth,
-      validate: validarTipo.save
+      validate: validarTipoEquipo.save
     },
-    handler: rutas.tipos.save
+    handler: rutas.tipoEquipos.save
   });
   server.route({
     method: 'GET',
     path: '/tipo/{idTipo?}',
     config: {
       auth: config.auth,
-      validate: validarTipos.idTipo
+      validate: validarTipoEquipo.idTipo
     },
-    handler: rutas.tipos.listar
+    handler: rutas.tipoEquipos.listar
   });
   server.route({
     method: 'DELETE',
     path: '/tipo/{idTipo}',
     config: {
       auth: config.auth,
-      validate: validarTipos.idTipo
+      validate: validarTipoEquipo.idTipo
     },
-    handler: rutas.tipos.delete
+    handler: rutas.tipoEquipos.delete
   });
   server.route({
     method: 'POST',
