@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+   <head>
+     <meta charset="UTF-8">
+      <link href="node_modules/angular/angular-csp.css" rel="stylesheet">
+      <link href="node_modules/angular-material/angular-material.min.css" rel="stylesheet">
+      <link href="css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+      <link href="css/login.css" rel="stylesheet">
+      <title>Sign In</title>
+   </head>
+   
+   <body ng-app="sosialApp" style=" position: absolute; width:100%; height:100%; background: url('img/gal5.jpg');">
+   
+      <div ng-controller="LoginCtrl" layout="column" layout-padding ng-cloak class="shapeLogin">
+         <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
+            <md-input-container class="md-block">
+               <i class="fa fa-envelope iconInput"></i>
+               <input style="color:rgb(255, 255, 255) !important" ng-model="user.email" type="email" placeholder="Correo Electronico" ng-required="true" class="sytleInput">
+            </md-input-container>
+         </md-content>
+         <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
+            <md-input-container class="md-block">
+               <i class="fa fa-key iconInput" ></i>
+               <input style="color:rgb(255, 255, 255) !important" ng-model="user.password" type="password" placeholder="Password " ng-required="true" class="sytleInput">
+            </md-input-container>
+         </md-content>
+         <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
+         <button type="button" class="button buttonBlue" ng-click="LogIn()">
+            Iniciar Sesion
+            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+         </button>
+      </div>
+   </body>
+   <script src="node_modules/angular/angular.min.js"></script>
+   <script src="node_modules/angular-material/angular-material.min.js"></script>
+   <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+   <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+   <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
+   <script src="js/login.js"></script>
+</html>

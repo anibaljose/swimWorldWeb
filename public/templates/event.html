@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <link href="../node_modules/angular/angular-csp.css" rel="stylesheet">
+      <link href="../node_modules/angular-material/angular-material.min.css" rel="stylesheet">
+      <link href="../css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="../css/event.css" rel="stylesheet">
+      <title>Eventos</title>
+   </head>
+   <body layout="row" ng-app="sosialApp" ng-controller="addStudentCtrl" >
+      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+         <md-toolbar class="md-tall md-hue-2" >
+         <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
+            <span flex></span>
+            <div layout="column" class="md-toolbar-tools-bottom inset">
+               <div style="margin-left: 77px;">
+                  <i class="fa fa-user fa-5x"></i>
+               </div>
+               <div style="margin-left: 44px;">Firstname Lastname</div>
+               <div style="margin-left: 30px;">email@domainname.com</div>
+            </div>
+         </md-toolbar>
+         <md-list>
+            <md-item ng-repeat="item in menu">
+               <a>
+                  <md-item-content md-ink-ripple layout="row" layout-align="start center" ng-click="go(item.link)" style="cursor:pointer">
+                     <div class="inset">
+                        <i style = "color:black !important;" class="fa {{item.icon}} fa-1x"></i>
+                     </div>
+                     <div class="inset" style="color: black;">{{item.title}}
+                     </div>
+                  </md-item-content>
+               </a>
+            </md-item>
+         </md-list>
+      </md-sidenav>
+      <div layout="column" class="relative" layout-fill role="main">
+         <md-button style="background: rgba(255, 222, 121, 0.96);color: rgba(0, 0, 0, 0.42);" class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdvanced($event)" >
+            <i class="fa fa-plus fa-1x"></i>
+         </md-button>
+         <md-toolbar ng-show="!showSearch">
+            <div class="md-toolbar-tools">
+               <md-button ng-click="toggleSidenav('left')"  hide-gt-sm ng-if="!$last">
+                  <i class="fa fa-bars fa-2x"></i>
+               </md-button>
+               <span flex></span>
+               <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+                  <i class="fa fa-search fa-2x"></i>  Buscar
+               </md-button>
+            </div>
+            <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
+               <md-tab id="tab1" aria-controls="tab1-content">
+                  Eventos
+               </md-tab>
+            </md-tabs>
+         </md-toolbar>
+         <md-toolbar class="md-hue-1" ng-show="showSearch">
+            <div class="md-toolbar-tools">
+               <md-button ng-click="visibleSearch()" aria-label="Back">
+                  <i class="fa fa-arrow-left  fa-2x"></i>
+               </md-button>
+               <md-input-container md-theme="input" flex>
+                  <label>&nbsp;</label>
+                  <input style ="margin-top: 22px !important;"ng-model="search.name" placeholder="Escriba el nombre">
+               </md-input-container>
+               <md-button aria-label="Search" ng-click="visibleSearch()">
+                  <i class="fa fa-search fa-2x"></i>  Buscar
+               </md-button>
+            </div>
+         </md-toolbar>
+         <md-content flex md-scroll-y>
+            <ui-view layout="column" layout-fill layout-padding style ="background: rgba(2, 119, 189, 0.15);">
+               <div class="inset" hide-sm></div>
+               <ng-switch on="data.selectedIndex" class="tabpanel-container">
+                  <div role="tabpanel"
+                     id="tab1-content"
+                     aria-labelledby="tab1"
+                     ng-switch-when="0"
+                     md-swipe-left="next()"
+                     md-swipe-right="previous()"
+                     layout="row" layout-align="center center">
+                     <md-card flex-gt-sm="90" flex-gt-md="80">
+                        <md-card-content>
+                           <md-list>
+                              <md-item ng-repeat="item in person | filter:search">
+                                 <md-item-content>
+                                    <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
+
+                                       <div>
+                                          <div style="font-size: 14px; font-weight: bolder;">{{item.name}}</div>
+                                          <div style="font-size: 12px;">{{item.birthDate}} </div>
+                                          <div style="font-size: 12px;">{{item.team}} </div>
+                                          <div>
+                                             <md-button class="btn1"> Editar </md-button>
+                                             <md-button class="btn1"> Eliminar </md-button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </md-item-content>
+                                 <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
+                                 <md-divider hide-gt-sm ng-if="!$last"></md-divider>
+                              </md-item>
+                              <md-divider></md-divider>
+                           </md-list>
+                        </md-card-content>
+                     </md-card>
+                  </div>
+               </ng-switch>
+            </ui-view>
+         </md-content>
+      </div>
+   </body>
+   <script src="../node_modules/angular/angular.min.js"></script>
+   <script src="../node_modules/angular-material/angular-material.min.js"></script>
+   <script src="../node_modules/angular-animate/angular-animate.min.js"></script>
+   <script src="../node_modules/angular-aria/angular-aria.min.js"></script>
+   <script src="../node_modules/angular-cookies/angular-cookies.min.js"></script>         
+   <script src="../js/event.js"></script>
+</html>

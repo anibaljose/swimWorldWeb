@@ -1,0 +1,157 @@
+$gray: #eee;
+
+md-content.md-default-theme {
+  background-color: $gray;
+}
+md-card {
+  background-color: #fff;
+  h2:first-of-type {
+    margin-top: 0;
+  }
+}
+md-toolbar {
+  .md-button.md-default-theme {
+    border-radius: 99%; // round toolbar buttons
+  }
+}
+h2 {
+  font-weight: 400;
+}
+.md-toolbar-tools-bottom {
+  font-size: small;
+  & :last-child {
+    opacity: 0.8;
+  }
+}
+md-toolbar:not(.md-hue-1),
+.md-fab {
+  fill: rgb(244, 67, 54);
+}
+md-sidenav {
+  fill: #737373;
+  ng-md-icon {
+    position: relative;
+    top: 5px; // adjust for svg viewbox
+  }
+}
+.user-avatar {
+  border-radius: 99%;
+}
+
+
+.inputdemoIcons .inputIconDemo {
+  min-height: 48px; 
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.email {
+  color: green; 
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.name {
+  color: dodgerblue; 
+}
+
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.email,
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.name {
+    color: red; 
+}
+
+
+.button {
+  position: relative;
+  display: inline-block;
+  padding: 12px 24px;
+  margin: .3em 0 1em 0;
+  width: 100%;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 16px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  letter-spacing: 1px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #3160B6;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.buttonBlue 
+{
+  background: #4a89dc;
+  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+}
+
+.buttonBlue:hover 
+{ 
+  background: #357bd8; 
+}
+
+.iconInput{
+    margin-left: -38px !important;
+    margin-top: 6px !important;
+    font-size: 1.2em;
+}
+.sytleInput{
+    padding-right: 48px !important;
+  margin-top: 8px !important; 
+}
+
+.messageLogin{
+    color: rgb(255, 0, 0);
+    font-family: -webkit-body;
+    margin: auto;
+    margin-top: -11px;
+}
+
+.forgotPassword{
+    margin: auto;
+    color: rgb(100, 149, 237);
+    text-decoration:none !important;   
+}
+
+.md-datepicker-input{
+    width: 210px !important;
+    height: 32px !important;
+    font-size: 1em !important;
+    padding-right: 18px !important;
+}
+
+.md-datepicker{
+  margin-left: -57px !important;
+    height: 54px !important;
+}
+
+.md-datepicker-button{
+    display: none !important;
+}
+
+.listdemoBasicUsage md-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btnAdd{
+    margin-right: 177px !important;
+    background: rgba(255, 222, 121, 0.96);
+    color: black;
+    border-radius: 10px;
+    width: 132px;
+    height: 45px;
+}
+
+.btn1 {
+  color : rgb(49, 46, 46);
+  background-color: rgba(255, 222, 121, 0.96);
+  border-radius: 10px 0 0 10px;
+  font-size: 12px;
+}
+.btn1:not([disabled]):hover {
+  background-color: rgba(107, 103, 91, 0.96);
+  color: white;
+}
+.btn1[disabled] {
+  color : rgb(187, 187, 187);
+  background-color: rgba(230, 230, 229, 0.96);
+}

@@ -1,0 +1,93 @@
+.inputdemoIcons .inputIconDemo 
+{
+	min-height: 48px; 
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.email 
+{
+	color: green; 
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.name 
+{
+	color: dodgerblue; 
+}
+
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.email,
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.name 
+{
+    color: red; 
+}
+
+
+.shapeLogin
+{
+    width: 380px;
+    margin: 4em auto;
+    padding: 3em 2em 2em 2em;
+    border: 1px solid rgb(235, 235, 235);
+    box-shadow: rgb(103, 58, 183) 0px 1px 1px 0px,rgb(0, 0, 0) 0px 1px 2px 0px;
+ }
+
+.button 
+{
+	position: relative;
+	display: inline-block;
+	padding: 12px 24px;
+	margin: .3em 0 1em 0;
+	width: 100%;
+	vertical-align: middle;
+	color: #fff;
+	font-size: 16px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	letter-spacing: 1px;
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid #3160B6;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.buttonBlue 
+{
+	background: #4a89dc;
+	text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+}
+
+.buttonBlue:hover 
+{ 
+	background: #357bd8; 
+}
+
+.iconInput{
+    margin-left: -16px !important;
+    margin-top: 12px !important;
+}
+.sytleInput{
+	padding-right: 23px !important; 
+	margin-top: 8px !important; 
+}
+
+.messageLogin{
+    color: rgb(255, 0, 0);
+    font-family: -webkit-body;
+    margin: auto;
+    margin-top: -11px;
+}
+
+.forgotPassword{
+	margin: auto;
+    color: rgb(100, 149, 237);
+    text-decoration:none !important;   
+}
+
+
+
+
+
+md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore){
+
+    color: rgb(255, 255, 255) !important;
+}
