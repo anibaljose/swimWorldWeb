@@ -65,6 +65,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     method: 'POST',
     path: '/usuarios/create',
     config: {
+      auth: config.auth,
       validate: validarUsuarios.create
     },
     handler: rutas.usuarios.create
@@ -89,7 +90,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'DELETE',
-    path: '/usuarios/{idUsuario}',
+    path: '/usuarios/{idUsuario?}',
     config: {
       auth: config.auth,
       validate: validarUsuarios.idUsuario

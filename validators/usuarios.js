@@ -8,7 +8,7 @@ exports.create = {
 };
 exports.save = {
   params: {
-    idUsurio: Joi.string().min(1).required()
+    idUsuario: Joi.string().min(1).required()
   },
   payload: {
     username: Joi.string().min(3).max(20),
