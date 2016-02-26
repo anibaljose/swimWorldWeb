@@ -16,16 +16,16 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
    $scope.message = "";
    $scope.showMessage = "false";
    $scope.user = {
-      mail   : '',
-      password: ''
+      mail   : 'dvd',
+      password: 'dvddvd'
    };
 
    $scope.LogIn = function() {
 
-		if($scope.user.mail != '' && $scope.user.password != '')
-		{
       console.log("uss: "+$scope.user.mail);
       console.log("pass: "+$scope.user.password);
+		if($scope.user.mail != '' && $scope.user.password != '')
+		{
        $http({
          url: '/login',
          method: 'POST',
