@@ -51,25 +51,19 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
    }
 
 
-     $scope.getMunicipios=function(){
-      var deferred=$q.defer();
+     $scope.LogIn=function(){
        $http({
-         url: 'http://45.56.116.32/SosialWS/rest/countrysubdivision/allsubdivisions',
+         url: '/login',
          method: 'POST',
-         headers: { 
-            'Content-Type': 'application/x-www-form-urlencoded',
-            "Accept" : "application/json"
-         },
+          headers : { 'Content-Type': 'application/json'},
          data: {
-           parent: 1
+           username: user.email, 
+           password: user.password
          }
        }).success(function (response) {
          console.log(JSON.stringify(response));
-         deferred.resolve(response);         
        }).error( function (response) {
             console.log(response);
-           console.error('Error obteniendo Municipios');
-           deferred.reject(response);
        });
     }
 
