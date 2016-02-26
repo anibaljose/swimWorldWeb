@@ -1,6 +1,22 @@
 
 var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
 
+app.config(['$httpProvider', function ($httpProvider) {
+  // Intercept POST requests, convert to standard form encoding
+  $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+  $httpProvider.defaults.transformRequest.unshift(function (data, headersGetter) {
+    var key, result = [];
+
+    if (typeof data === "string")
+      return data;
+
+    for (key in data) {
+      if (data.hasOwnProperty(key))
+        result.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key]));
+    }
+    return result.join("&");
+  });
+}]);
 
 app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 
@@ -36,6 +52,8 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 
 
      $scope.LogIn=function(){
+      console.log("uss: "+$scope.user.email);
+      console.log("pass: "+$scope.user.password);
        $http({
          url: '/login',
          method: 'POST',
