@@ -57,8 +57,8 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
          method: 'POST',
           headers : { 'Content-Type': 'application/json'},
          data: {
-           username: user.email, 
-           password: user.password
+           username: $scope.user.email, 
+           password: $scope.user.password
          }
        }).success(function (response) {
          console.log(JSON.stringify(response));
