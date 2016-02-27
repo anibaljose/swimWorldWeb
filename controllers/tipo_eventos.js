@@ -1,3 +1,4 @@
+var db = require('../models');
 exports.listar = function(request, reply){
   if (request.params.idTipo){
     db.TipoEvento.findOne({_id: request.params.idTipo}, function(err, tipo){

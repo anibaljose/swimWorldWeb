@@ -10,6 +10,7 @@ validarAtletas = require('./validators/atletas'),
 validarEventos = require('./validators/eventos'),
 validarTipoEvento = require('./validators/tipo_eventos'),
 validarEquipos = require('./validators/equipos'),
+validarAtletaEvento = require('./validators/atleta_eventos'),
 validarTiemposNado = require('./validators/tiempos_nado'),
 
 server = new Hapi.Server();
@@ -240,6 +241,42 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       validate: validarEquipos.idEquipo
     },
     handler: rutas.equipos.delete
+  });
+  server.route({
+    method: 'POST',
+    path: '/atleta/{idAtleta}/evento/{idEvento}/create',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.create
+    },
+    handler: rutas.atletaEventos.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/atleta/evento/{idAtletaEvento}/save',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.save
+    },
+    handler: rutas.atletaEventos.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/atleta/evento/{idAtletaEvento?}',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.idAtletaEvento
+    },
+    handler: rutas.atletaEventos.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/atleta/eventos/{idAtletaEvento}',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.idAtletaEvento
+    },
+    handler: rutas.atletaEventos.delete
   });
 });
 server.register(require('inert'), (err) => {
