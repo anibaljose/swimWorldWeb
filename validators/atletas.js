@@ -6,7 +6,7 @@ exports.create = {
     email: Joi.string().email(),
     nacimiento: Joi.number(),
     genero: Joi.number().integer().min(0).max(2),
-    equipo: Joi.string().min(1),
+    equipo: Joi.string().min(1).required(),
   }
 };
 exports.save = {
