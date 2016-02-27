@@ -108,7 +108,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/atletas/save',
+    path: '/atletas/{idAtleta}/save',
     config: {
       auth: config.auth,
       validate: validarAtletas.save

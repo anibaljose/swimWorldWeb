@@ -15,21 +15,12 @@ module.exports = {
   },
   public: "public", // public folder for static files
   mongodb: {
-    connection_string: 'mongodb://username:pass@127.0.0.1:27017/futrocksdev',  // change to appropiate value
-    db: 'futrocksdev', // change to appropiate value
+    connection_string: 'mongodb://username:pass@127.0.0.1:27017/swimworld',  // change to appropiate value
+    db: 'swimworld', // change to appropiate value
   },
   salt: '', // JWT salt, change to appropiate value
   jwt: {
     expiresIn: "4d",
     issuer: "https://api.example.io.com/",
   },
-  accounts: {
-    123: {
-      id: 123,
-      user: 'john',
-      password: 'p4sword123'
-      fullName: 'John Doe',
-      scope: ['a', 'b']
-    }
-  }
 };
