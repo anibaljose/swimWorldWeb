@@ -177,7 +177,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       auth: config.auth,
       validate: validarTipoEvento.create
     },
-    handler: rutas.tipoEquipos.create
+    handler: rutas.tipoEventos.create
   });
   server.route({
     method: 'POST',
@@ -186,7 +186,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       auth: config.auth,
       validate: validarTipoEvento.save
     },
-    handler: rutas.tipoEquipos.save
+    handler: rutas.tipoEventos.save
   });
   server.route({
     method: 'GET',
@@ -195,7 +195,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       auth: config.auth,
       validate: validarTipoEvento.idTipo
     },
-    handler: rutas.tipoEquipos.listar
+    handler: rutas.tipoEventos.listar
   });
   server.route({
     method: 'DELETE',
@@ -204,7 +204,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       auth: config.auth,
       validate: validarTipoEvento.idTipo
     },
-    handler: rutas.tipoEquipos.delete
+    handler: rutas.tipoEventos.delete
   });
   server.route({
     method: 'POST',
