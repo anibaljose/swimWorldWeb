@@ -22,8 +22,6 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 
    $scope.LogIn = function() {
 
-      console.log("uss: "+$scope.user.mail);
-      console.log("pass: "+$scope.user.password);
 		if($scope.user.mail != '' && $scope.user.password != '')
 		{
        $http({
@@ -35,13 +33,17 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
            password: $scope.user.password
          }
        }).success(function (response) {
-         console.log(JSON.stringify(response));
+        if(response.statusCode){
+         $cookies.put('token', response.token);
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "El usuario y/o contraseña son incorrectas"; 
+        }
        }).error( function (response) {
-            console.log(response);
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+          console.log(response);
        });
-      //$cookies.put('usser', 'Tomas');
-			$scope.showMessage = "true";	
-			$scope.message = "El usuario y/o contraseña son incorrectas";	
       //window.location = 'templates/addStudent.html';
 		}else{
 			$scope.showMessage = "true";	
@@ -52,4 +54,39 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
    $scope.signUp = function(){
       window.location = 'templates/sigUp.html';
    }
+
+   /*
+  getUsers:function(contact){
+      var token   = $window.localStorage['user-token']; //esta variable la utilizamos para poder logearnos en el sistema
+      var deferred=$q.defer();
+      console.log("ruta: "+ruta);
+      $http({
+        method  : 'POST',
+        url     :  ruta + '/usuarios/friends',
+        data    :
+                {
+                  contactos: contact
+                },
+        timeout : 5000, 
+        headers :
+                {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer '+token
+                }
+      }).success(
+        function(response){
+          console.log("getUsers: "+JSON.stringify(response));
+          deferred.resolve(response);
+        }
+      ).error(
+        function(response){
+          var error = {};
+          error['statusCode'] = "400";
+          console.log("getUsers Error: "+JSON.stringify(response));
+          deferred.resolve(error);
+          }
+      );
+      return deferred.promise;
+    },
+   */
 })
