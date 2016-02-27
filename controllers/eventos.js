@@ -1,20 +1,51 @@
 exports.listar = function(request, reply){
   if (request.params.idEvento){
-    reply({statusCode:200, eventos:false});
+    db.Evento.findOne({_id: request.params.idEvento}, function(err, evento){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+      } else if (evento){
+        reply({statusCode:200,evento:evento});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+      }
+    });
   } else {
-    reply({statusCode:200, eventos:true});
+    db.Evento.find(function(err, eventos){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+      } else if (eventos){
+        reply({statusCode:200,eventos:eventos});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+      }
+    });
   }
-
 };
 exports.create = function(request, reply){
-  reply({statusCode:200});
+  new db.Evento(request.payload).save(function(err, evento, numberAffected){
+    if(err){
+      return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
+    }
+    return reply({statusCode: 200, _id: evento._id});
+  });
 }
 exports.save = function(request, reply){
-  reply({statusCode:200});
+  var evento = request.payload;
+  evento.modified = Date.now();
+  db.Evento.update({_id:request.params.idEvento}, {$set: evento}, function(err, raw){
+    if (err) {
+      console.log("EVENTOS_SAVE err="+JSON.stringify(err));
+      return reply({statusCode:600});
+    }
+    return reply({statusCode: 200});
+  });
 }
 exports.delete = function(request, reply){
-  reply({statusCode:200});
-}
-exports.search = function(request, reply){
-  reply({statusCode:200});
+  db.Evento.remove({_id:request.params.idEvento}, function(err){
+    if (err) {
+      console.log("ATLETAS_DELETE err="+JSON.stringify(err));
+      return reply({statusCode:600});
+    }
+    return reply({statusCode: 200});
+  });
 }

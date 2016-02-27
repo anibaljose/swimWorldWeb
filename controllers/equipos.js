@@ -1,4 +1,25 @@
 exports.listar = function(request, reply){
+  if (request.params.idEquipo){
+    db.Equipo.findOne({_id: request.params.idEquipo}, function(err, equipo){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+      } else if (equipo){
+        reply({statusCode:200,equipo:equipo});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+      }
+    });
+  } else {
+    db.Equipo.find(function(err, equipos){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+      } else if (equipos){
+        reply({statusCode:200,equipos:equipos});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+      }
+    });
+  }
 };
 exports.create = function(request, reply){
   new db.Equipo(request.payload).save(function(err, equipo, numberAffected){
