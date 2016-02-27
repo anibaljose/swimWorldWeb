@@ -8,7 +8,7 @@ validar = require('./validators'),
 validarUsuarios = require('./validators/usuarios'),
 validarAtletas = require('./validators/atletas'),
 validarEventos = require('./validators/eventos'),
-validarTipoEquipo = require('./validators/tipo_equipos'),
+validarTipoEvento = require('./validators/tipo_eventos'),
 validarEquipos = require('./validators/equipos'),
 validarTiemposNado = require('./validators/tiempos_nado'),
 
@@ -174,7 +174,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipos/create',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.create
+      validate: validarTipoEvento.create
     },
     handler: rutas.tipoEquipos.create
   });
@@ -183,7 +183,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipo/{idTipo}/save',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.save
+      validate: validarTipoEvento.save
     },
     handler: rutas.tipoEquipos.save
   });
@@ -192,7 +192,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipo/{idTipo?}',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.idTipo
+      validate: validarTipoEvento.idTipo
     },
     handler: rutas.tipoEquipos.listar
   });
@@ -201,7 +201,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipo/{idTipo}',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.idTipo
+      validate: validarTipoEvento.idTipo
     },
     handler: rutas.tipoEquipos.delete
   });

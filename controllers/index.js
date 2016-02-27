@@ -5,7 +5,7 @@ var privateKey = config.salt;
 exports.usuarios = require('./usuarios');
 exports.atletas = require('./atletas');
 exports.eventos = require('./eventos');
-exports.tipoEquipos = require('./tipo_equipos');
+exports.tipoEventos = require('./tipo_eventos');
 exports.equipos = require('./equipos');
 exports.index = function(request, reply){
   reply("Hello World");
