@@ -278,6 +278,42 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     },
     handler: rutas.atletaEventos.delete
   });
+  server.route({
+    method: 'POST',
+    path: '/tiempos/atleta/{idAtleta}/tipo/{idTipoEvento}/create',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.create
+    },
+    handler: rutas.tiemposNado.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/tiempos/{idTiempoNado}/save',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.save
+    },
+    handler: rutas.tiemposNado.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/tiempos/{idTiempoNado?}',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.idTiempoNado
+    },
+    handler: rutas.tiemposNado.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/tiempos/{idTiempoNado}',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.idTiempoNado
+    },
+    handler: rutas.tiemposNado.delete
+  });
 });
 server.register(require('inert'), (err) => {
   if (err) {

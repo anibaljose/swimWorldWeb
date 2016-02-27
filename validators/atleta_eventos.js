@@ -7,7 +7,7 @@ exports.create = {
   payload: {
     carril: Joi.number().required(),
     hit: Joi.number().required(),
-    tiempo: Joi.string().min(1).required(),
+    tiempo: Joi.number().required(),
   }
 };
 exports.save = {
@@ -17,7 +17,7 @@ exports.save = {
   payload: {
     carril: Joi.number(),
     hit: Joi.number(),
-    tiempo: Joi.string().min(1),
+    tiempo: Joi.number(),
   }
 };
 // Utilizado para el GET y DELETE

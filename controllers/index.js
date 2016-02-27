@@ -8,6 +8,7 @@ exports.eventos = require('./eventos');
 exports.tipoEventos = require('./tipo_eventos');
 exports.equipos = require('./equipos');
 exports.atletaEventos = require('./atleta_eventos');
+exports.tiemposNado = require('./tiempos_nado');
 exports.index = function(request, reply){
   reply("Hello World");
 };
