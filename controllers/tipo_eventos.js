@@ -1,23 +1,23 @@
 var db = require('../models');
 exports.listar = function(request, reply){
-  if (request.params.idEquipo){
-    db.Equipo.findOne({_id: request.params.idEquipo}, function(err, equipo){
+  if (request.params.idTipo){
+    db.TipoEvento.findOne({_id: request.params.idTipo}, function(err, tipo){
       if (err){
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
-      } else if (equipo){
-        reply({statusCode:200,equipo:equipo});
+        reply({statusCode: 600, error: "Database", message:"TipoEvento no encontrado"});
+      } else if (tipo){
+        reply({statusCode:200,tipo:tipo});
       } else {
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+        reply({statusCode: 600, error: "Database", message:"TipoEvento no encontrado"});
       }
     });
   } else {
-    db.Equipo.find(function(err, equipos){
+    db.TipoEvento.find(function(err, tipos){
       if (err){
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
-      } else if (equipos){
-        reply({statusCode:200,equipos:equipos});
+        reply({statusCode: 600, error: "Database", message:"TipoEvento no encontrado"});
+      } else if (tipos){
+        reply({statusCode:200,tipos:tipos});
       } else {
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+        reply({statusCode: 600, error: "Database", message:"TipoEvento no encontrado"});
       }
     });
   }
@@ -49,4 +49,4 @@ exports.delete = function(request, reply){
     }
     return reply({statusCode: 200});
   });
-}
+};

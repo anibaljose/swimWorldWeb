@@ -8,8 +8,9 @@ validar = require('./validators'),
 validarUsuarios = require('./validators/usuarios'),
 validarAtletas = require('./validators/atletas'),
 validarEventos = require('./validators/eventos'),
-validarTipoEquipo = require('./validators/tipo_equipos'),
+validarTipoEvento = require('./validators/tipo_eventos'),
 validarEquipos = require('./validators/equipos'),
+validarAtletaEvento = require('./validators/atleta_eventos'),
 validarTiemposNado = require('./validators/tiempos_nado'),
 
 server = new Hapi.Server();
@@ -108,7 +109,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/atletas/save',
+    path: '/atletas/{idAtleta}/save',
     config: {
       auth: config.auth,
       validate: validarAtletas.save
@@ -144,7 +145,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/eventos/save',
+    path: '/eventos/{idEvento}/save',
     config: {
       auth: config.auth,
       validate: validarEventos.save
@@ -174,36 +175,36 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     path: '/tipos/create',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.create
+      validate: validarTipoEvento.create
     },
-    handler: rutas.tipoEquipos.create
+    handler: rutas.tipoEventos.create
   });
   server.route({
     method: 'POST',
     path: '/tipo/{idTipo}/save',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.save
+      validate: validarTipoEvento.save
     },
-    handler: rutas.tipoEquipos.save
+    handler: rutas.tipoEventos.save
   });
   server.route({
     method: 'GET',
     path: '/tipo/{idTipo?}',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.idTipo
+      validate: validarTipoEvento.idTipo
     },
-    handler: rutas.tipoEquipos.listar
+    handler: rutas.tipoEventos.listar
   });
   server.route({
     method: 'DELETE',
     path: '/tipo/{idTipo}',
     config: {
       auth: config.auth,
-      validate: validarTipoEquipo.idTipo
+      validate: validarTipoEvento.idTipo
     },
-    handler: rutas.tipoEquipos.delete
+    handler: rutas.tipoEventos.delete
   });
   server.route({
     method: 'POST',
@@ -216,7 +217,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/equipos/save',
+    path: '/equipos/{idEquipo}/save',
     config: {
       auth: config.auth,
       validate: validarEquipos.save
@@ -240,6 +241,78 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       validate: validarEquipos.idEquipo
     },
     handler: rutas.equipos.delete
+  });
+  server.route({
+    method: 'POST',
+    path: '/atleta/{idAtleta}/evento/{idEvento}/create',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.create
+    },
+    handler: rutas.atletaEventos.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/atleta/evento/{idAtletaEvento}/save',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.save
+    },
+    handler: rutas.atletaEventos.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/atleta/evento/{idAtletaEvento?}',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.idAtletaEvento
+    },
+    handler: rutas.atletaEventos.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/atleta/eventos/{idAtletaEvento}',
+    config: {
+      auth: config.auth,
+      validate: validarAtletaEvento.idAtletaEvento
+    },
+    handler: rutas.atletaEventos.delete
+  });
+  server.route({
+    method: 'POST',
+    path: '/tiempos/atleta/{idAtleta}/tipo/{idTipoEvento}/create',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.create
+    },
+    handler: rutas.tiemposNado.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/tiempos/{idTiempoNado}/save',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.save
+    },
+    handler: rutas.tiemposNado.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/tiempos/{idTiempoNado?}',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.idTiempoNado
+    },
+    handler: rutas.tiemposNado.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/tiempos/{idTiempoNado}',
+    config: {
+      auth: config.auth,
+      validate: validarTiemposNado.idTiempoNado
+    },
+    handler: rutas.tiemposNado.delete
   });
 });
 server.register(require('inert'), (err) => {

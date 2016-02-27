@@ -1,20 +1,53 @@
+var db = require('../models');
 exports.listar = function(request, reply){
   if (request.params.idAtleta){
-    reply({statusCode:200, atletas:false});
+    db.Atleta.findOne({_id: request.params.idAtleta}, function(err, atleta){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
+      } else if (atleta){
+        reply({statusCode:200,atleta:atleta});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
+      }
+    });
   } else {
-    reply({statusCode:200, atletas:true});
+    db.Atleta.find(function(err, atletas){
+      if (err){
+        reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
+      } else if (atleta){
+        reply({statusCode:200,atletas:atletas});
+      } else {
+        reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
+      }
+    });
   }
-
 };
 exports.create = function(request, reply){
-  reply({statusCode:200});
+  new db.Atleta(request.payload).save(function(err, atleta, numberAffected){
+    if (err){
+      console.log("ATLETAS_CREATE err="+JSON.stringify(err));
+      return reply({statusCode:600});
+    }
+    return reply({statusCode:200});
+  });
 }
 exports.save = function(request, reply){
-  reply({statusCode:200});
+  var atleta = request.payload;
+  atleta.modified = Date.now();
+  db.Atleta.update({_id:request.params.idAtleta}, {$set: atleta}, function(err, raw){
+    if (err) {
+      console.log("ATLETAS_SAVE err="+JSON.stringify(err));
+      return reply({statusCode:600});
+    }
+    return reply({statusCode: 200});
+  });
 }
 exports.delete = function(request, reply){
-  reply({statusCode:200});
-}
-exports.search = function(request, reply){
-  reply({statusCode:200});
+  db.Atleta.remove({_id:request.params.idAtleta}, function(err){
+    if (err) {
+      console.log("ATLETAS_DELETE err="+JSON.stringify(err));
+      return reply({statusCode:600});
+    }
+    return reply({statusCode: 200});
+  });
 }
