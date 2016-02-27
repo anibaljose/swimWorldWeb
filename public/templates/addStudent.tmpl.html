@@ -12,12 +12,23 @@
                   <input ng-model="user.lastName" type="text" placeholder="Apellido" ng-required="true" class="sytleInput">
                </md-input-container>
             </md-content>
+         <md-input-container>
+            <label style="color: rgb(255, 255, 255); !important">Equipo</label>
+            <md-select ng-model="userTeam" style="width: 592px !important;max-width: 594px;">
+               <md-option ng-repeat="equipo in team" value="{{equipo._id}}">
+                  {{equipo.nombre}}
+               </md-option>
+            </md-select>
+         </md-input-container>
+         <md-input-container>
+            <label style="color: rgb(255, 255, 255); !important">Genero</label>
+            <md-select ng-model="userGender" style="width: 592px !important;max-width: 594px;">
+               <md-option ng-repeat="genero in generos" value="{{genero._id}}">
+                  {{genero.nombre}}
+               </md-option>
+            </md-select>
+         </md-input-container>
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-               <md-input-container class="md-block">
-                  <i class="fa fa-envelope iconInput"></i>
-                  <input ng-model="user.email" type="email" placeholder="Correo Electronico" ng-required="true" class="sytleInput">
-                  <span ng-show ="showMessageEmail" class="messageLogin">{{messageEmail}}</span>
-               </md-input-container>
                <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="user.dateBirthday" md-placeholder="Fecha de Nacimiento" >
                </md-datepicker>
             </md-content>
@@ -25,7 +36,7 @@
          <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
-         <md-button class="btnAdd" ng-click="hola()" >Agregar</md-button>
+         <md-button class="btnAdd" ng-click="createStudent()" >Agregar</md-button>
       </md-card-actions>
    </md-card>
 </md-content>

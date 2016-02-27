@@ -1,8 +1,29 @@
-var app = angular.module('sosialApp', ['ngMaterial']);
+var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
 
-app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet) {
+app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   $scope.showSearch = false;
+
+  $scope.person = [];
+   $http({
+     url: '/tipo',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+      if(response.tipos){
+        $scope.person = response.tipos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+      console.log(response);
+   });
 
   $scope.menu = [
     {
@@ -31,6 +52,58 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       icon: 'fa-times-circle'
     }
   ];
+$scope.createEventType =function(){
+  var token = $cookies.get('token');
+    if($scope.user.name != '')
+    {
+
+    console.log($scope.user.name);
+       $http({
+         url: '/tipos/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.user.name
+         }
+       }).success(function (response) {
+        console.log(response);
+        
+        if(response.statusCode = "200"){
+          $scope.showMessage = "true";  
+          $scope.message = "Tipo evento creado"; 
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el tipo de evento"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+          console.log(response);
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+$scope.deleteEventType =function(id){
+  console.log(id);
+  var token = $cookies.get('token');
+       $http({
+         url: '/tipo/'+id,
+         method: 'DELETE',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          }
+       }).success(function (response) {
+        console.log(response);
+       }).error( function (response) {
+          console.log(response);
+       });
+}
 
  $scope.status = '  ';
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -107,23 +180,6 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $scope.alert = clickedItem.name + ' clicked!';
     });
   };
-  $scope.person = [
-      {
-        name: 'Tipo evento 1',
-        birthDate: '',
-        team: ''
-      },
-      {
-        name: 'Tipo evento 2',
-        birthDate: '',
-        team: ''
-      },
-      {
-        name: 'Tipo evento 3',
-        birthDate: '',
-        team: ''
-      }
-    ];
   $scope.alert = '';
 
 

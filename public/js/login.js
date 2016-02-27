@@ -21,9 +21,11 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
    };
 
    $scope.LogIn = function() {
-
 		if($scope.user.mail != '' && $scope.user.password != '')
 		{
+
+    console.log($scope.user.mail);
+    console.log($scope.user.password);
        $http({
          url: '/login',
          method: 'POST',
@@ -33,8 +35,10 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
            password: $scope.user.password
          }
        }).success(function (response) {
+        console.log(response);
         if(response.statusCode){
          $cookies.put('token', response.token);
+         window.location = "templates/addStudent.html";
         }else{
           $scope.showMessage = "true";  
           $scope.message = "El usuario y/o contraseña son incorrectas"; 

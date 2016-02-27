@@ -1,8 +1,32 @@
-var app = angular.module('sosialApp', ['ngMaterial']);
+var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
 
-app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet) {
+app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   $scope.showSearch = false;
+
+  $scope.person = [];
+   $http({
+     url: '/equipos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.equipos){
+        $scope.person = response.equipos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+      console.log(response);
+   });
+
+   $scope.user = {
+      name   : ''
+   };
 
   $scope.menu = [
     {
@@ -31,6 +55,62 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       icon: 'fa-times-circle'
     }
   ];
+
+$scope.createTeam =function(){
+  var token = $cookies.get('token');
+    if($scope.user.name != '')
+    {
+
+    console.log($scope.user.name);
+       $http({
+         url: '/equipos/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.user.name
+         }
+       }).success(function (response) {
+        console.log(response);
+        
+        if(response.statusCode = "200"){
+          $scope.showMessage = "true";  
+          $scope.message = "Equipo creado"; 
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el equipo"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+          console.log(response);
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+
+
+$scope.deleteTeam =function(id){
+  console.log(id);
+  var token = $cookies.get('token');
+   $http({
+     url: '/equipos/'+id,
+     method: 'DELETE',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token
+      }
+   }).success(function (response) {
+    console.log(response);
+   }).error( function (response) {
+      console.log(response);
+   });
+}
+
 
  $scope.status = '  ';
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -70,6 +150,30 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
+
+  $scope.showEditAdvance = function(id,nombre) {
+
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      templateUrl : 'teamEdit.tmpl.html',
+      parent      : angular.element(document.body),
+      clickOutsideToClose:true,
+      fullscreen  : useFullScreen
+    })
+    .then(function(answer) {
+          $scope.message = "No se pudo crear el equipo"; 
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
+
     $scope.showMobileMainHeader = true;
  
     $scope.openSideNavPanel = function() {
@@ -107,23 +211,6 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $scope.alert = clickedItem.name + ' clicked!';
     });
   };
-  $scope.person = [
-      {
-        name: 'Team 1',
-        birthDate: '',
-        team: ''
-      },
-      {
-        name: 'Team 3',
-        birthDate: '',
-        team: ''
-      },
-      {
-        name: 'Team 3',
-        birthDate: '',
-        team: ''
-      }
-    ];
   $scope.alert = '';
 
 

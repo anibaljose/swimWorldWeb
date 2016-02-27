@@ -1,8 +1,127 @@
-var app = angular.module('sosialApp', ['ngMaterial']);
+var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
 
-app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet) {
+app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   $scope.showSearch = false;
+
+  $scope.team = [];
+  $scope.generos = [];
+  $scope.student = [];
+  $scope.userTeam = '';
+  $scope.userGender = '';
+
+
+   $scope.user = {
+      fisrtName   : '',
+      lastName   : '',
+      dateBirthday : ''
+   };
+
+  $scope.generos.push({_id: 1,nombre : "Masculino" } );
+  $scope.generos.push({_id: 2,nombre : "Femenino" } );
+
+   $http({
+     url: '/equipos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.equipos){
+        $scope.team = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+      console.log(response);
+   });
+
+
+   $http({
+     url: '/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+      if(response.atletas){
+        $scope.student = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+      console.log(response);
+   });
+
+
+$scope.createStudent =function(){
+  var token = $cookies.get('token');
+    if($scope.user.name != '')
+    {
+
+    console.log($scope.user.fisrtName);
+    console.log($scope.user.lastName);
+    console.log($scope.user.dateBirthday.getTime());
+    console.log($scope.userTeam);
+    console.log($scope.userGender);
+       $http({
+         url: '/atletas/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.user.fisrtName,
+           apellido: $scope.user.lastName,
+           nacimiento: $scope.user.dateBirthday.getTime(),
+           genero: $scope.userGender ,
+           equipo: $scope.userTeam
+         }
+       }).success(function (response) {
+        console.log(response);
+        
+        if(response.statusCode = "200"){
+          $scope.showMessage = "true";  
+          $scope.message = "Equipo creado"; 
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el equipo"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+          console.log(response);
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+
+$scope.enable =function(id){
+  console.log(id);
+  var token = $cookies.get('token');
+       $http({
+         url: '/atletas/'+id,
+         method: 'DELETE',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          }
+       }).success(function (response) {
+        console.log(response);
+       }).error( function (response) {
+          console.log(response);
+       });
+}
 
   $scope.menu = [
     {

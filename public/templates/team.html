@@ -8,7 +8,7 @@
       <link href="../css/team.css" rel="stylesheet">
       <title>Equipo</title>
    </head>
-   <body layout="row" ng-app="sosialApp" ng-controller="addStudentCtrl" >
+   <body layout="row" ng-app="sosialApp" ng-controller="addteamCrtl" >
       <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
          <md-toolbar class="md-tall md-hue-2" >
          <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
@@ -17,7 +17,7 @@
                <div style="margin-left: 77px;">
                   <i class="fa fa-user fa-5x"></i>
                </div>
-               <div style="margin-left: 44px;">Firstname Lastname</div>
+               <div style="margin-left: 44px;">Juan Carlos</div>
                <div style="margin-left: 30px;">email@domainname.com</div>
             </div>
          </md-toolbar>
@@ -87,11 +87,10 @@
                                  <md-item-content>
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item.name}}</div>
-                                          <div style="font-size: 12px;">{{item.birthDate}} </div>
-                                          <div style="font-size: 12px;">{{item.team}} </div>
+                                          <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
                                           <div>
-                                             <md-button class="btn1"> Editar </md-button>
+                                             <md-button class="btn1" > Editar </md-button>
+                                             <md-button class="btn1" ng-click="deleteTeam(item._id)" >Eliminar</md-button>
                                           </div>
                                        </div>
                                     </div>

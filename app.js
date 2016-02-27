@@ -43,7 +43,7 @@ server.route({
 });
 var validar = function (request, token, callback) {
   var error;
-  db.User.findById(token.accountId, {username: 1, admin:1}, function(err, user){
+  db.Usuario.findById(token.accountId, {username: 1, admin:1}, function(err, user){
     if (err){
       // Acceso no autorizado
       return callback(error, false, err);
