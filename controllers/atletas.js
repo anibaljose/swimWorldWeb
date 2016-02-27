@@ -14,7 +14,7 @@ exports.listar = function(request, reply){
     db.Atleta.find(function(err, atletas){
       if (err){
         reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
-      } else if (atleta){
+      } else if (atletas){
         reply({statusCode:200,atletas:atletas});
       } else {
         reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
