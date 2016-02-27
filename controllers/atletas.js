@@ -39,7 +39,7 @@ exports.save = function(request, reply){
       console.log("ATLETAS_SAVE err="+JSON.stringify(err));
       return reply({statusCode:600});
     }
-    return reply({statusCode: 200);
+    return reply({statusCode: 200});
   });
 }
 exports.delete = function(request, reply){
@@ -48,6 +48,6 @@ exports.delete = function(request, reply){
       console.log("ATLETAS_DELETE err="+JSON.stringify(err));
       return reply({statusCode:600});
     }
-    return reply({statusCode: 200);
+    return reply({statusCode: 200});
   });
 }
