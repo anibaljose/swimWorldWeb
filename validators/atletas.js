@@ -3,7 +3,6 @@ exports.create = {
   payload: {
     nombre: Joi.string().min(3).required(),
     apellido: Joi.string().min(3).required(),
-    email: Joi.string().email(),
     nacimiento: Joi.number(),
     genero: Joi.number().integer().min(0).max(2),
     equipo: Joi.string().min(1).required(),
