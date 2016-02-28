@@ -8,7 +8,7 @@ app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProv
         templateUrl: '../templates/login.html'
       }).
       when('/student', {
-        templateUrl: '../templates/addStudent.html'
+        templateUrl: '../templates/student.html'
       }).
       when('/event', {
         templateUrl: '../templates/event.html'
