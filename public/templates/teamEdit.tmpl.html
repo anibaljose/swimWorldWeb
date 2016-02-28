@@ -1,18 +1,18 @@
-<md-content flex layout-padding ng-app="sosialApp" ng-controller="addEventTypeCtrl" >
+<md-content flex layout-padding ng-app="sosialApp" ng-controller="addteamCrtl" >
    <md-card>
       <md-card-content>
          <md-content class="autoScroll">
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
                <md-input-container class="md-block">
                   <i class="fa fa-text-width  iconInput"></i>
-                  <input ng-model="user.name" type="text" placeholder="Nombre" ng-required="true" class="sytleInput">
+                  <input ng-model="nombre"  type="text" placeholder="Nombre" ng-required="true" class="sytleInput">
                </md-input-container>
             </md-content>
          </md-content>
          <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
-         <md-button class="btnAdd" ng-click="createEventType()" >Aceptar</md-button>
+         <md-button class="btnAdd" ng-click="EditTeam()" >Editar</md-button>
          <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
       </md-card-actions>
    </md-card>

@@ -1,7 +1,8 @@
-var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
-
 app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.showSearch = false;
 
   $scope.person = [];
@@ -21,31 +22,27 @@ app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$md
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-      console.log(response);
    });
 
-   $scope.user = {
-      name   : ''
-   };
 
   $scope.menu = [
     {
-      link : 'addStudent.html',
+      link : '#/student',
       title: 'Atleta',
       icon: 'fa-male'
     },
     {
-      link : 'team.html',
+      link : '#/team',
       title: 'Equipo',
       icon: 'fa-briefcase'
     },
     {
-      link : 'eventType.html',
+      link : '#/eventType',
       title: 'Tipo Evento',
       icon: 'fa-get-pocket'
     },
     {
-      link : 'event.html',
+      link : '#/event',
       title: 'Evento',
       icon: 'fa-star'
     },
@@ -60,8 +57,6 @@ $scope.createTeam =function(){
   var token = $cookies.get('token');
     if($scope.user.name != '')
     {
-
-    console.log($scope.user.name);
        $http({
          url: '/equipos/create',
          method: 'POST',
@@ -73,11 +68,10 @@ $scope.createTeam =function(){
            nombre: $scope.user.name
          }
        }).success(function (response) {
-        console.log(response);
-        
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
+          location.reload();
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el equipo"; 
@@ -85,7 +79,6 @@ $scope.createTeam =function(){
        }).error( function (response) {
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-          console.log(response);
        });
     }else{
       $scope.showMessage = "true";  
@@ -95,7 +88,6 @@ $scope.createTeam =function(){
 
 
 $scope.deleteTeam =function(id){
-  console.log(id);
   var token = $cookies.get('token');
    $http({
      url: '/equipos/'+id,
@@ -105,35 +97,71 @@ $scope.deleteTeam =function(id){
         'Authorization': 'Bearer '+token
       }
    }).success(function (response) {
-    console.log(response);
+      if(response.statusCode = "200")
+      {
+        $scope.showAlert("se eliminino el equipo");
+          location.reload();
+      }else{
+        $scope.showAlert("No se pudo eliminar de baja al Atleta");
+      }
    }).error( function (response) {
-      console.log(response);
+        $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
    });
 }
 
+$scope.EditTeam =function(){
+  if($scope.nombre != ''){
+    var token = $cookies.get('token');
+     $http({
+       url: '/equipos/'+$scope.id+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+        },
+        data: {
+           nombre: $scope.nombre
+         }
+     }).success(function (response) {
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se edito el equipo"; 
+            location.reload();
+        }else{
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo editar el equipo"; 
+        }
+     }).error( function (response) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+     });
+  }else{
+        $scope.showMessage = "true";  
+        $scope.message = "Ingresa un nombre, por favor"; 
 
- $scope.status = '  ';
+  }
+}
+
+
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.showAlert = function(ev) {
-    // Appending dialog to document.body to cover sidenav in docs app
-    // Modal dialogs should fully cover application
-    // to prevent interaction outside of dialog
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .textContent('You can specify some description text in here.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
-  };
+    $scope.showAlert = function(msj) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('swimWorldWeb')
+          .textContent(msj)
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Aceptar')
+      );
+    };
+
   $scope.showAdvanced = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       controller  : DialogController,
-      templateUrl : 'team.tmpl.html',
+      templateUrl : '../templates/team.tmpl.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
@@ -152,16 +180,16 @@ $scope.deleteTeam =function(id){
   };
 
   $scope.showEditAdvance = function(id,nombre) {
-
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      templateUrl : 'teamEdit.tmpl.html',
+      templateUrl : '../templates/teamEdit.tmpl.html',
+      controller  : EdtirController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
-      fullscreen  : useFullScreen
+      fullscreen  : useFullScreen,
+      locals: { nombre: nombre, id:id }
     })
     .then(function(answer) {
-          $scope.message = "No se pudo crear el equipo"; 
       $scope.status = 'You said the information was "' + answer + '".';
     }, function() {
       $scope.status = 'You cancelled the dialog.';
@@ -173,7 +201,6 @@ $scope.deleteTeam =function(id){
     });
 
   };
-
     $scope.showMobileMainHeader = true;
  
     $scope.openSideNavPanel = function() {
@@ -188,18 +215,16 @@ $scope.deleteTeam =function(id){
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      //console.log(locationPage);
-      window.location = ""+locationPage;
+      console.log("---"+locationPage);
+      if(locationPage ==""){
+        console.log("---"+locationPage);
+        $cookies.remove('token');
+        window.location = "#/login";
+      }else{
+        window.location = ""+locationPage;
+      }
     }
     
-    $scope.visibleSearch = function(){
-      $scope.showSearch = !$scope.showSearch;
-      $scope.search = '';
-    }
-
-    $scope.hola = function(){
-      console.log("hol");
-    }
   $scope.alert = '';
   $scope.showListBottomSheet = function($event) {
     $scope.alert = '';
@@ -231,15 +256,21 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('input', 'default')
         .primaryPalette('grey')
 });
+
 function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
 }
 
+function EdtirController($scope, $mdDialog,$cookies,$http,nombre,id) { 
+  $scope.nombre = nombre;
+  $scope.id = id;
+
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+
+
+
+}

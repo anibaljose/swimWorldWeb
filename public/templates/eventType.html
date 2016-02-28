@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <meta charset="UTF-8">
-      <link href="../lib/angular/angular-csp.css" rel="stylesheet">
-      <link href="../lib/angular-material/angular-material.min.css" rel="stylesheet">
-      <link href="../css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
       <link href="../css/eventType.css" rel="stylesheet">
-      <title>Tipo Evento</title>
-   </head>
-   <body layout="row" ng-app="sosialApp" ng-controller="addEventTypeCtrl" >
+   <div layout="row" style="height:100% !important; width:100% !important;" ng-controller="addEventTypeCtrl" >
       <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
          <md-toolbar class="md-tall md-hue-2" >
          <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
@@ -41,7 +33,7 @@
          </md-button>
          <md-toolbar ng-show="!showSearch">
             <div class="md-toolbar-tools">
-               <md-button ng-click="toggleSidenav('left')"  hide-gt-sm ng-if="!$last">
+               <md-button ng-click="toggleSidenav('left')" >
                   <i class="fa fa-bars fa-2x"></i>
                </md-button>
                <span flex></span>
@@ -87,11 +79,9 @@
                                  <md-item-content>
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item._id}}</div>
-                                          <div style="font-size: 12px;">{{item.nombre}} </div>
-                                          <div style="font-size: 12px;">{{item.modified}} </div>
+                                          <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
                                           <div>
-                                             <md-button class="btn1"  >Editar</md-button>
+                                             <md-button class="btn1" ng-click="showEditAdvance(item._id,item.nombre)">Editar</md-button>
                                              <md-button class="btn1" ng-click="deleteEventType(item._id)" >Eliminar</md-button>
                                           </div>
                                        </div>
@@ -109,11 +99,4 @@
             </ui-view>
          </md-content>
       </div>
-   </body>
-   <script src="../lib/angular/angular.min.js"></script>
-   <script src="../lib/angular-material/angular-material.min.js"></script>
-   <script src="../lib/angular-animate/angular-animate.min.js"></script>
-   <script src="../lib/angular-aria/angular-aria.min.js"></script>
-   <script src="../lib/angular-cookies/angular-cookies.min.js"></script>         
-   <script src="../js/eventType.js"></script>
-</html>
+   </div>

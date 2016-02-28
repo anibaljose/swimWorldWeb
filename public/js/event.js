@@ -1,27 +1,49 @@
-var app = angular.module('sosialApp', ['ngMaterial']);
+app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
-app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet) {
-
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.showSearch = false;
+  $scope.events = [];
+
+    console.log($cookies.get('token'));
+   $http({
+     url: '/eventos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+      if(response.eventos){
+        $scope.events = response.eventos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
 
   $scope.menu = [
     {
-      link : 'addStudent.html',
+      link : '#/student',
       title: 'Atleta',
       icon: 'fa-male'
     },
     {
-      link : 'team.html',
+      link : '#/team',
       title: 'Equipo',
       icon: 'fa-briefcase'
     },
     {
-      link : 'eventType.html',
+      link : '#/eventType',
       title: 'Tipo Evento',
       icon: 'fa-get-pocket'
     },
     {
-      link : 'event.html',
+      link : '#/event',
       title: 'Evento',
       icon: 'fa-star'
     },
@@ -31,29 +53,23 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       icon: 'fa-times-circle'
     }
   ];
-
- $scope.status = '  ';
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.showAlert = function(ev) {
-    // Appending dialog to document.body to cover sidenav in docs app
-    // Modal dialogs should fully cover application
-    // to prevent interaction outside of dialog
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .textContent('You can specify some description text in here.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
-  };
+    $scope.showAlert = function(msj) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('sosial')
+          .textContent(msj)
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Aceptar')
+      );
+    };
   $scope.showAdvanced = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       controller  : DialogController,
-      templateUrl : 'event.tmpl.html',
+      templateUrl : '../templates/event.tmpl.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
@@ -84,8 +100,14 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      //console.log(locationPage);
-      window.location = ""+locationPage;
+      console.log("---"+locationPage);
+      if(locationPage ==""){
+        console.log("---"+locationPage);
+        $cookies.remove('token');
+        window.location = "#/login";
+      }else{
+        window.location = ""+locationPage;
+      }
     }
     
     $scope.visibleSearch = function(){
