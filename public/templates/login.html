@@ -1,25 +1,21 @@
- 
-      <link href="css/login.css" rel="stylesheet">
-      <title>Sign In</title>
- <div ng-app="sosialApp" style=" position: absolute; width:100%; height:100%; background: url('img/gal5.jpg');">
-   
-      <div ng-controller="LoginCtrl" layout="column" layout-padding ng-cloak class="shapeLogin">
-         <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
-            <md-input-container class="md-block">
-               <i class="fa fa-envelope iconInput"></i>
-               <input style="color:rgb(255, 255, 255) !important" ng-model="user.email" type="email" placeholder="Correo Electronico" ng-required="true" class="sytleInput">
-            </md-input-container>
-         </md-content>
-         <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
-            <md-input-container class="md-block">
-               <i class="fa fa-key iconInput" ></i>
-               <input style="color:rgb(255, 255, 255) !important" ng-model="user.password" type="password" placeholder="Password " ng-required="true" class="sytleInput">
-            </md-input-container>
-         </md-content>
-         <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
-         <button type="button" class="button buttonBlue" ng-click="LogIn()">
-            Iniciar Sesion
-            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-         </button>
-      </div>
-   </div>
+<link href="css/login.css" rel="stylesheet">
+<div  style=" position: absolute; width:100%; height:100%; background: url('img/gal5.jpg');">
+<div  ng-controller="LoginCtrl" layout="column" layout-padding ng-cloak class="shapeLogin">
+   <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
+      <md-input-container class="md-block">
+         <i class="fa fa-envelope iconInput"></i>
+         <input style="color:rgb(255, 255, 255) !important" ng-model="user.mail" type="text" placeholder="Correo Electronico" ng-required="true" class="sytleInput">
+      </md-input-container>
+   </md-content>
+   <md-content class="autoScroll" style = "background: rgba(0, 0, 0, 0.16);color: rgb(255, 255, 255);">
+      <md-input-container class="md-block">
+         <i class="fa fa-key iconInput" ></i>
+         <input style="color:rgb(255, 255, 255) !important" ng-model="user.password" type="password" placeholder="Password " ng-required="true" class="sytleInput">
+      </md-input-container>
+   </md-content>
+   <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
+   <button type="button" class="button buttonBlue" ng-click="LogIn()">
+      Iniciar Sesion
+      <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+   </button>
+</div></div>

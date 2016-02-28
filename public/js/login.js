@@ -1,7 +1,4 @@
 
-var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
-
-
 app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 
    /**var usserCookie = $cookies.get('usser');
@@ -38,7 +35,7 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
         console.log(response);
         if(response.statusCode){
          $cookies.put('token', response.token);
-         window.location = "templates/addStudent.html";
+         window.location = "#/student";
         }else{
           $scope.showMessage = "true";  
           $scope.message = "El usuario y/o contraseña son incorrectas"; 
@@ -55,9 +52,6 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 		}
    }
 
-   $scope.signUp = function(){
-      window.location = 'templates/sigUp.html';
-   }
 
    /*
   getUsers:function(contact){

@@ -1,7 +1,9 @@
-var app = angular.module('sosialApp', ['ngMaterial','ngCookies']);
 
 app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.showSearch = false;
 
   $scope.team = [];
@@ -30,13 +32,12 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
    }).success(function (response) {
     if(response.statusCode = "200"){
       if(response.equipos){
-        $scope.team = response.atletas;
+        $scope.team = response.equipos;
       }
     }
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-      console.log(response);
    });
 
 
@@ -57,20 +58,42 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-      console.log(response);
    });
+
+
+  $scope.menu = [
+    {
+      link : '#/student',
+      title: 'Atleta',
+      icon: 'fa-male'
+    },
+    {
+      link : '#/team',
+      title: 'Equipo',
+      icon: 'fa-briefcase'
+    },
+    {
+      link : '#/eventType',
+      title: 'Tipo Evento',
+      icon: 'fa-get-pocket'
+    },
+    {
+      link : '#/event',
+      title: 'Evento',
+      icon: 'fa-star'
+    },
+    {
+      link : '',
+      title: 'Cerrar Sesion',
+      icon: 'fa-times-circle'
+    }
+  ];
 
 
 $scope.createStudent =function(){
   var token = $cookies.get('token');
     if($scope.user.name != '')
     {
-
-    console.log($scope.user.fisrtName);
-    console.log($scope.user.lastName);
-    console.log($scope.user.dateBirthday.getTime());
-    console.log($scope.userTeam);
-    console.log($scope.userGender);
        $http({
          url: '/atletas/create',
          method: 'POST',
@@ -86,9 +109,9 @@ $scope.createStudent =function(){
            equipo: $scope.userTeam
          }
        }).success(function (response) {
-        console.log(response);
         
         if(response.statusCode = "200"){
+          location.reload();
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
         }else{
@@ -98,7 +121,6 @@ $scope.createStudent =function(){
        }).error( function (response) {
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-          console.log(response);
        });
     }else{
       $scope.showMessage = "true";  
@@ -107,7 +129,6 @@ $scope.createStudent =function(){
 }
 
 $scope.enable =function(id){
-  console.log(id);
   var token = $cookies.get('token');
        $http({
          url: '/atletas/'+id,
@@ -117,62 +138,75 @@ $scope.enable =function(id){
             'Authorization': 'Bearer '+token
           }
        }).success(function (response) {
-        console.log(response);
+        if(response.statusCode = "200")
+        {
+          $scope.showAlert("se dio de baja al Atleta");
+        }else{
+          $scope.showAlert("No se pudo dar de baja al Atleta");
+        }
        }).error( function (response) {
-          console.log(response);
+          $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
        });
 }
 
-  $scope.menu = [
-    {
-      link : 'addStudent.html',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : 'team.html',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : 'eventType.html',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : 'event.html',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
 
- $scope.status = '  ';
+$scope.studentEdit =function(){
+  if($scope.fisrtName != ''  && $scope.lastName != '' &&
+    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
+    $scope.userTeamE != ''){
+    var token = $cookies.get('token');
+     $http({
+       url: '/atletas/'+$scope.id+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+        },
+        data: {
+           nombre: $scope.fisrtName,
+           apellido: $scope.lastName,
+           nacimiento: $scope.dateBirthday.getTime(),
+           genero: $scope.userGenderE ,
+           equipo: $scope.userTeamE
+         }
+     }).success(function (response) {
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se edito el Atleta"; 
+        }else{
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo editar el Atleta"; 
+        }
+     }).error( function (response) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+     });
+  }else{
+        $scope.showMessage = "true";  
+        $scope.message = "complete el formulario"; 
+
+  }
+}
+
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-  $scope.showAlert = function(ev) {
-    // Appending dialog to document.body to cover sidenav in docs app
-    // Modal dialogs should fully cover application
-    // to prevent interaction outside of dialog
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .textContent('You can specify some description text in here.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
-  };
+    $scope.showAlert = function(msj) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('swimWorldWeb')
+          .textContent(msj)
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Aceptar')
+      );
+    };
+
   $scope.showAdvanced = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       controller  : DialogController,
-      templateUrl : 'addStudent.tmpl.html',
+      templateUrl : '../templates/student.tmpl.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
@@ -189,6 +223,29 @@ $scope.enable =function(id){
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
+
+  $scope.showEditAdvance = function(id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) {
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      templateUrl : '../templates/studentEdit.tmpl.html',
+      controller  : EdtirController,
+      parent      : angular.element(document.body),
+      clickOutsideToClose:true,
+      fullscreen  : useFullScreen,
+      locals: { id:id,nombre:nombre,apellido:apellido,nacimiento:nacimiento,equipo:equipo,__v:__v, modified:modified, created:created, genero:genero}
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
     $scope.showMobileMainHeader = true;
  
     $scope.openSideNavPanel = function() {
@@ -203,18 +260,16 @@ $scope.enable =function(id){
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      //console.log(locationPage);
-      window.location = ""+locationPage;
+      console.log("---"+locationPage);
+      if(locationPage ==""){
+        console.log("---"+locationPage);
+        $cookies.remove('token');
+        window.location = "#/login";
+      }else{
+        window.location = ""+locationPage;
+      }
     }
     
-    $scope.visibleSearch = function(){
-      $scope.showSearch = !$scope.showSearch;
-      $scope.search = '';
-    }
-
-    $scope.hola = function(){
-      console.log("hol");
-    }
   $scope.alert = '';
   $scope.showListBottomSheet = function($event) {
     $scope.alert = '';
@@ -226,24 +281,8 @@ $scope.enable =function(id){
       $scope.alert = clickedItem.name + ' clicked!';
     });
   };
-  $scope.person = [
-      {
-        name: 'Anibal Jose Rodriguez Orive',
-        birthDate: '04/04/2016',
-        team: 'Wordl Gym Gran Via'
-      },
-      {
-        name: 'Diego Lopez',
-        birthDate: '04/04/2016',
-        team: 'Wordl Gym Gran Via'
-      },
-      {
-        name: 'Nelson Cifuentes',
-        birthDate: '04/04/2016',
-        team: 'Wordl Gym Gran Via'
-      }
-    ];
   $scope.alert = '';
+
 
 
 });
@@ -264,14 +303,25 @@ app.config(function($mdThemingProvider) {
         .primaryPalette('grey')
 });
 function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
 }
 
+function EdtirController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) { 
+  
+  $scope.fisrtName = nombre;
+  $scope.lastName = apellido;
+  $scope.dateBirthday = new Date(nacimiento)
+
+  $scope.userTeamE = '';
+  $scope.userGenderE = '';
+  //$scope.userTeam = {"nombre":nombre,"apellido":apellido,"nacimiento":nacimiento,"equipo":equipo,"_id":id,"__v":__v,"modified":modified,"created":created,"genero":genero};
+
+  $scope.id = id;
+
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+
+}

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-   <head>
-      <meta charset="UTF-8">
-      <link href="../lib/angular/angular-csp.css" rel="stylesheet">
-      <link href="../lib/angular-material/angular-material.min.css" rel="stylesheet">
-      <link href="../css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
       <link href="../css/addStudent.css" rel="stylesheet">
-      <title>Agregar Alumnos</title>
-   </head>
-   <body layout="row" ng-app="sosialApp" ng-controller="addStudentCtrl" >
+   <div layout="row" style="height:100% !important; width:100% !important;" ng-controller="addStudentCtrl" >
       <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
          <md-toolbar class="md-tall md-hue-2" >
          <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
@@ -17,7 +9,7 @@
                <div style="margin-left: 77px;">
                   <i class="fa fa-user fa-5x"></i>
                </div>
-               <div style="margin-left: 44px;">Firstname Lastname</div>
+               <div style="margin-left: 44px;">Juan Carlos</div>
                <div style="margin-left: 30px;">email@domainname.com</div>
             </div>
          </md-toolbar>
@@ -88,10 +80,9 @@
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
                                        <i class="fa fa-user fa-3x"></i>
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item._id}} </div>
                                           <div style="font-size: 12px;"> {{item.nombre}} {{item.apellido}}</div>
                                           <div>
-                                             <md-button class="btn1"> Editar </md-button>
+                                             <md-button class="btn1" ng-click="showEditAdvance(item._id,item.nombre,item.apellido,item.nacimiento,item.equipo, item.__v, item.modified,item.created, item,genero)">Editar</md-button>
                                              <md-button class="btn1" ng-click="enable(item._id)"> Desactivar </md-button>
                                           </div>
                                        </div>
@@ -109,11 +100,4 @@
             </ui-view>
          </md-content>
       </div>
-   </body>
-   <script src="../lib/angular/angular.min.js"></script>
-   <script src="../lib/angular-material/angular-material.min.js"></script>
-   <script src="../lib/angular-animate/angular-animate.min.js"></script>
-   <script src="../lib/angular-aria/angular-aria.min.js"></script>
-   <script src="../lib/angular-cookies/angular-cookies.min.js"></script>         
-   <script src="../js/addStudent.js"></script>
-</html>
+   </div>
