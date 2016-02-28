@@ -280,16 +280,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/tiempos/atleta/{idAtleta}/tipo/{idTipoEvento}/create',
-    config: {
-      auth: config.auth,
-      validate: validarTiemposNado.create
-    },
-    handler: rutas.tiemposNado.create
-  });
-  server.route({
-    method: 'POST',
-    path: '/tiempos/{idTiempoNado}/save',
+    path: '/tiempos/save',
     config: {
       auth: config.auth,
       validate: validarTiemposNado.save

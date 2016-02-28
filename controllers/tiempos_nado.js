@@ -1,17 +1,17 @@
 var db = require('../models');
 exports.listar = function(request, reply){
   if (request.params.idTiempoNado){
-    db.TiempoNado.findOne({_id: request.params.idTiempoNado}, function(err, tiempo_nado){
+    db.TiemposNado.findOne({_id: request.params.idTiempoNado}, function(err, tiempo_nado){
       if (err){
-        reply({statusCode: 600, error: "Database", message:"TiempoNado no encontrado"});
+        reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
       } else if (equipo){
         reply({statusCode:200,tiempo_nado:tiempo_nado});
       } else {
-        reply({statusCode: 600, error: "Database", message:"TiempoNado no encontrado"});
+        reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
       }
     });
   } else {
-    db.TiempoNado.find(function(err, tiempos_nado){
+    db.TiemposNado.find(function(err, tiempos_nado){
       if (err){
         reply({statusCode: 600, error: "Database", message:"Tiempos Nado no encontrado"});
       } else if (tiempos_nado){
@@ -22,30 +22,41 @@ exports.listar = function(request, reply){
     });
   }
 };
-exports.create = function(request, reply){
-  var tiempoNado = request.payload;
-  tiempoNado.atleta = request.params.idAtleta;
-  tiempoNado.tipo = request.params.idTipoEvento;
-  new db.TiempoNado(tiempoNado).save(function(err, tiempo_nado, numberAffected){
-    if(err){
-      return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
-    }
-    return reply({statusCode: 200, _id: tiempo_nado._id});
-  });
-}
 exports.save = function(request, reply){
-  var tiempoNado = request.payload;
-  tiempoNado.modified = Date.now();
-  db.TiempoNado.update({_id:request.params.idTiempoNado}, {$set: tiempoNado}, function(err, raw){
-    if (err) {
-      console.log("TIEMPOS_NADO_SAVE err="+JSON.stringify(err));
-      return reply({statusCode:600});
+  var tNado = request.payload;
+  db.TiemposNado.findOne({atleta: tNado.atleta, tipoEvento: tNado.tipoEvento}, function(err, tiempoNado){
+    if (err){
+      console.log("TIEMPO_NADO_SAVE err=" + JSON.stringify(err));
+      return reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
+    } else if (tiempoNado) {
+      if (tNado.tiempo >= tiempoNado.tiempo){
+        // NOTE El tiempo no es menor, no guardar
+        return reply({statusCode:205});
+      }
+      tiempoNado.modified = Date.now();
+      tiempoNado.tiempo = tNado.tiempo
+      tiempoNado.save(function(errSave, tiempo_nado){
+        if (errSave){
+          console.log("TIEMPO_NADO_SAVE errSave=" + JSON.stringify(errSave));
+          return reply({statusCode:601});
+        }
+        console.log("TIEMPO_NADO_SAVE: El tiempo es menor, guardar. tiempo_nado=" + JSON.stringify(tiempo_nado));
+        return reply({statusCode:200});
+      });
+    } else {
+      // NOTE No exite tiempoNado
+      new db.TiemposNado(tNado).save(function(errSave, tiempo_nado){
+        if(errSave){
+          console.log("TIEMPO_NADO_SAVE errSave=" + JSON.stringify(errSave));
+          return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
+        }
+        return reply({statusCode:200});
+      });
     }
-    return reply({statusCode: 200});
   });
 }
 exports.delete = function(request, reply){
-  db.TiempoNado.remove({_id:request.params.idTiempoNado}, function(err){
+  db.TiemposNado.remove({_id:request.params.idTiempoNado}, function(err){
     if (err) {
       console.log("TIEMPOS_NADO_DELETE err="+JSON.stringify(err));
       return reply({statusCode:600});
