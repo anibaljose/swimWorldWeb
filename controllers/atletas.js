@@ -23,12 +23,12 @@ exports.listar = function(request, reply){
   }
 };
 exports.create = function(request, reply){
-  new db.Atleta(request.payload).save(function(err, atleta, numberAffected){
+  new db.Atleta(request.payload).save(function(err, atleta){
     if (err){
       console.log("ATLETAS_CREATE err="+JSON.stringify(err));
       return reply({statusCode:600});
     }
-    return reply({statusCode:200});
+    return reply({statusCode:200, _id: atleta._id});
   });
 }
 exports.save = function(request, reply){
