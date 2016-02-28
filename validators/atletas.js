@@ -4,7 +4,7 @@ exports.create = {
     nombre: Joi.string().min(3).required(),
     apellido: Joi.string().min(3).required(),
     nacimiento: Joi.number(),
-    genero: Joi.number().integer().min(0).max(2),
+    genero: Joi.number().min(0).max(2),
     equipo: Joi.string().min(1).required(),
   }
 };
@@ -17,7 +17,7 @@ exports.save = {
     apellido: Joi.string().min(3),
     email: Joi.string().email(),
     nacimiento: Joi.number(),
-    genero: Joi.number().integer().min(0).max(2),
+    genero: Joi.number().min(0).max(2),
     equipo: Joi.string().min(1),
   }
 };
