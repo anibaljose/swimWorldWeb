@@ -6,7 +6,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   $scope.showSearch = false;
   $scope.events = [];
 
-    console.log($cookies.get('token'));
    $http({
      url: '/eventos',
      method: 'GET',
@@ -15,7 +14,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
@@ -100,9 +98,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      console.log("---"+locationPage);
       if(locationPage ==""){
-        console.log("---"+locationPage);
         $cookies.remove('token');
         window.location = "#/login";
       }else{
@@ -115,9 +111,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
       $scope.search = '';
     }
 
-    $scope.hola = function(){
-      console.log("hol");
-    }
   $scope.alert = '';
   $scope.showListBottomSheet = function($event) {
     $scope.alert = '';

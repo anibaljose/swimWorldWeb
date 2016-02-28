@@ -215,9 +215,7 @@ $scope.EditTeam =function(){
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      console.log("---"+locationPage);
       if(locationPage ==""){
-        console.log("---"+locationPage);
         $cookies.remove('token');
         window.location = "#/login";
       }else{

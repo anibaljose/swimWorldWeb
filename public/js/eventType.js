@@ -14,7 +14,6 @@ app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedi
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.tipos){
         $scope.person = response.tipos;
@@ -23,7 +22,6 @@ app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedi
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-      console.log(response);
    });
 
   $scope.menu = [
@@ -68,7 +66,6 @@ $scope.createEventType =function(){
            nombre: $scope.user.name
          }
        }).success(function (response) {
-        console.log(response);
         
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
@@ -80,7 +77,6 @@ $scope.createEventType =function(){
        }).error( function (response) {
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-          console.log(response);
        });
     }else{
       $scope.showMessage = "true";  
@@ -88,7 +84,6 @@ $scope.createEventType =function(){
     }
 }
 $scope.deleteEventType =function(id){
-  console.log(id);
   var token = $cookies.get('token');
    $http({
      url: '/tipo/'+id,
@@ -214,9 +209,7 @@ $scope.EditEventType =function(){
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      console.log("---"+locationPage);
       if(locationPage ==""){
-        console.log("---"+locationPage);
         $cookies.remove('token');
         window.location = "#/login";
       }else{

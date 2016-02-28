@@ -49,7 +49,6 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.student = response.atletas;
@@ -225,10 +224,11 @@ $scope.studentEdit =function(){
   };
 
   $scope.showEditAdvance = function(id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) {
+  
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       templateUrl : '../templates/studentEdit.tmpl.html',
-      controller  : EdtirController,
+      controller  : EditController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
@@ -260,9 +260,7 @@ $scope.studentEdit =function(){
       $mdSidenav(menuId).toggle();
     };
     $scope.go = function(locationPage){
-      console.log("---"+locationPage);
       if(locationPage ==""){
-        console.log("---"+locationPage);
         $cookies.remove('token');
         window.location = "#/login";
       }else{
@@ -308,8 +306,7 @@ function DialogController($scope, $mdDialog) {
   };
 }
 
-function EdtirController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) { 
-  
+function EditController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) { 
   $scope.fisrtName = nombre;
   $scope.lastName = apellido;
   $scope.dateBirthday = new Date(nacimiento)
