@@ -95,9 +95,10 @@ $scope.deleteEventType =function(id){
    }).success(function (response) {
     if(response.statusCode = "200")
     {
-      $scope.showAlert("se dio de baja al Atleta");
+      $scope.showAlert("se elimino el tipo de Evento");
+      location.reload();
     }else{
-      $scope.showAlert("No se pudo dar de baja al Atleta");
+      $scope.showAlert("No se pudo eliminar el tipo de Evento");
     }
    }).error( function (response) {
       $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");

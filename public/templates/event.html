@@ -55,7 +55,7 @@
                </md-button>
                <md-input-container md-theme="input" flex>
                   <label>&nbsp;</label>
-                  <input style ="margin-top: 22px !important;"ng-model="search.name" placeholder="Escriba el nombre">
+                  <input style ="margin-top: 22px !important;"ng-model="search.nombre" placeholder="Escriba el nombre">
                </md-input-container>
                <md-button aria-label="Search" ng-click="visibleSearch()">
                   <i class="fa fa-search fa-2x"></i>  Buscar
@@ -76,17 +76,15 @@
                      <md-card flex-gt-sm="90" flex-gt-md="80">
                         <md-card-content>
                            <md-list>
-                              <md-item ng-repeat="item in person | filter:search">
+                              <md-item ng-repeat="item in events | filter:search">
                                  <md-item-content>
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
 
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item.name}}</div>
-                                          <div style="font-size: 12px;">{{item.birthDate}} </div>
-                                          <div style="font-size: 12px;">{{item.team}} </div>
+                                          <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
                                           <div>
                                              <md-button class="btn1"> Editar </md-button>
-                                             <md-button class="btn1"> Eliminar </md-button>
+                                             <md-button class="btn1" ng-click="deleteEvent(item._id)" >Eliminar</md-button>
                                           </div>
                                        </div>
                                     </div>

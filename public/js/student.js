@@ -91,7 +91,9 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
 
 $scope.createStudent =function(){
   var token = $cookies.get('token');
-    if($scope.user.name != '')
+    if($scope.fisrtName != ''  && $scope.lastName != '' &&
+    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
+    $scope.userTeamE != '')
     {
        $http({
          url: '/atletas/create',
@@ -101,9 +103,9 @@ $scope.createStudent =function(){
             'Authorization': 'Bearer '+token
           },
          data: {
-           nombre: $scope.user.fisrtName,
-           apellido: $scope.user.lastName,
-           nacimiento: $scope.user.dateBirthday.getTime(),
+           nombre: $scope.fisrtName,
+           apellido: $scope.lastName,
+           nacimiento: $scope.dateBirthday.getTime(),
            genero: $scope.userGender ,
            equipo: $scope.userTeam
          }

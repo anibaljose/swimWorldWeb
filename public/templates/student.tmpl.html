@@ -1,4 +1,5 @@
-<md-content flex layout-padding  ng-controller="addStudentCtrl" >
+<div ng-controller="addStudentCtrl">
+<md-content flex layout-padding   >
    <md-card>
       <md-card-content>
          <md-content class="autoScroll">
@@ -27,7 +28,7 @@
             </md-select>
          </md-input-container>
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-               <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="user.dateBirthday" md-placeholder="Fecha de Nacimiento" >
+               <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Nacimiento" >
                </md-datepicker>
             </md-content>
          </md-content>
@@ -37,3 +38,4 @@
       </md-card-content>
    </md-card>
 </md-content>
+</div>
