@@ -47,6 +47,12 @@ exports.delete = function(request, reply){
       console.log("ATLETAS_DELETE err="+JSON.stringify(err));
       return reply({statusCode:600});
     }
-    return reply({statusCode: 200});
+    db.AtletaEvento.remove({evento:request.params.idEvento}, function(errAE){
+      if (errAE) {
+        console.log("ATLETA_EVENTOS_DELETE err="+JSON.stringify(errAE));
+        return reply({statusCode:600});
+      }
+      return reply({statusCode: 200});
+    });
   });
 }
