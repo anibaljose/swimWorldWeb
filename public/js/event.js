@@ -1,10 +1,5 @@
-app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
-
-  if(!$cookies.get('token')){
-    window.location = "#/login";
-  }
-  $scope.showSearch = false;
-  $scope.events = [];
+app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  
   $scope.items = [];
   $scope.userEvent = '';
   $scope.dateBirthday = '';
@@ -12,10 +7,28 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   $scope.fromEvent = ''; 
   $scope.carril = ''; 
   $scope.userAtletas = [];
-  $scope.selected = []; 
   $scope.list = [];
-
+  $scope.selected = []; 
+  $scope.eventType = [];
    $http({
+     url: '/tipo',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(response);
+    if(response.statusCode = "200"){
+      if(response.tipos){
+        $scope.eventType = response.tipos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+  $http({
      url: '/atletas',
      method: 'GET',
       headers : { 
@@ -26,53 +39,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.items = response.atletas;
-        $scope.toggle = function (item, list) {
-          var idx = list.indexOf(item._id);
-          if (idx > -1) list.splice(idx, 1);
-          else list.push(item._id);
-        };
-        $scope.exists = function (item, list) {
-          return list.indexOf(item._id) > -1;
-        };
-      }
-    }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-
-
-
-   $http({
-     url: '/eventos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
-    if(response.statusCode = "200"){
-      if(response.eventos){
-        $scope.events = response.eventos;
-      }
-    }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-
-   $scope.eventType = [];
-   $http({
-     url: '/tipo',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
-    if(response.statusCode = "200"){
-      if(response.tipos){
-        $scope.eventType = response.tipos;
       }
     }
    }).error( function (response) {
@@ -81,7 +47,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
    });
 
 $scope.createEvent =function(){
-
+console.log("iniciando "+$scope.list);
   var token = $cookies.get('token');
     if($scope.nameEvent != '' && $scope.fromEvent != '' 
       && $scope.carril != '' && $scope.userEvent != ''
@@ -105,12 +71,12 @@ $scope.createEvent =function(){
         
         if(response.statusCode = "200"){
 
-          var cont = $scope.items.length;
+          var cont = $scope.list.length;
           var id_Evento = response._id;
-
+          console.log("....."+$scope.list);
           for(var i = 0; i<cont; i++){
             $http({
-               url: '/atleta/'+$scope.items[i]._id+'/evento/'+id_Evento+'/create',
+               url: '/atleta/'+$scope.list[i]._id+'/evento/'+id_Evento+'/create',
                method: 'POST',
                 headers : { 
                   'Content-Type': 'application/json',
@@ -143,11 +109,54 @@ $scope.createEvent =function(){
       $scope.message = "Por favor, complete el formulario"; 
     }
 }
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
 
+
+  $scope.toggle = function (item, list) {
+    var idx = $scope.list.indexOf(item._id);
+    if (idx > -1) $scope.list.splice(idx, 1);
+    else $scope.list.push(item._id);
+  };
+  $scope.exists = function (item, list) {
+    return $scope.list.indexOf(item._id) > -1;
+  };
+});
+
+app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
+  $scope.showSearch = false;
+  $scope.events = [];
+
+  
+   $http({
+     url: '/eventos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+      if(response.eventos){
+        $scope.events = response.eventos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+   
 $scope.deleteEvent =function(id){
   var token = $cookies.get('token');
    $http({
-     url: '/eventoss/'+id,
+     url: '/eventos/'+id,
      method: 'DELETE',
       headers : { 
         'Content-Type': 'application/json',
@@ -302,16 +311,11 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('input', 'default')
         .primaryPalette('grey')
 });
-function DialogController($scope, $mdDialog) {
 
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
+
+function DialogController($scope, $mdDialog) {
   $scope.cancel = function() {
     $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
   };
 }
 

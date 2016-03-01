@@ -1,3 +1,78 @@
+app.controller('addCreateEventTypeCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+$scope.createEventType =function(){
+  var token = $cookies.get('token');
+    if($scope.user.name != '')
+    {
+       $http({
+         url: '/tipos/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.user.name
+         }
+       }).success(function (response) {
+        
+        if(response.statusCode = "200"){
+          $scope.showMessage = "true";  
+          $scope.message = "Tipo evento creado"; 
+          location.reload();
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el tipo de evento"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+
+});
+
+app.controller('addEditEventTypeCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  $scope.EditEventType =function(){
+  if($scope.nombre != ''){
+    var token = $cookies.get('token');
+     $http({
+       url: '/tipo/'+$scope.id+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+        },
+        data: {
+           nombre: $scope.nombre
+         }
+     }).success(function (response) {
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se edito el tipo de evento"; 
+            location.reload();
+        }else{
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo editar el tipo de evento"; 
+        }
+     }).error( function (response) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+     });
+  }else{
+        $scope.showMessage = "true";  
+        $scope.message = "Ingresa un nombre, por favor"; 
+
+  }
+}
+
+});
+
+
 app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
@@ -51,38 +126,7 @@ app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedi
       icon: 'fa-times-circle'
     }
   ];
-$scope.createEventType =function(){
-  var token = $cookies.get('token');
-    if($scope.user.name != '')
-    {
-       $http({
-         url: '/tipos/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {
-           nombre: $scope.user.name
-         }
-       }).success(function (response) {
-        
-        if(response.statusCode = "200"){
-          $scope.showMessage = "true";  
-          $scope.message = "Tipo evento creado"; 
-        }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el tipo de evento"; 
-        }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, ingrese un nombre"; 
-    }
-}
+
 $scope.deleteEventType =function(id){
   var token = $cookies.get('token');
    $http({
@@ -106,39 +150,7 @@ $scope.deleteEventType =function(id){
 }
 
 
-$scope.EditEventType =function(){
-  if($scope.nombre != ''){
-    var token = $cookies.get('token');
-     $http({
-       url: '/tipo/'+$scope.id+'/save',
-       method: 'POST',
-        headers : { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+token
-        },
-        data: {
-           nombre: $scope.nombre
-         }
-     }).success(function (response) {
-        if(response.statusCode = "200")
-        {
-            $scope.showMessage = "true";  
-            $scope.message = "Se edito el tipo de evento"; 
-            location.reload();
-        }else{
-            $scope.showMessage = "true";  
-            $scope.message = "No se pudo editar el tipo de evento"; 
-        }
-     }).error( function (response) {
-            $scope.showMessage = "true";  
-            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-     });
-  }else{
-        $scope.showMessage = "true";  
-        $scope.message = "Ingresa un nombre, por favor"; 
 
-  }
-}
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
     $scope.showAlert = function(msj) {
       $mdDialog.show(

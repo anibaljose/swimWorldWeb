@@ -1,3 +1,78 @@
+app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  $scope.createTeam =function(){
+  var token = $cookies.get('token');
+    if($scope.user.name != '')
+    {
+       $http({
+         url: '/equipos/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.user.name
+         }
+       }).success(function (response) {
+        if(response.statusCode = "200"){
+          $scope.showMessage = "true";  
+          $scope.message = "Equipo creado"; 
+          location.reload();
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el equipo"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+
+});
+
+app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
+  $scope.EditTeam =function(){
+  if($scope.nombre != ''){
+    var token = $cookies.get('token');
+     $http({
+       url: '/equipos/'+$scope.id+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+        },
+        data: {
+           nombre: $scope.nombre
+         }
+     }).success(function (response) {
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se edito el equipo"; 
+            location.reload();
+        }else{
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo editar el equipo"; 
+        }
+     }).error( function (response) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+     });
+  }else{
+        $scope.showMessage = "true";  
+        $scope.message = "Ingresa un nombre, por favor"; 
+
+  }
+}
+
+
+});
+
+
 app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
@@ -53,38 +128,7 @@ app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$md
     }
   ];
 
-$scope.createTeam =function(){
-  var token = $cookies.get('token');
-    if($scope.user.name != '')
-    {
-       $http({
-         url: '/equipos/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {
-           nombre: $scope.user.name
-         }
-       }).success(function (response) {
-        if(response.statusCode = "200"){
-          $scope.showMessage = "true";  
-          $scope.message = "Equipo creado"; 
-          location.reload();
-        }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el equipo"; 
-        }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, ingrese un nombre"; 
-    }
-}
+
 
 
 $scope.deleteTeam =function(id){
@@ -109,39 +153,6 @@ $scope.deleteTeam =function(id){
    });
 }
 
-$scope.EditTeam =function(){
-  if($scope.nombre != ''){
-    var token = $cookies.get('token');
-     $http({
-       url: '/equipos/'+$scope.id+'/save',
-       method: 'POST',
-        headers : { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+token
-        },
-        data: {
-           nombre: $scope.nombre
-         }
-     }).success(function (response) {
-        if(response.statusCode = "200")
-        {
-            $scope.showMessage = "true";  
-            $scope.message = "Se edito el equipo"; 
-            location.reload();
-        }else{
-            $scope.showMessage = "true";  
-            $scope.message = "No se pudo editar el equipo"; 
-        }
-     }).error( function (response) {
-            $scope.showMessage = "true";  
-            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-     });
-  }else{
-        $scope.showMessage = "true";  
-        $scope.message = "Ingresa un nombre, por favor"; 
-
-  }
-}
 
 
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
