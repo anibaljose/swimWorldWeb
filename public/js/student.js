@@ -1,14 +1,6 @@
-
-app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
-
-  if(!$cookies.get('token')){
-    window.location = "#/login";
-  }
-  $scope.showSearch = false;
-
+app.controller('addStudentCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.team = [];
   $scope.generos = [];
-  $scope.student = [];
   $scope.userTeam = '';
   $scope.userGender = '';
 
@@ -40,6 +32,131 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
 
+$scope.createStudent =function(){
+  var token = $cookies.get('token');
+    if($scope.fisrtName != ''  && $scope.lastName != '' &&
+    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
+    $scope.userTeamE != '')
+    {
+       $http({
+         url: '/atletas/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {
+           nombre: $scope.fisrtName,
+           apellido: $scope.lastName,
+           nacimiento: $scope.dateBirthday.getTime(),
+           genero: $scope.userGender ,
+           equipo: $scope.userTeam
+         }
+       }).success(function (response) {
+        
+        if(response.statusCode = "200"){
+          location.reload();
+          $scope.showMessage = "true";  
+          $scope.message = "Equipo creado"; 
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo crear el equipo"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, ingrese un nombre"; 
+    }
+}
+
+});
+app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
+  $scope.team = [];
+  $scope.generos = [];
+  $scope.userTeam = '';
+  $scope.userGender = '';
+
+
+   $scope.user = {
+      fisrtName   : '',
+      lastName   : '',
+      dateBirthday : ''
+   };
+
+  $scope.generos.push({_id: 1,nombre : "Masculino" } );
+  $scope.generos.push({_id: 2,nombre : "Femenino" } );
+
+   $http({
+     url: '/equipos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.equipos){
+        $scope.team = response.equipos;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+$scope.studentEdit =function(){
+  if($scope.fisrtName != ''  && $scope.lastName != '' &&
+    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
+    $scope.userTeamE != ''){
+    var token = $cookies.get('token');
+     $http({
+       url: '/atletas/'+$scope.id+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+        },
+        data: {
+           nombre: $scope.fisrtName,
+           apellido: $scope.lastName,
+           nacimiento: $scope.dateBirthday.getTime(),
+           genero: $scope.userGenderE ,
+           equipo: $scope.userTeamE
+         }
+     }).success(function (response) {
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se edito el Atleta"; 
+        }else{
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo editar el Atleta"; 
+        }
+     }).error( function (response) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+     });
+  }else{
+        $scope.showMessage = "true";  
+        $scope.message = "complete el formulario"; 
+
+  }
+}
+
+
+});
+app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
+  $scope.showSearch = false;
+
+  $scope.student = [];
+  
 
    $http({
      url: '/atletas',
@@ -89,45 +206,6 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   ];
 
 
-$scope.createStudent =function(){
-  var token = $cookies.get('token');
-    if($scope.fisrtName != ''  && $scope.lastName != '' &&
-    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
-    $scope.userTeamE != '')
-    {
-       $http({
-         url: '/atletas/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {
-           nombre: $scope.fisrtName,
-           apellido: $scope.lastName,
-           nacimiento: $scope.dateBirthday.getTime(),
-           genero: $scope.userGender ,
-           equipo: $scope.userTeam
-         }
-       }).success(function (response) {
-        
-        if(response.statusCode = "200"){
-          location.reload();
-          $scope.showMessage = "true";  
-          $scope.message = "Equipo creado"; 
-        }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el equipo"; 
-        }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, ingrese un nombre"; 
-    }
-}
 
 $scope.enable =function(id){
   var token = $cookies.get('token');
@@ -150,45 +228,6 @@ $scope.enable =function(id){
        });
 }
 
-
-$scope.studentEdit =function(){
-  if($scope.fisrtName != ''  && $scope.lastName != '' &&
-    $scope.dateBirthday != '' && $scope.userGenderE != ''&&
-    $scope.userTeamE != ''){
-    var token = $cookies.get('token');
-     $http({
-       url: '/atletas/'+$scope.id+'/save',
-       method: 'POST',
-        headers : { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+token
-        },
-        data: {
-           nombre: $scope.fisrtName,
-           apellido: $scope.lastName,
-           nacimiento: $scope.dateBirthday.getTime(),
-           genero: $scope.userGenderE ,
-           equipo: $scope.userTeamE
-         }
-     }).success(function (response) {
-        if(response.statusCode = "200")
-        {
-            $scope.showMessage = "true";  
-            $scope.message = "Se edito el Atleta"; 
-        }else{
-            $scope.showMessage = "true";  
-            $scope.message = "No se pudo editar el Atleta"; 
-        }
-     }).error( function (response) {
-            $scope.showMessage = "true";  
-            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-     });
-  }else{
-        $scope.showMessage = "true";  
-        $scope.message = "complete el formulario"; 
-
-  }
-}
 
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
     $scope.showAlert = function(msj) {
