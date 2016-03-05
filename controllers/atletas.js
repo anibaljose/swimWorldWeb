@@ -18,8 +18,8 @@ exports.listar = function(request, reply){
     edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin);
     var querySelector = {
       "$and" : [
-        {nacimiento:{"$gte": edadmax}},
-        {nacimiento:{"$lte": edadmin}}
+        {nacimiento:{"$gte": edadmax.getTime()}},
+        {nacimiento:{"$lte": edadmin.getTime()}}
       ]
     };
     db.Atleta.find(querySelector, function(err, atletas){
