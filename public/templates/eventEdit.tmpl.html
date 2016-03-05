@@ -1,4 +1,4 @@
-<div ng-controller="addEventCreateCtrl" >
+<div ng-controller="addEventEditCtrl" >
 <md-content flex layout-padding  >
    <md-card>
       <md-card-content>
@@ -30,14 +30,29 @@
          <div flex="50" flex-gt-sm="50" layout="column">
             <div>
                <fieldset class="standard" >
-                  <legend> <code>Atletas</code> <code></co></legend>
+                  <legend> <code>Atletas agregados</code> <code></co></legend>
+                  <div layout="row" layout-wrap flex>
+                     <div flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
+                        <span >
+                          <span ng-click="delete()" style ="color:red; cursor:pointer">x</span> {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                        </span>
+                     </div>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
+
+         <div flex="50" flex-gt-sm="50" layout="column">
+            <div>
+               <fieldset class="standard" >
+                  <legend> <code>Agregar mas atletas</code> <code></co></legend>
                <md-input-container md-theme="input" flex>
                   <label>&nbsp;</label>
                   Busque a un atleta por nombre:
                   <input style ="margin-top: 22px !important;" ng-model="search.nombre" placeholder="Escriba el nombre">
                </md-input-container>
                   <div layout="row" layout-wrap flex>
-                     <div flex="5"  ng-repeat="item in items | filter:search" style="padding-right: 30%;">
+                     <div flex="5"  ng-repeat="item in itemsA | filter:search" style="padding-right: 30%;">
                         <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
                            {{ item.nombre }} {{ item.apellido }} <span ng-if="exists(item, selected)"></span>
                         </md-checkbox>
@@ -48,7 +63,7 @@
          </div>
 <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
          </md-content>
-<md-button class="btnAdd" ng-click="createEvent()" >Agregar</md-button>
+<md-button class="btnAdd" ng-click="createEvent()" >Editar</md-button>
 <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
 </md-content>
 </md-card-content>

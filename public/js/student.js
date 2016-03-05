@@ -74,6 +74,7 @@ $scope.createStudent =function(){
 
 });
 app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
+  console.log("por aqui");
   $scope.team = [];
   $scope.generos = [];
   $scope.userTeam = '';
@@ -96,6 +97,7 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
+    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.team = response.equipos;
@@ -263,8 +265,12 @@ $scope.enable =function(id){
     });
   };
 
-  $scope.showEditAdvance = function(id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) {
-  
+  $scope.showEditStudentAdvance = function(id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) {
+  console.log(id);
+  console.log(nombre);
+  console.log(apellido);
+  console.log(nacimiento);
+
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       templateUrl : '../templates/studentEdit.tmpl.html',
