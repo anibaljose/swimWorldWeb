@@ -14,14 +14,15 @@
          <md-input-container>
             <label style="color: rgb(255, 255, 255); !important">Equipo</label>
             <md-select ng-model="userTeamE" style="width: 592px !important;max-width: 594px;">
-               <md-option  ng-repeat="equipo in team" value="{{equipo._id}}">
+               <md-option  ng-repeat="equipo in team" value="{{equipo._id}}" >
                   {{equipo.nombre}}
                </md-option>
             </md-select>
          </md-input-container>
+
          <md-input-container >
             <label style="color: rgb(255, 255, 255); !important">Genero</label>
-            <md-select ng-model="userGenderE" style="width: 592px !important;max-width: 594px;">
+            <md-select ng-model="userGenderE" style="width: 592px !important; max-width: 594px;">
                <md-option ng-repeat="genero in generos" value="{{genero._id}}">
                   {{genero.nombre}}
                </md-option>

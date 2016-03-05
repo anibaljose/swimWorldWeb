@@ -1,0 +1,72 @@
+<div ng-controller="addEventEditCtrl" >
+<md-content flex layout-padding  >
+   <md-card>
+      <md-card-content>
+         <md-content class="autoScroll">
+            <md-input-container class="md-block">
+               <i class="fa fa-text-width  iconInput"></i>
+               <input ng-model="nameEvent" type="text" placeholder="Nombre de Evento" ng-required="true" class="sytleInput">
+            </md-input-container>
+            <md-input-container class="md-block">
+               <i class="fa fa-text-width  iconInput"></i>
+               <input ng-model="fromEvent" type="text" placeholder="Lugar de Evento" ng-required="true" class="sytleInput">
+            </md-input-container>
+            <md-input-container class="md-block">
+               <i class="fa fa-text-width  iconInput"></i>
+               <input ng-model="carril" type="text" placeholder="No. Carriles" ng-required="true" class="sytleInput" ng-value="5">
+            </md-input-container>
+            <md-input-container>
+               <label style="color: rgb(255, 255, 255); !important">Tipo Evento</label>
+               <md-select ng-model="userEvent" style="width: 592px !important;max-width: 594px;">
+                  <md-option ng-repeat="tipoEvento in eventType" value="{{tipoEvento._id}}">
+                     {{tipoEvento.nombre}}
+                  </md-option>
+               </md-select>
+            </md-input-container>
+            <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+               <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Evento" >
+               </md-datepicker>
+            </md-content>
+         <div flex="50" flex-gt-sm="50" layout="column">
+            <div>
+               <fieldset class="standard" >
+                  <legend> <code>Atletas agregados</code> <code></co></legend>
+                  <div layout="row" layout-wrap flex>
+                     <div flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
+                        <span >
+                          <span ng-click="delete()" style ="color:red; cursor:pointer">x</span> {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                        </span>
+                     </div>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
+
+         <div flex="50" flex-gt-sm="50" layout="column">
+            <div>
+               <fieldset class="standard" >
+                  <legend> <code>Agregar mas atletas</code> <code></co></legend>
+               <md-input-container md-theme="input" flex>
+                  <label>&nbsp;</label>
+                  Busque a un atleta por nombre:
+                  <input style ="margin-top: 22px !important;" ng-model="search.nombre" placeholder="Escriba el nombre">
+               </md-input-container>
+                  <div layout="row" layout-wrap flex>
+                     <div flex="5"  ng-repeat="item in itemsA | filter:search" style="padding-right: 30%;">
+                        <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
+                           {{ item.nombre }} {{ item.apellido }} <span ng-if="exists(item, selected)"></span>
+                        </md-checkbox>
+                     </div>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
+<span ng-show ="showMessage" class="messageLogin">{{message}}</span>
+         </md-content>
+<md-button class="btnAdd" ng-click="createEvent()" >Editar</md-button>
+<md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
+</md-content>
+</md-card-content>
+</md-card>
+</md-content>
+</div>

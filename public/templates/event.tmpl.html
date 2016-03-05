@@ -31,8 +31,13 @@
             <div>
                <fieldset class="standard" >
                   <legend> <code>Atletas</code> <code></co></legend>
+               <md-input-container md-theme="input" flex>
+                  <label>&nbsp;</label>
+                  Busque a un atleta por nombre:
+                  <input style ="margin-top: 22px !important;" ng-model="search.nombre" placeholder="Escriba el nombre">
+               </md-input-container>
                   <div layout="row" layout-wrap flex>
-                     <div flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
+                     <div flex="5"  ng-repeat="item in items | filter:search" style="padding-right: 30%;">
                         <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
                            {{ item.nombre }} {{ item.apellido }} <span ng-if="exists(item, selected)"></span>
                         </md-checkbox>
