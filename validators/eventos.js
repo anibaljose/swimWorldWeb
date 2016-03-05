@@ -21,6 +21,15 @@ exports.save = {
   }
 };
 // Utilizado para el GET y DELETE
+exports.atleta = {
+  params: {
+    idEvento: Joi.string().min(10).max(49)
+  },
+  query: {
+    atleta: Joi.string().min(10).max(49).required()
+  }
+};
+
 exports.idEvento = {
   params: {
     idEvento: Joi.string().min(10).max(49)

@@ -45,12 +45,3 @@ exports.save = function(request, reply){
     return reply({statusCode: 200});
   });
 }
-exports.delete = function(request, reply){
-  db.AtletaEvento.remove({_id:request.params.idAtletaEvento}, function(err){
-    if (err) {
-      console.log("ATLETA_EVENTOS_DELETE err="+JSON.stringify(err));
-      return reply({statusCode:600});
-    }
-    return reply({statusCode: 200});
-  });
-}

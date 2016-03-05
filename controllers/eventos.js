@@ -36,6 +36,14 @@ exports.atletas = function(request, reply){
     }
   });
 };
+exports.atleta = function(request, reply){
+  db.AtletaEvento.remove({atleta:request.query.atleta, evento: request.params.idEvento}, function(err){
+    if (err) {
+      return reply({statusCode:600});
+    }
+    return reply({statusCode: 200});
+  });
+}
 exports.create = function(request, reply){
   new db.Evento(request.payload).save(function(err, evento, numberAffected){
     if(err){

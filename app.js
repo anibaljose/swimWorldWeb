@@ -180,6 +180,15 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     handler: rutas.eventos.delete
   });
   server.route({
+    method: 'DELETE',
+    path: '/eventos/{idEvento}/atleta',
+    config: {
+      auth: config.auth,
+      validate: validarEventos.atleta
+    },
+    handler: rutas.eventos.atleta
+  });
+  server.route({
     method: 'POST',
     path: '/tipos/create',
     config: {
@@ -277,15 +286,6 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       validate: validarAtletaEvento.idAtletaEvento
     },
     handler: rutas.atletaEventos.listar
-  });
-  server.route({
-    method: 'DELETE',
-    path: '/atleta/eventos/{idAtletaEvento}',
-    config: {
-      auth: config.auth,
-      validate: validarAtletaEvento.idAtletaEvento
-    },
-    handler: rutas.atletaEventos.delete
   });
   server.route({
     method: 'POST',
