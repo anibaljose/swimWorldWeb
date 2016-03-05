@@ -24,8 +24,9 @@ exports.listar = function(request, reply){
 };
 exports.atletas = function(request, reply){
   db.AtletaEvento
+  .find({evento: request.params.idEvento})
   .populate("atleta evento")
-  .find({evento: request.params.idEvento}, function(err, atletas){
+  .exec(function(err, atletas){
     if (err){
       reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
     } else if (atletas_eventos){
