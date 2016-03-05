@@ -29,7 +29,7 @@ exports.atletas = function(request, reply){
   .exec(function(err, atletas){
     if (err){
       reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
-    } else if (atletas_eventos){
+    } else if (atletas){
       reply({statusCode:200,atletas:atletas});
     } else {
       reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
