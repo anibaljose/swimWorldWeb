@@ -11,7 +11,19 @@ exports.listar = function(request, reply){
       }
     });
   } else {
-    db.Atleta.find(function(err, atletas){
+    var querySelector = {};
+    if (request.query.edadmax && request.query.edadmin){
+      var today = new Date();
+      var edadmax =  new Date(today);
+      var edadmin =  new Date(today);
+      edadmax.setFullYear(edadmax.getFullYear - request.query.edadmax);
+      edadmin.setFullYear(edadmin.getFullYear - request.query.edadmin);
+      querySelector["$and"] = [
+        {nacimiento:{"$gte": edadmax}},
+        {nacimiento:{"$lte": edadmin}}
+      ];
+    }
+    db.Atleta.find(querySelector, function(err, atletas){
       if (err){
         reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
       } else if (atletas){
