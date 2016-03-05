@@ -25,5 +25,9 @@ exports.save = {
 exports.idAtleta = {
   params: {
     idAtleta: Joi.string().min(10).max(49)
+  },
+  query: {
+    edadmax: Joi.number(),
+    edadmin: Joi.number(),
   }
 };
