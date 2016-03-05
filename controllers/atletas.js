@@ -11,17 +11,18 @@ exports.listar = function(request, reply){
       }
     });
   } else {
-    var today = new Date();
-    var edadmax = new Date(today);
-    var edadmin = new Date(today);
-    edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax);
-    edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin);
-    var querySelector = {
-      "$and" : [
-        {nacimiento:{"$gte": edadmax.getTime()}},
-        {nacimiento:{"$lte": edadmin.getTime()}}
-      ]
-    };
+    var querySelector = {};
+    if (request.query.edadmax){
+      var today = new Date();
+      var edadmax = new Date(today);
+      var edadmin = new Date(today);
+      edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax.getTime());
+      edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin.getTime());
+      querySelector["$and"] = [
+        {nacimiento:{"$gte": edadmax}},
+        {nacimiento:{"$lte": edadmin}}
+      ];
+    }
     db.Atleta.find(querySelector, function(err, atletas){
       if (err){
         reply({statusCode: 600, error: "Database", message:"Atleta no encontrado"});
