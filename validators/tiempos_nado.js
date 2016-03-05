@@ -6,9 +6,17 @@ exports.save = {
     tiempo: Joi.number().required(),
   }
 };
-// Utilizado para el GET y DELETE
-exports.idTiempoNado = {
-  params: {
-    idTiempoNado: Joi.string().min(10).max(49)
+exports.listar = {
+  query: {
+    atleta: Joi.string().min(10).max(49),
+    tipoEvento: Joi.string().min(10).max(49),
+    max: Joi.number(),
+    min: Joi.number()
+  }
+}
+exports.delete = {
+  payload: {
+    atleta: Joi.string().min(10).max(49).required(),
+    tipoEvento: Joi.string().min(10).max(49).required(),
   }
 };

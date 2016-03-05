@@ -1,29 +1,33 @@
 var db = require('../models');
 exports.listar = function(request, reply){
-  if (request.params.idTiempoNado){
-    db.TiemposNado.findOne({_id: request.params.idTiempoNado}, function(err, tiempo_nado){
-      if (err){
-        reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
-      } else if (equipo){
-        reply({statusCode:200,tiempo_nado:tiempo_nado});
-      } else {
-        reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
-      }
-    });
-  } else {
-    db.TiemposNado.find(function(err, tiempos_nado){
-      if (err){
-        reply({statusCode: 600, error: "Database", message:"Tiempos Nado no encontrado"});
-      } else if (tiempos_nado){
-        reply({statusCode:200,tiempos_nado:tiempos_nado});
-      } else {
-        reply({statusCode: 600, error: "Database", message:"Tiempos Nado no encontrado"});
-      }
-    });
+  var querySelector = {};
+  if (request.query.atleta){
+    querySelector.atleta = request.query.atleta;
   }
+  if (request.query.tipoEvento){
+    querySelector.tipoEvento = request.query.tipoEvento;
+  }
+  if (request.query.max && request.query.min){
+    querySelector["$and"] = [
+      {tiempo:{"$gte": request.query.min}},
+      {tiempo:{"$lte": request.query.max}}
+    ];
+  }
+  console.log("TIEMPOS_NADO_LISTAR querySelector= "+JSON.stringify(querySelector));
+  db.TiemposNado.find(querySelector, function(err, tiempos_nado){
+    if (err){
+      console.log("TIEMPO_NADO_LISTAR err=" + JSON.stringify(err));
+      reply({statusCode: 600, error: "Database", message:"Tiempos Nado no encontrado"});
+    } else if (tiempos_nado){
+      reply({statusCode:200,tiempos_nado:tiempos_nado});
+    } else {
+      reply({statusCode: 600, error: "Database", message:"Tiempos Nado no encontrado"});
+    }
+  });
 };
 exports.save = function(request, reply){
   var tNado = request.payload;
+  // NOTE can't use payload directly because it includes "tiempo".
   db.TiemposNado.findOne({atleta: tNado.atleta, tipoEvento: tNado.tipoEvento}, function(err, tiempoNado){
     if (err){
       console.log("TIEMPO_NADO_SAVE err=" + JSON.stringify(err));
@@ -56,7 +60,7 @@ exports.save = function(request, reply){
   });
 }
 exports.delete = function(request, reply){
-  db.TiemposNado.remove({_id:request.params.idTiempoNado}, function(err){
+  db.TiemposNado.remove(request.payload, function(err){
     if (err) {
       console.log("TIEMPOS_NADO_DELETE err="+JSON.stringify(err));
       return reply({statusCode:600});
