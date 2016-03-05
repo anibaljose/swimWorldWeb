@@ -162,6 +162,15 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     handler: rutas.eventos.listar
   });
   server.route({
+    method: 'GET',
+    path: '/eventos/{idEvento}/atletas',
+    config: {
+      auth: config.auth,
+      validate: validarEventos.idEvento
+    },
+    handler: rutas.eventos.atletas
+  });
+  server.route({
     method: 'DELETE',
     path: '/eventos/{idEvento}',
     config: {
@@ -289,19 +298,19 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'GET',
-    path: '/tiempos/{idTiempoNado?}',
+    path: '/tiempos',
     config: {
       auth: config.auth,
-      validate: validarTiemposNado.idTiempoNado
+      validate: validarTiemposNado.listar
     },
     handler: rutas.tiemposNado.listar
   });
   server.route({
     method: 'DELETE',
-    path: '/tiempos/{idTiempoNado}',
+    path: '/tiempos',
     config: {
       auth: config.auth,
-      validate: validarTiemposNado.idTiempoNado
+      validate: validarTiemposNado.delete
     },
     handler: rutas.tiemposNado.delete
   });

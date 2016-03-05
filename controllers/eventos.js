@@ -22,6 +22,19 @@ exports.listar = function(request, reply){
     });
   }
 };
+exports.atletas = function(request, reply){
+  db.AtletaEvento
+  .populate("atleta evento")
+  .find({evento: request.params.idEvento}, function(err, atletas){
+    if (err){
+      reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+    } else if (atletas_eventos){
+      reply({statusCode:200,atletas:});
+    } else {
+      reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
+    }
+  });
+};
 exports.create = function(request, reply){
   new db.Evento(request.payload).save(function(err, evento, numberAffected){
     if(err){
