@@ -27,7 +27,7 @@ exports.idAtleta = {
     idAtleta: Joi.string().min(10).max(49)
   },
   query: {
-    edadmax: Joi.number(),
-    edadmin: Joi.number(),
+    edadmax: Joi.number().required(),
+    edadmin: Joi.number().required(),
   }
 };
