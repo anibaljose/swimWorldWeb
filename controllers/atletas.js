@@ -16,11 +16,11 @@ exports.listar = function(request, reply){
       var today = new Date();
       var edadmax = new Date(today);
       var edadmin = new Date(today);
-      edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax.getTime());
-      edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin.getTime());
+      edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax);
+      edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin);
       querySelector["$and"] = [
-        {nacimiento:{"$gte": edadmax}},
-        {nacimiento:{"$lte": edadmin}}
+        {nacimiento:{"$gte": edadmax.getTime()}},
+        {nacimiento:{"$lte": edadmin.getTime()}}
       ];
     }
     db.Atleta.find(querySelector, function(err, atletas){
