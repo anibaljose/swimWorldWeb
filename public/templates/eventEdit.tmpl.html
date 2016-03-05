@@ -34,7 +34,7 @@
                   <div layout="row" layout-wrap flex>
                      <div flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
                         <span >
-                          <span ng-click="delete()" style ="color:red; cursor:pointer">x</span> {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                          <div ng-click="deleteEvent(item)" style ="color:red; cursor:pointer">x</div> {{ item.atleta.nombre }} {{ item.atleta.apellido }}
                         </span>
                      </div>
                   </div>
@@ -63,7 +63,7 @@
          </div>
 <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
          </md-content>
-<md-button class="btnAdd" ng-click="createEvent()" >Editar</md-button>
+<md-button class="btnAdd" ng-click="editEvent()" >Editar</md-button>
 <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
 </md-content>
 </md-card-content>

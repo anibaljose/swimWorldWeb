@@ -1,4 +1,7 @@
 app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.createTeam =function(){
   var token = $cookies.get('token');
     if($scope.user.name != '')
@@ -35,6 +38,9 @@ app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
 });
 
 app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.EditTeam =function(){
   if($scope.nombre != ''){
     var token = $cookies.get('token');

@@ -1,4 +1,7 @@
 app.controller('addStudentCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.team = [];
   $scope.generos = [];
   $scope.userTeam = '';
@@ -13,7 +16,10 @@ app.controller('addStudentCreateCtrl', function($scope,$mdDialog,$http,$cookies)
 
   $scope.generos.push({_id: 1,nombre : "Masculino" } );
   $scope.generos.push({_id: 2,nombre : "Femenino" } );
-
+  $scope.cancel = function() {
+     location.reload();
+    $mdDialog.cancel();
+  };
    $http({
      url: '/equipos',
      method: 'GET',
@@ -55,7 +61,6 @@ $scope.createStudent =function(){
        }).success(function (response) {
         
         if(response.statusCode = "200"){
-          location.reload();
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
         }else{
@@ -74,7 +79,9 @@ $scope.createStudent =function(){
 
 });
 app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
-  console.log("por aqui");
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
   $scope.team = [];
   $scope.generos = [];
   $scope.userTeam = '';
@@ -86,6 +93,10 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
       dateBirthday : ''
    };
 
+  $scope.cancel = function() {
+     location.reload();
+    $mdDialog.cancel();
+  };
   $scope.generos.push({_id: 1,nombre : "Masculino" } );
   $scope.generos.push({_id: 2,nombre : "Femenino" } );
   //$scope.search._id = 1;
@@ -107,6 +118,8 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
+
+   
 
 $scope.studentEdit =function(){
   if($scope.fisrtName != ''  && $scope.lastName != '' &&
@@ -160,7 +173,7 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   
 
    $http({
-     url: '/atletas',
+     url: '/atletas/',
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
@@ -347,9 +360,6 @@ app.config(function($mdThemingProvider) {
         .primaryPalette('grey')
 });
 function DialogController($scope, $mdDialog) {
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
 }
 
 function EditController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) { 
@@ -363,8 +373,5 @@ function EditController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,_
 
   $scope.id = id;
 
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
 
 }

@@ -1,15 +1,9 @@
 
 app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
 
-   /**var usserCookie = $cookies.get('usser');
-   if(usserCookie){
-      alert("logueado");
-   }else{
-      alert("No logueado");
-         $cookies.put('usser', 'Tomas');
-         $scope.showMessage = "true";  
-   }**/
-
+  if($cookies.get('token')){
+    window.location = "#/student";
+  }
    $scope.message = "";
    $scope.showMessage = "false";
    $scope.user = {

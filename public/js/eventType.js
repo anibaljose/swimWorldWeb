@@ -1,4 +1,12 @@
 app.controller('addCreateEventTypeCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
+  $scope.cancel = function() {
+     location.reload();
+    $mdDialog.cancel();
+  };
+
 $scope.createEventType =function(){
   var token = $cookies.get('token');
     if($scope.user.name != '')
@@ -18,7 +26,6 @@ $scope.createEventType =function(){
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
           $scope.message = "Tipo evento creado"; 
-          location.reload();
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el tipo de evento"; 
@@ -36,6 +43,13 @@ $scope.createEventType =function(){
 });
 
 app.controller('addEditEventTypeCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
+  $scope.cancel = function() {
+     location.reload();
+    $mdDialog.cancel();
+  };
   $scope.EditEventType =function(){
   if($scope.nombre != ''){
     var token = $cookies.get('token');
@@ -54,7 +68,6 @@ app.controller('addEditEventTypeCreateCtrl', function($scope,$mdDialog,$http,$co
         {
             $scope.showMessage = "true";  
             $scope.message = "Se edito el tipo de evento"; 
-            location.reload();
         }else{
             $scope.showMessage = "true";  
             $scope.message = "No se pudo editar el tipo de evento"; 
@@ -262,18 +275,11 @@ app.config(function($mdThemingProvider) {
         .primaryPalette('grey')
 });
 function DialogController($scope, $mdDialog) {
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
 }
 
-function EdtirController($scope, $mdDialog,$cookies,$http,nombre,id) { 
+function EdtirController($scope, $mdDialog,nombre,id) { 
   $scope.nombre = nombre;
   $scope.id = id;
-
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
 
 }
 
