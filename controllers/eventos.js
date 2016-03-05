@@ -42,12 +42,18 @@ exports.listar = function(request, reply){
   }
 };
 exports.atletas = function(request, reply){
+  var querySelector = {};
   var options = {};
   if (request.query.sort){
     options.sort = {tiempo:1};
   }
+  if (request.params.idEvento){
+    querySelector.evento = request.params.idEvento;
+  } else if (request.query.eventos){
+    querySelector.evento = {$in: request.query.eventos};
+  }
   db.AtletaEvento
-  .find({evento: request.params.idEvento}, null, options)
+  .find(querySelector, null, options)
   .populate("atleta")
   .exec(function(err, atletas){
     if (err){

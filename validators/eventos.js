@@ -54,6 +54,7 @@ exports.idEvento = {
     idEvento: Joi.string().min(10).max(49)
   },
   query: {
-    sort: Joi.boolean()
+    sort: Joi.boolean(),
+    eventos: Joi.array().items(Joi.string().min(10).max(49)),
   }
 };
