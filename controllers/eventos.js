@@ -42,7 +42,6 @@ exports.listar = function(request, reply){
   }
 };
 exports.atletas = function(request, reply){
-  var querySelector = {evento: request.params.idEvento};
   var options = {};
   if (request.query.sort){
     options.sort = {tiempo:1};

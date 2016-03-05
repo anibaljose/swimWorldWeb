@@ -27,6 +27,7 @@ var Equipo = new Schema(require('./equipo'));
 var Evento = new Schema(require('./evento'));
 var TipoEvento = new Schema(require('./tipo_evento'));
 var AtletaEvento = new Schema(require('./atleta_evento'));
+AtletaEvento.index({ atleta: 1, evento: 1}, { unique: true });
 var TiemposNado = new Schema(require('./tiempos_nado'));
 
 exports.Usuario = mongoose.model('Usuario', Usuario);
