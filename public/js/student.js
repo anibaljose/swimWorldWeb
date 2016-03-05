@@ -79,7 +79,6 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.userTeam = '';
   $scope.userGender = '';
 
-
    $scope.user = {
       fisrtName   : '',
       lastName   : '',
@@ -88,7 +87,7 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
 
   $scope.generos.push({_id: 1,nombre : "Masculino" } );
   $scope.generos.push({_id: 2,nombre : "Femenino" } );
-
+  //$scope.search._id = 1;
    $http({
      url: '/equipos',
      method: 'GET',

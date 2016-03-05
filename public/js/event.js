@@ -28,23 +28,7 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
-  $http({
-     url: '/atletas',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
-    if(response.statusCode = "200"){
-      if(response.atletas){
-        $scope.items = response.atletas;
-      }
-    }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
+  
 
 $scope.createEvent =function(){
 console.log("iniciando "+$scope.list);
@@ -124,6 +108,88 @@ console.log("iniciando "+$scope.list);
   };
 });
 
+app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
+  
+  $scope.items = [];
+  $scope.userEvent = '';
+  $scope.dateBirthday = '';
+  $scope.nameEvent = ''; 
+  $scope.fromEvent = ''; 
+  $scope.carril = ''; 
+  $scope.userAtletas = [];
+  $scope.list = [];
+  $scope.selected = []; 
+  console.log($scope.id_Evento);
+  $http({
+     url: '/eventos/'+$scope.id_Evento,
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+    }
+   }).error( function (response) {
+   });
+   
+
+  $scope.eventType = [];
+   $http({
+     url: '/tipo',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(response);
+    if(response.statusCode = "200"){
+      if(response.tipos){
+        $scope.eventType = response.tipos;
+      }
+    }
+   }).error( function (response) {
+   });
+
+  $http({
+     url: '/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.atletas){
+        $scope.items = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+$scope.createEvent =function(){
+
+}
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+
+
+  $scope.toggle = function (item, list) {
+    var idx = $scope.list.indexOf(item._id);
+    if (idx > -1) $scope.list.splice(idx, 1);
+    else $scope.list.push(item._id);
+  };
+  $scope.exists = function (item, list) {
+    return $scope.list.indexOf(item._id) > -1;
+  };
+
+
+});
 app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
@@ -236,6 +302,31 @@ $scope.deleteEvent =function(id){
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
+
+
+  $scope.showEditAdvance = function(id_Evento) {
+  
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      templateUrl : '../templates/eventEdit.tmpl.html',
+      controller  : EditController,
+      parent      : angular.element(document.body),
+      clickOutsideToClose:true,
+      fullscreen  : useFullScreen,
+      locals: { id_Evento:id_Evento}
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
     $scope.showMobileMainHeader = true;
  
     $scope.openSideNavPanel = function() {
@@ -274,6 +365,7 @@ $scope.deleteEvent =function(id){
       $scope.alert = clickedItem.name + ' clicked!';
     });
   };
+
   $scope.person = [
       {
         name: 'Evento 1',
@@ -317,5 +409,13 @@ function DialogController($scope, $mdDialog) {
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
+}
+
+function EditController($scope, $mdDialog,id_Evento) { 
+  $scope.id_Evento = id_Evento;
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+
 }
 
