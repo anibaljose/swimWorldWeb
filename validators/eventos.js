@@ -33,5 +33,8 @@ exports.atleta = {
 exports.idEvento = {
   params: {
     idEvento: Joi.string().min(10).max(49)
+  },
+  query: {
+    sort: Joi.boolean()
   }
 };

@@ -1,28 +1,4 @@
 var db = require('../models');
-exports.listar = function(request, reply){
-  if (request.params.idAtletaEvento){
-    db.AtletaEvento.findOne({_id: request.params.idAtletaEvento}, function(err, atleta_evento){
-      if (err){
-        reply({statusCode: 600, error: "Database", message:"AtletaEvento no encontrado"});
-      } else if (equipo){
-        reply({statusCode:200,atleta_evento:atleta_evento});
-      } else {
-        reply({statusCode: 600, error: "Database", message:"AtletaEvento no encontrado"});
-      }
-    });
-  } else {
-    db.AtletaEvento.find(function(err, atletas_eventos){
-      if (err){
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
-      } else if (atletas_eventos){
-        reply({statusCode:200,atletas_eventos:atletas_eventos});
-      } else {
-        reply({statusCode: 600, error: "Database", message:"Equipo no encontrado"});
-      }
-    });
-  }
-};
-
 exports.create = function(request, reply){
   var atletaEvento = request.payload;
   atletaEvento.atleta = request.params.idAtleta;

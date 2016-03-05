@@ -23,8 +23,13 @@ exports.listar = function(request, reply){
   }
 };
 exports.atletas = function(request, reply){
+  var querySelector = {evento: request.params.idEvento};
+  var options = {};
+  if (request.query.sort){
+    options.sort = {tiempo:1};
+  }
   db.AtletaEvento
-  .find({evento: request.params.idEvento})
+  .find({evento: request.params.idEvento}, null, options)
   .populate("atleta")
   .exec(function(err, atletas){
     if (err){

@@ -279,15 +279,6 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     handler: rutas.atletaEventos.save
   });
   server.route({
-    method: 'GET',
-    path: '/atleta/evento/{idAtletaEvento?}',
-    config: {
-      auth: config.auth,
-      validate: validarAtletaEvento.idAtletaEvento
-    },
-    handler: rutas.atletaEventos.listar
-  });
-  server.route({
     method: 'POST',
     path: '/tiempos/save',
     config: {
