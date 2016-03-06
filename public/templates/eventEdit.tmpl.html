@@ -15,14 +15,11 @@
                <i class="fa fa-text-width  iconInput"></i>
                <input ng-model="carril" type="text" placeholder="No. Carriles" ng-required="true" class="sytleInput" ng-value="5">
             </md-input-container>
-            <md-input-container>
-               <label style="color: rgb(255, 255, 255); !important">Tipo Evento</label>
-               <md-select ng-model="userEvent" style="width: 592px !important;max-width: 594px;">
-                  <md-option ng-repeat="tipoEvento in eventType" value="{{tipoEvento._id}}">
-                     {{tipoEvento.nombre}}
-                  </md-option>
-               </md-select>
-            </md-input-container>
+
+         <md-input-container>
+            <select ng-options="tipoEvento as tipoEvento.nombre for tipoEvento in eventType track by tipoEvento._id" ng-model="userEvent"  style="width: 592px !important;max-width: 594px;">
+            </select>
+         </md-input-container>
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
                <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Evento" >
                </md-datepicker>
@@ -32,15 +29,22 @@
                <fieldset class="standard" >
                   <legend> <code>Atletas agregados</code> <code></co></legend>
                   <div layout="row" layout-wrap flex>
-                     <div flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
+                     <div class="item" flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
                         <span >
-                          <span ng-click="delete()" style ="color:red; cursor:pointer">x</span> {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                           {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                           <div ng-click="deleteEvent(item)" style ="color:red; cursor:pointer;">x</div>
                         </span>
                      </div>
                   </div>
                </fieldset>
             </div>
          </div>
+
+
+         <md-input-container>
+            <select ng-options="cat as cat.name for cat in categoria track by cat.id" ng-model="userEventCat"  style="width: 592px !important;max-width: 594px;" ng-change="eventCategory()">
+            </select>
+         </md-input-container>
 
          <div flex="50" flex-gt-sm="50" layout="column">
             <div>
@@ -63,7 +67,7 @@
          </div>
 <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
          </md-content>
-<md-button class="btnAdd" ng-click="createEvent()" >Editar</md-button>
+<md-button class="btnAdd" ng-click="editEvent()" >Editar</md-button>
 <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
 </md-content>
 </md-card-content>
