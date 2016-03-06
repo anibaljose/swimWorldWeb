@@ -13,6 +13,14 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.list = [];
   $scope.selected = []; 
   $scope.eventType = [];
+  $scope.categoria = [{id:1,name:"BEBES",min:0,max:4},
+  {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
+  {id:4,name:"INFANTIL A",min:9,max:10},{id:5,name:"INFANTIL B",min:11,max:12},
+  {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
+  {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
+  {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
+  $scope.userEventCat = {id:1,name:"BEBES",min:0,max:4};
    $http({
      url: '/tipo',
      method: 'GET',
@@ -37,6 +45,10 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
       headers : { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+$cookies.get('token')
+      },
+      params:{
+        edadmin:0,
+        edadmax:4
       }
    }).success(function (response) {
     if(response.statusCode = "200"){
@@ -49,6 +61,29 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
 
+$scope.eventCategory = function(){
+  $http({
+     url: '/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      },
+      params:{
+        edadmin:$scope.userEventCat.min,
+        edadmax:$scope.userEventCat.max
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.atletas){
+        $scope.items = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+ };
 $scope.createEvent =function(){
   var token = $cookies.get('token');
     if($scope.nameEvent != '' && $scope.fromEvent != '' 
@@ -136,12 +171,24 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.list = [];
   $scope.selected = []; 
 
+  $scope.categoria = [{id:1,name:"BEBES",min:0,max:4},
+  {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
+  {id:4,name:"INFANTIL A",min:9,max:10},{id:5,name:"INFANTIL B",min:11,max:12},
+  {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
+  {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
+  {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
+  $scope.userEventCat = {id:1,name:"BEBES",min:0,max:4};
   $http({
      url: '/atletas',
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+$cookies.get('token')
+      },
+      params:{
+        edadmin:0,
+        edadmax:4
       }
    }).success(function (response) {
     if(response.statusCode = "200"){
@@ -219,7 +266,7 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
    });
 
   $http({
-     url: '/eventos/'+$scope.id_Evento+'/atletas',
+     url: '/eventos/atletas/'+$scope.id_Evento,
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
@@ -235,6 +282,30 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
+
+$scope.eventCategory = function(){
+  $http({
+     url: '/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      },
+      params:{
+        edadmin:$scope.userEventCat.min,
+        edadmax:$scope.userEventCat.max
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.atletas){
+        $scope.itemsA = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+ };
 
 $scope.deleteEvent =function(item){
   $http({
@@ -292,7 +363,7 @@ $scope.editEvent =function(){
                 },
                  data: {      
                    hit     : 1,
-                   tiempo  : 30,
+                   tiempo  : 0,
                    carril: 4
                  }
              }).success(function (response) {

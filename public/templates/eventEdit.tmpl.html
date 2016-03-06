@@ -40,6 +40,12 @@
             </div>
          </div>
 
+
+         <md-input-container>
+            <select ng-options="cat as cat.name for cat in categoria track by cat.id" ng-model="userEventCat"  style="width: 592px !important;max-width: 594px;" ng-change="eventCategory()">
+            </select>
+         </md-input-container>
+
          <div flex="50" flex-gt-sm="50" layout="column">
             <div>
                <fieldset class="standard" >
