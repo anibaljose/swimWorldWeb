@@ -1,5 +1,5 @@
 {
-  "name": "Swim World",
+  "name": "swimworld",
   "version": "1.0.0",
   "description": "RESTFul Backend para sitio web",
   "main": "app.js",
