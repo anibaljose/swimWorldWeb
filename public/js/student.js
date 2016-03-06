@@ -4,22 +4,20 @@ app.controller('addStudentCreateCtrl', function($scope,$mdDialog,$http,$cookies)
   }
   $scope.team = [];
   $scope.generos = [];
-  $scope.userTeam = '';
-  $scope.userGender = '';
+  $scope.dateBirthday = '';
 
 
-   $scope.user = {
-      fisrtName   : '',
-      lastName   : '',
-      dateBirthday : ''
-   };
+  $scope.generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+  $scope.userGenderE = $scope.generos[0];
 
-  $scope.generos.push({_id: 1,nombre : "Masculino" } );
-  $scope.generos.push({_id: 2,nombre : "Femenino" } );
   $scope.cancel = function() {
-     location.reload();
+    location.reload();
     $mdDialog.cancel();
   };
+
    $http({
      url: '/equipos',
      method: 'GET',
@@ -33,6 +31,7 @@ app.controller('addStudentCreateCtrl', function($scope,$mdDialog,$http,$cookies)
         $scope.team = response.equipos;
       }
     }
+        $scope.userTeam = $scope.team[0];
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
@@ -62,10 +61,10 @@ $scope.createStudent =function(){
         
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
-          $scope.message = "Equipo creado"; 
+          $scope.message = "Atleta creado"; 
         }else{
           $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el equipo"; 
+          $scope.message = "No se pudo crear el Atleta"; 
         }
        }).error( function (response) {
           $scope.showMessage = "true";  
@@ -73,7 +72,7 @@ $scope.createStudent =function(){
        });
     }else{
       $scope.showMessage = "true";  
-      $scope.message = "Por favor, ingrese un nombre"; 
+      $scope.message = "Por favor, complete el formulario"; 
     }
 }
 
@@ -97,9 +96,11 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
      location.reload();
     $mdDialog.cancel();
   };
-  $scope.generos.push({_id: 1,nombre : "Masculino" } );
-  $scope.generos.push({_id: 2,nombre : "Femenino" } );
-  //$scope.search._id = 1;
+  $scope.generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+
    $http({
      url: '/equipos',
      method: 'GET',
@@ -112,7 +113,17 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.team = response.equipos;
+      } 
+      var cont = $scope.team.length;
+      var bandera = true;
+      for(var i= 0; i< cont && bandera; i++){
+        if($scope.team[i]._id == $scope.equipo){
+          bandera=false;
+          $scope.userTeam = $scope.team[i];
+        }
       }
+      
+      //$scope.team._id = item.equipo;
     }
    }).error( function (response) {
       $scope.showMessage = "true";  
@@ -122,9 +133,11 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
    
 
 $scope.studentEdit =function(){
+  console.log($scope.userGenderE);
+  console.log($scope.userTeam);
   if($scope.fisrtName != ''  && $scope.lastName != '' &&
     $scope.dateBirthday != '' && $scope.userGenderE != ''&&
-    $scope.userTeamE != ''){
+    $scope.userTeam != ''){
     var token = $cookies.get('token');
      $http({
        url: '/atletas/'+$scope.id+'/save',
@@ -137,8 +150,8 @@ $scope.studentEdit =function(){
            nombre: $scope.fisrtName,
            apellido: $scope.lastName,
            nacimiento: $scope.dateBirthday.getTime(),
-           genero: $scope.userGenderE ,
-           equipo: $scope.userTeamE
+           genero: $scope.userGenderE._id ,
+           equipo: $scope.userTeam._id
          }
      }).success(function (response) {
         if(response.statusCode = "200")
@@ -278,11 +291,7 @@ $scope.enable =function(id){
     });
   };
 
-  $scope.showEditStudentAdvance = function(id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) {
-  console.log(id);
-  console.log(nombre);
-  console.log(apellido);
-  console.log(nacimiento);
+  $scope.showEditStudentAdvance = function(item) {
 
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
@@ -291,7 +300,7 @@ $scope.enable =function(id){
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
-      locals: { id:id,nombre:nombre,apellido:apellido,nacimiento:nacimiento,equipo:equipo,__v:__v, modified:modified, created:created, genero:genero}
+      locals: {item:item}
     })
     .then(function(answer) {
       $scope.status = 'You said the information was "' + answer + '".';
@@ -362,16 +371,19 @@ app.config(function($mdThemingProvider) {
 function DialogController($scope, $mdDialog) {
 }
 
-function EditController($scope, $mdDialog,id,nombre,apellido,nacimiento,equipo,__v, modified, created, genero) { 
-  $scope.fisrtName = nombre;
-  $scope.lastName = apellido;
-  $scope.dateBirthday = new Date(nacimiento)
-
-  $scope.userTeamE = '';
+function EditController($scope, $mdDialog,item) { 
+  $scope.fisrtName = item.nombre;
+  $scope.lastName = item.apellido;
+  $scope.dateBirthday = new Date(item.nacimiento)
+  $scope.equipo = item.equipo;
   $scope.userGenderE = '';
-  //$scope.userTeam = {"nombre":nombre,"apellido":apellido,"nacimiento":nacimiento,"equipo":equipo,"_id":id,"__v":__v,"modified":modified,"created":created,"genero":genero};
-
-  $scope.id = id;
+  console.log(item);
+  if(item.genero = 1){
+    $scope.userGenderE = {_id: 1,nombre : "Masculino" };
+  }else{
+    $scope.userGenderE = {_id: 2,nombre : "Femenino" };
+  }
+  $scope.id = item._id;
 
 
 }

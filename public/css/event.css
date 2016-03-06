@@ -156,3 +156,19 @@ md-sidenav {
   color : rgb(187, 187, 187);
   background-color: rgba(230, 230, 229, 0.96);
 }
+
+.item{
+  
+    padding-right: 30%;
+    border-color: black;
+    border-style: dashed;
+    border-width: 1px;
+}
+
+.item2{
+
+    padding-right: 30%;
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+    border-bottom-color: red;
+}

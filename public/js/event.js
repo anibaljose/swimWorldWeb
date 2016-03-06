@@ -173,7 +173,7 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
 
 /*traer atletasel ordenado de menor a mayor segun el evento
    $http({
-     url: '/eventos/'+$scope.id_Evento+'/atletas',
+     url: '/eventos/atletas/'+$scope.id_Evento,
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
@@ -204,6 +204,15 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
     if(response.statusCode = "200"){
       if(response.tipos){
         $scope.eventType = response.tipos;
+      }
+
+      var cont = $scope.eventType.length;
+      var bandera = true;
+      for(var i= 0; i< cont && bandera; i++){
+        if($scope.eventType[i]._id == $scope.id_Tipo_Evento){
+          bandera=false;
+          $scope.userEvent = $scope.eventType[i];
+        }
       }
     }
    }).error( function (response) {
@@ -252,7 +261,7 @@ $scope.deleteEvent =function(item){
 $scope.editEvent =function(){
   var token = $cookies.get('token');
     if($scope.nameEvent != '' && $scope.fromEvent != '' 
-      && $scope.carril != '' && $scope.userEvent != ''
+      && $scope.carril != '' && $scope.userEvent._id != ''
       && $scope.dateBirthday )
     {
        $http({
@@ -267,7 +276,7 @@ $scope.editEvent =function(){
            lugar: $scope.fromEvent,
            fecha: $scope.dateBirthday.getTime(),
            carriles: $scope.carril,
-           tipo: $scope.userEvent
+           tipo: $scope.userEvent._id
          }
        }).success(function (response) {
         if(response.statusCode = "200"){
@@ -322,6 +331,92 @@ $scope.editEvent =function(){
 
 
 });
+app.controller('addEventEditTimeCtrl', function($scope,$mdDialog,$http,$cookies) {
+  
+  $scope.items = [];
+  $scope.userAtletas = [];
+
+  $http({
+     url: '/eventos/'+$scope.id_Evento+'/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.atletas){
+        $scope.items = response.atletas;
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+$scope.editEvent =function(){
+  var token = $cookies.get('token');
+    if($scope.nameEvent != '' && $scope.fromEvent != '' 
+      && $scope.carril != '' && $scope.userEvent._id != ''
+      && $scope.dateBirthday )
+    {
+       $http({
+         url: '/eventos/'+$scope.id_Evento+'/save',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          },
+         data: {      
+           nombre:$scope.nameEvent  ,
+           lugar: $scope.fromEvent,
+           fecha: $scope.dateBirthday.getTime(),
+           carriles: $scope.carril,
+           tipo: $scope.userEvent._id
+         }
+       }).success(function (response) {
+        if(response.statusCode = "200"){
+
+          var cont = $scope.list.length;
+          for(var i = 0; i<cont; i++){
+            $http({
+               url: '/atleta/'+$scope.list[i]+'/evento/'+$scope.id_Evento+'/create',
+               method: 'POST',
+                headers : { 
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer '+token
+                },
+                 data: {      
+                   hit     : 1,
+                   tiempo  : 30,
+                   carril: 4
+                 }
+             }).success(function (response) {
+             }).error( function (response) {
+             });
+          }
+          $scope.showMessage = "true";  
+          $scope.message = "Evento editado"; 
+        }else{
+          $scope.showMessage = "true";  
+          $scope.message = "No se pudo editar el Evento"; 
+        }
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+       });
+    }else{
+      $scope.showMessage = "true";  
+      $scope.message = "Por favor, complete el formulario"; 
+    }
+}
+  $scope.cancel = function() {
+    location.reload();
+    $mdDialog.cancel();
+  };
+
+});
+
 app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
@@ -435,7 +530,7 @@ $scope.deleteEvent =function(id){
   };
 
 
-  $scope.showEditAdvance = function(id_Evento) {
+  $scope.showEditAdvance = function(item) {
   
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
@@ -444,7 +539,32 @@ $scope.deleteEvent =function(id){
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
-      locals: { id_Evento:id_Evento}
+      locals: { item:item}
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
+
+
+  $scope.showEditTimeAdvance = function(item) {
+  
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      templateUrl : '../templates/eventEditTime.tmpl.html',
+      controller  : EditTimeControllers,
+      parent      : angular.element(document.body),
+      clickOutsideToClose:true,
+      fullscreen  : useFullScreen,
+      locals: { item:item}
     })
     .then(function(answer) {
       $scope.status = 'You said the information was "' + answer + '".';
@@ -539,7 +659,15 @@ app.config(function($mdThemingProvider) {
 function DialogController($scope, $mdDialog) {
 }
 
-function EditControllers($scope, $mdDialog,id_Evento) { 
-  $scope.id_Evento = id_Evento;
+function EditControllers($scope, $mdDialog,item) { 
+  console.log(item);
+  $scope.id_Evento = item._id;
+  $scope.id_Tipo_Evento = item.tipo;
 }
 
+function EditTimeControllers($scope, $mdDialog,item) { 
+  console.log(item);
+  $scope.nombre = item.nombre;
+  $scope.id_Evento = item._id;
+  $scope.id_Tipo_Evento = item.tipo;
+}

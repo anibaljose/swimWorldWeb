@@ -1,7 +1,4 @@
 app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
-  if(!$cookies.get('token')){
-    window.location = "#/login";
-  }
   $scope.createTeam =function(){
   var token = $cookies.get('token');
     if($scope.user.name != '')
@@ -20,7 +17,6 @@ app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
-          location.reload();
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el equipo"; 
@@ -34,13 +30,14 @@ app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.message = "Por favor, ingrese un nombre"; 
     }
 }
+  $scope.cancel = function() {
+  location.reload();
+    $mdDialog.cancel();
+  };
 
 });
 
 app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
-  if(!$cookies.get('token')){
-    window.location = "#/login";
-  }
   $scope.EditTeam =function(){
   if($scope.nombre != ''){
     var token = $cookies.get('token');
@@ -59,7 +56,6 @@ app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
         {
             $scope.showMessage = "true";  
             $scope.message = "Se edito el equipo"; 
-            location.reload();
         }else{
             $scope.showMessage = "true";  
             $scope.message = "No se pudo editar el equipo"; 
@@ -74,6 +70,10 @@ app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
 
   }
 }
+  $scope.cancel = function() {
+  location.reload();
+    $mdDialog.cancel();
+  };
 
 
 });
@@ -273,19 +273,10 @@ app.config(function($mdThemingProvider) {
 });
 
 function DialogController($scope, $mdDialog) {
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
 }
 
 function EdtirController($scope, $mdDialog,$cookies,$http,nombre,id) { 
   $scope.nombre = nombre;
   $scope.id = id;
-
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-
-
 
 }

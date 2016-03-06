@@ -12,21 +12,12 @@
                   <input ng-model="lastName" type="text" placeholder="Apellido" ng-required="true" class="sytleInput">
                </md-input-container>
          <md-input-container>
-            <label style="color: rgb(255, 255, 255); !important">Equipo</label>
-            <md-select ng-model="userTeamE" style="width: 592px !important;max-width: 594px;">
-               <md-option  ng-repeat="equipo in team" value="{{equipo._id}}" >
-                  {{equipo.nombre}}
-               </md-option>
-            </md-select>
+            <select ng-options="equipo as equipo.nombre for equipo in team track by equipo._id" ng-model="userTeam"  style="width: 592px !important;max-width: 594px;" >
+            </select>
          </md-input-container>
-
-         <md-input-container >
-            <label style="color: rgb(255, 255, 255); !important">Genero</label>
-            <md-select ng-model="userGenderE" style="width: 592px !important; max-width: 594px;">
-               <md-option ng-repeat="genero in generos" value="{{genero._id}}">
-                  {{genero.nombre}}
-               </md-option>
-            </md-select>
+         <md-input-container>
+            <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
+            </select>
          </md-input-container>
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
                <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Nacimiento" >
