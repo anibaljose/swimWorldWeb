@@ -31,7 +31,8 @@ exports.create = {
 };
 exports.save = {
   params: {
-    idAtletaEvento: Joi.string().min(10).max(49),
+    idAtleta: Joi.string().min(10).max(49),
+    idEvento: Joi.string().min(10).max(49)
   },
   payload: {
     carril: Joi.number(),

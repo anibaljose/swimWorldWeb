@@ -32,7 +32,7 @@ exports.create = function(request, reply){
 exports.save = function(request, reply){
   var atletaEvento = request.payload;
   atletaEvento.modified = Date.now();
-  db.AtletaEvento.update({_id:request.params.idAtletaEvento}, {$set: atletaEvento}, function(err, raw){
+  db.AtletaEvento.update({atleta:request.params.idAtleta, evento:request.params.idEvento}, {$set: atletaEvento}, function(err, raw){
     if (err) {
       console.log("ATLETA_EVENTOS_SAVE err="+JSON.stringify(err));
       return reply({statusCode:600});

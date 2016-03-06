@@ -290,7 +290,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/atleta/evento/{idAtletaEvento}/save',
+    path: '/atleta/{idAtleta}/evento/{idEvento}/save',
     config: {
       auth: config.auth,
       validate: validarAtletaEvento.save
