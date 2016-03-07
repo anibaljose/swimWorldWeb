@@ -52,7 +52,7 @@ exports.save = function(request, reply){
       console.log("TIEMPO_NADO_SAVE err=" + JSON.stringify(err));
       return reply({statusCode: 600, error: "Database", message:"TiemposNado no encontrado"});
     } else if (tiempoNado) {
-      if (tNado.tiempo < tiempoNado.tiempo){
+      if (tNado.tiempo >= tiempoNado.tiempo){
         // NOTE El tiempo no es menor, no guardar
         return reply({statusCode:205});
       }
