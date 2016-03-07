@@ -30,13 +30,14 @@
                   <legend> <code>Atletas agregados</code> <code></co></legend>
                   <div layout="row" layout-wrap flex>
                      <div class="item" flex="5"  ng-repeat="item in items" style="padding-right: 30%;">
-                        <span >
+                        <span id="AtletaEvento{{item.atleta._id}}">
                            {{ item.atleta.nombre }} {{ item.atleta.apellido }}
-                           <div ng-click="deleteEvent(item)" style ="color:red; cursor:pointer;">x</div>
+                           <div ng-click="deleteEventAtleta(item)" style ="color:red; cursor:pointer;">x</div>
                         </span>
                      </div>
                   </div>
                </fieldset>
+               <span ng-show ="showMessage2" class="messageLogin">{{message2}}</span>
             </div>
          </div>
 

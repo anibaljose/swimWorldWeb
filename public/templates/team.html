@@ -76,7 +76,7 @@
                         <md-card-content>
                            <md-list>
                               <md-item ng-repeat="item in person | filter:search">
-                                 <md-item-content>
+                                 <md-item-content id = "team{{item._id}}">
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
                                        <div>
                                           <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
