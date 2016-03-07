@@ -55,7 +55,7 @@ $scope.createStudent =function(){
            apellido: $scope.lastName,
            nacimiento: $scope.dateBirthday.getTime(),
            genero: $scope.userGender ,
-           equipo: $scope.userTeam
+           equipo: $scope.userTeam._id
          }
        }).success(function (response) {
         
@@ -67,6 +67,7 @@ $scope.createStudent =function(){
           $scope.message = "No se pudo crear el Atleta"; 
         }
        }).error( function (response) {
+          console.log(JSON.stringify(response));
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
        });

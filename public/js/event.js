@@ -63,6 +63,7 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
    });
 
 $scope.eventCategory = function(){
+    console.log(JSON.stringify($scope.userEventCat));
   $http({
      url: '/atletas',
      method: 'GET',
@@ -81,6 +82,7 @@ $scope.eventCategory = function(){
       }
     }
    }).error( function (response) {
+    console.log(JSON.stringify(response));
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
@@ -507,9 +509,10 @@ $scope.editTiempos = function(){
           + parseInt(document.getElementById("seg"+$scope.items[i].atleta._id).value)*1000 
           + parseInt(document.getElementById("ms"+$scope.items[i].atleta._id).value);
           id_atleta = $scope.items[i].atleta._id;
-    console.log(time);
-    console.log(id_atleta);
-    console.log(id_tipo_Evento);
+
+          console.log(id_atleta);
+          console.log(id_tipo_Evento);
+          console.log(time);
          $http({
            url: '/tiempos/save',
            method: 'POST',
