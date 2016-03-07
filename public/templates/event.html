@@ -77,7 +77,7 @@
                         <md-card-content>
                            <md-list>
                               <md-item ng-repeat="item in events | filter:search">
-                                 <md-item-content>
+                                 <md-item-content id = "event{{item._id}}">
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
 
                                        <div>
@@ -86,6 +86,7 @@
                                           <div>
                                              <md-button class="btn1" ng-click="showEditAdvance(item)">Editar</md-button>
                                              <md-button class="btn1" ng-click="showEditTimeAdvance(item)">Editar Tiempos</md-button>
+                                             <md-button class="btn1" ng-click="showViewTimeAdvance(item)"> Tiempos Finales</md-button>
                                              <md-button class="btn1" ng-click="deleteEvent(item._id)" >Eliminar</md-button>
                                           </div>
                                        </div>

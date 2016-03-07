@@ -149,8 +149,8 @@ $scope.deleteTeam =function(id){
    }).success(function (response) {
       if(response.statusCode = "200")
       {
+        document.getElementById("team"+id).style.display = "none";
         $scope.showAlert("se eliminino el equipo");
-          location.reload();
       }else{
         $scope.showAlert("No se pudo eliminar de baja al Atleta");
       }

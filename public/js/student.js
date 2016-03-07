@@ -246,6 +246,7 @@ $scope.enable =function(id){
        }).success(function (response) {
         if(response.statusCode = "200")
         {
+          document.getElementById("student"+id).style.display = "none";
           $scope.showAlert("se dio de baja al Atleta");
         }else{
           $scope.showAlert("No se pudo dar de baja al Atleta");
