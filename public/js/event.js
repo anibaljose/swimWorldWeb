@@ -63,6 +63,7 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
    });
 
 $scope.eventCategory = function(){
+    console.log(JSON.stringify($scope.userEventCat));
   $http({
      url: '/atletas',
      method: 'GET',
@@ -81,6 +82,7 @@ $scope.eventCategory = function(){
       }
     }
    }).error( function (response) {
+    console.log(JSON.stringify(response));
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
@@ -393,6 +395,24 @@ app.controller('addEventEditTimeCtrl', function($scope,$mdDialog,$http,$cookies)
   
   $scope.items = [];
   $scope.userAtletas = [];
+
+  var token = $cookies.get('token');
+  $http({
+     url: '/tiempos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token
+      }
+   }).success(function (response) {
+        console.log(JSON.stringify(response));
+      if(response.statusCode = "200"){
+      }
+   }).error( function (response) {
+        console.log(JSON.stringify(response));
+   });
+
+
   $http({
      url: '/eventos/atletas/'+$scope.id_Evento,
      method: 'GET',
@@ -440,17 +460,20 @@ $scope.getMs = function(ms){
 }
 $scope.editEventTime =function(){
   var token = $cookies.get('token');
-    if($scope.min != '' && $scope.seg != '' 
-      && $scope.ms != '' && $scope.id_Evento!= '')
+    if($scope.id_Evento!= '')
     {
       var cont = $scope.items.length;
       var id_Evento = $scope.id_Evento;
+      var id_tipo_Evento = $scope.id_Tipo_Evento;
+      var id_atleta = '';
+      var time = 0;
       for(var i = 0; i<cont; i++){
-        var time = parseInt(document.getElementById("min"+$scope.items[i].atleta._id).value)*60000 
+         time = parseInt(document.getElementById("min"+$scope.items[i].atleta._id).value)*60000 
           + parseInt(document.getElementById("seg"+$scope.items[i].atleta._id).value)*1000 
           + parseInt(document.getElementById("ms"+$scope.items[i].atleta._id).value);
+          id_atleta = $scope.items[i].atleta._id;
         $http({
-           url: '/atleta/'+$scope.items[i].atleta._id+'/evento/'+id_Evento+'/save',
+           url: '/atleta/'+id_atleta+'/evento/'+id_Evento+'/save',
            method: 'POST',
             headers : { 
               'Content-Type': 'application/json',
@@ -460,12 +483,56 @@ $scope.editEventTime =function(){
                tiempo  : time,
              }
          }).success(function (response) {
+            if(response.statusCode = "200"){  
+            
+            }
          }).error( function (response) {
          });
+
       }
+      $scope.editTiempos();
     }else{
       $scope.showMessage = "true";  
-      $scope.message = "Por favor, complete el formulario"; 
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+    }
+}
+
+$scope.editTiempos = function(){
+    var token = $cookies.get('token');
+      var cont = $scope.items.length;
+      var id_Evento = $scope.id_Evento;
+      var id_tipo_Evento = $scope.id_Tipo_Evento;
+      var id_atleta = '';
+      var time = 0;
+      for(var i = 0; i<cont; i++){
+         time = parseInt(document.getElementById("min"+$scope.items[i].atleta._id).value)*60000 
+          + parseInt(document.getElementById("seg"+$scope.items[i].atleta._id).value)*1000 
+          + parseInt(document.getElementById("ms"+$scope.items[i].atleta._id).value);
+          id_atleta = $scope.items[i].atleta._id;
+
+          console.log(id_atleta);
+          console.log(id_tipo_Evento);
+          console.log(time);
+         $http({
+           url: '/tiempos/save',
+           method: 'POST',
+            headers : { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+token
+            },
+             data: {      
+              atleta: id_atleta, 
+              tipoEvento: id_tipo_Evento, 
+              tiempo: time
+             }
+         }).success(function (response) {
+          console.log(JSON.stringify(response));
+            if(response.statusCode = "200"){
+              $scope.showMessage = "true";  
+              $scope.message = "edicion exitosa"; 
+            }
+         }).error( function (response) {
+         });
     }
 }
   $scope.cancel = function() {
@@ -478,7 +545,6 @@ $scope.editEventTime =function(){
 app.controller('addEvenViewTimeCtrl', function($scope,$mdDialog,$http,$cookies) {
   
   $scope.items = [];
-
    $http({
      url: '/eventos/atletas/'+$scope.id_Evento,
      method: 'GET',
@@ -491,7 +557,6 @@ app.controller('addEvenViewTimeCtrl', function($scope,$mdDialog,$http,$cookies) 
       }
 
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode ="200"){
       $scope.items = response.atletas;
     }
@@ -500,6 +565,7 @@ app.controller('addEvenViewTimeCtrl', function($scope,$mdDialog,$http,$cookies) 
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
 
+  
    
   $scope.tiempos = function () {
     var cont = $scope.items.length;
@@ -515,32 +581,53 @@ app.controller('addEvenViewTimeCtrl', function($scope,$mdDialog,$http,$cookies) 
 
 
   $scope.load = function(){
-    var data = [], fontSize = 8, height = 0, doc;
-    doc = new jsPDF('p', 'pt', 'a4', true);
-    doc.setFont("times", "normal");
-    doc.setFontSize(fontSize);
-    data = [];
-    var cont = $scope.items.length;
-    for(var i = 0; i<cont; i++){
-        data.push({
-            "Nombre" : $scope.items[i].atleta.nombre+" "+$scope.items[i].atleta.apellido,
-            "Tiempo (mm:ss:ms)" : $scope.getMin($scope.items[i].tiempo)
-                      +":"+$scope.getSeg($scope.items[i].tiempo)
-                      +":"+$scope.getMs($scope.items[i].tiempo),
-            "Nombre Evento": $scope.nombre
-        });
-    
+    var nombreTipoEvento = "";
+    $http({
+     url: '/tipo/'+$scope.id_Tipo_Evento,
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode ="200"){
+      nombreTipoEvento = response.tipo.nombre;
+      var data = [], fontSize = 8, height = 0, doc;
+      doc = new jsPDF('p', 'pt', 'a4', true);
+      doc.setFont("times", "normal");
+      doc.setFontSize(fontSize);
+      doc.text(100,10,"Evento: "+$scope.nombre);
+      doc.text(100,20,"Tipo Evento: "+nombreTipoEvento);
+      data = [];
+      var cont = $scope.items.length;
+      for(var i = 0; i<cont; i++){
+          data.push({
+              "Nombre" : $scope.items[i].atleta.nombre.toLowerCase()+" "+$scope.items[i].atleta.apellido.toLowerCase(),
+              "Tiempo (mm:ss:ms)" : $scope.getMin($scope.items[i].tiempo)
+                        +":"+$scope.getSeg($scope.items[i].tiempo)
+                        +":"+$scope.getMs($scope.items[i].tiempo)
+          });
+      
+      }
+      height = doc.drawTable(data, {
+        xstart : 0,
+        ystart : 100,
+        tablestart : 40,
+        marginright :5,
+        xOffset : 0,
+        yOffset : 20,
+        columnWidths:[0,0,0,0]
+      });
+      doc.save("tiemposFinales.pdf");
     }
-    height = doc.drawTable(data, {
-      xstart : 10,
-      ystart : 10,
-      tablestart : 10,
-      marginright :10,
-      xOffset : 0,
-      yOffset : 20,
-      columnWidths:[0,0,0,0]
-    });
-    doc.save("tiemposFinales.pdf");
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+
   }
 
     
@@ -586,6 +673,11 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
+        /*var array = [];
+        for(var i = 0; i < response.eventos.length; i++){
+          array.push(response.eventos[i]._id);
+        }
+        $scope.getEntryList(array);*/
       }
     }
    }).error( function (response) {
@@ -593,7 +685,29 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
 
-   
+$scope.getEntryList = function(array){
+      console.log(array);
+ $http({
+     url: '/eventos/atletas',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      },
+      params:{
+        eventos : array,
+        sort : true
+      }
+
+   }).success(function (response) {
+    if(response.statusCode ="200"){
+      console.log(JSON.stringify(response));
+    }
+   }).error( function (response) {
+      console.log(JSON.stringify(response))
+   });
+}
+
 $scope.deleteEvent =function(id){
   var token = $cookies.get('token');
    $http({
