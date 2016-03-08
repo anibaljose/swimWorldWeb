@@ -31,10 +31,10 @@
             <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
             </select>
          </md-input-container>
-            <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-               <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Evento" >
-               </md-datepicker>
-            </md-content>
+            <md-input-container class="md-block">
+               <i class="fa fa-text-width  iconInput"></i>
+               <input ng-model="dateBirthday" type="date" placeholder="Fecha de Nacimiento" ng-required="true" class="sytleInput">
+            </md-input-container>
 
          <md-input-container>
             <select ng-options="cat as cat.name for cat in categoria track by cat.id" ng-model="userEventCat"  style="width: 592px !important;max-width: 594px;" ng-change="eventCategory()">
