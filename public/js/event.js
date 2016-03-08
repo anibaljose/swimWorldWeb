@@ -490,7 +490,7 @@ $scope.editEventTime =function(){
       var id_tipo_Evento = $scope.id_Tipo_Evento;
       var id_atleta = '';
       for(var i = 0; i<cont; i++){
-         time = pareInt(document.getElementById("min"+$scope.items[i].atleta._id).value)*60000 
+         time = parseInt(document.getElementById("min"+$scope.items[i].atleta._id).value)*60000 
           + parseInt(document.getElementById("seg"+$scope.items[i].atleta._id).value)*1000 
           + parseInt(document.getElementById("ms"+$scope.items[i].atleta._id).value);
           id_atleta = $scope.items[i].atleta._id;
