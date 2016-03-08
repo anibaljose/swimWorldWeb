@@ -19,9 +19,9 @@
             <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
             </select>
          </md-input-container>
+                  
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-               <md-datepicker style = "margin-left: -13px !important; margin-top: 18px !important;" ng-model="dateBirthday" md-placeholder="Fecha de Nacimiento" >
-               </md-datepicker>
+                  <input ng-model="dateBirthday" type="date" placeholder="Fecha de Nacimiento" ng-required="true" class="sytleInput">
             </md-content>
          </md-content>
          <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
