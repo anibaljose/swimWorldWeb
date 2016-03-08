@@ -23,6 +23,9 @@ exports.create = {
     nombre: Joi.string().min(3).required(),
     lugar: Joi.string().min(3).required(),
     fecha: Joi.number(),
+    categoria: Joi.number(),
+    genero: Joi.number(),
+    numeroEvento: Joi.number(),
     carriles: Joi.number(),
     tipo: Joi.string().min(1),
   }
@@ -35,6 +38,9 @@ exports.save = {
     nombre: Joi.string().min(3),
     lugar: Joi.string().min(3),
     fecha: Joi.number(),
+    categoria: Joi.number(),
+    genero: Joi.number(),
+    numeroEvento: Joi.number(),
     carriles: Joi.number(),
     tipo: Joi.string().min(1),
   }
