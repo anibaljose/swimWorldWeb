@@ -170,4 +170,13 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
       icon: 'fa-times-circle'
     }
   ];
+
+   $scope.go = function(locationPage){
+      if(locationPage ==""){
+        $cookies.remove('token');
+        window.location = "#/login";
+      }else{
+        window.location = ""+locationPage;
+      }
+    }
 });
