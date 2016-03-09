@@ -330,6 +330,7 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.showSearch = false;
 
   $scope.student = [];
+  $scope.list = [];
   
 
    $http({
@@ -349,7 +350,6 @@ app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
-
 
   $scope.menu = [
     {

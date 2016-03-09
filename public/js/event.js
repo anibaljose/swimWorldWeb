@@ -726,8 +726,48 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
   $scope.showSearch = false;
   $scope.events = [];
-
+  $scope.list = [];
   
+  $scope.toggle = function (item, list) {
+    var idx = $scope.list.indexOf(item._id);
+    if (idx > -1) $scope.list.splice(idx, 1);
+    else $scope.list.push(item._id);
+  };
+  $scope.exists = function (item, list) {
+    return $scope.list.indexOf(item._id) > -1;
+  };
+
+  $scope.EliminarMasivo = function(){
+
+    var cont = $scope.list.length;
+    var id_Evento = response._id;
+    for(var i = 0; i<cont; i++){
+      $scope.deleteEvent($scope.list[i]);
+    }
+  }
+
+
+$scope.deleteEvent =function(id){
+  var token = $cookies.get('token');
+   $http({
+     url: '/eventos/'+id,
+     method: 'DELETE',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200")
+    {
+      document.getElementById("event"+id).style.display = "none";
+      $scope.showAlert("se elimino el Evento");
+    }else{
+      $scope.showAlert("No se pudo eliminar el Evento");
+    }
+   }).error( function (response) {
+      $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
+   });
+}
    $http({
      url: '/eventos',
      method: 'GET',

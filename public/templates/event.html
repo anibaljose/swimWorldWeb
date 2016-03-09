@@ -41,6 +41,9 @@
                <md-button aria-label="Search" ng-click="showSearch = !showSearch">
                   <i class="fa fa-search fa-2x"></i>  Buscar
                </md-button>
+            <md-button aria-label="Search" ng-click="EliminarMasivo()">
+               <i class="fa fa-minus-circle fa-2x"></i>  Eliminar
+            </md-button>
             </div>
             <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
                <md-tab id="tab1" aria-controls="tab1-content">
@@ -84,6 +87,9 @@
                                           <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
                                           <div >{{item.lugar}}</div>
                                           <div >{{item.numeroEvento}}</div>
+
+                                          <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
+                                          </md-checkbox>
                                           <div>
                                              <md-button class="btn1" ng-click="showEditAdvance(item)">Editar</md-button>
                                              <md-button class="btn1" ng-click="showEditTimeAdvance(item)">Editar Tiempos</md-button>
