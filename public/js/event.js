@@ -200,8 +200,8 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
     {_id: 1,nombre : "Masculino" },
     {_id: 2,nombre : "Femenino" }
   ];
-  $scope.userEventCat = $scope.categoria[$scope.Nocategoria];
-  $scope.userGenderE = $scope.generos[$scope.Nogenero];
+  $scope.userEventCat = $scope.categoria[$scope.Nocategoria-1];
+  $scope.userGenderE = $scope.generos[$scope.Nogenero-1];
   $http({
      url: '/atletas',
      method: 'GET',
