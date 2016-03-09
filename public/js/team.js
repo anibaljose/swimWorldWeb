@@ -15,6 +15,7 @@ app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
          }
        }).success(function (response) {
         if(response.statusCode = "200"){
+          $scope.user.name = '';
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
         }else{

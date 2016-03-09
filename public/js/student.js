@@ -69,7 +69,6 @@ $scope.createStudent =function(){
           $scope.message = "No se pudo crear el Atleta"; 
         }
        }).error( function (response) {
-          console.log(JSON.stringify(response));
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
        });
@@ -112,7 +111,6 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.team = response.equipos;
@@ -136,8 +134,6 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
    
 
 $scope.studentEdit =function(){
-  console.log($scope.userGenderE);
-  console.log($scope.userTeam);
   if($scope.fisrtName != ''  && $scope.lastName != '' &&
     $scope.dateBirthday != '' && $scope.userGenderE != ''&&
     $scope.userTeam != ''){
@@ -186,6 +182,17 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
   $scope.generos = [];
   $scope.userTeam = '';
   $scope.userGender = '';
+  $scope.events = [];
+  $scope.eventMod = [];
+  $scope.list = [];
+  $scope.categoria = [{id:1,name:"BEBES",min:0,max:4},
+  {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
+  {id:4,name:"INFANTIL A",min:9,max:10},{id:5,name:"INFANTIL B",min:11,max:12},
+  {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
+  {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
+  {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
+  {id:14,name:"Agua Triner",min:19,max:99}]
 
    $scope.user = {
       fisrtName   : '',
@@ -197,10 +204,6 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
      location.reload();
     $mdDialog.cancel();
   };
-  $scope.generos = [
-    {_id: 1,nombre : "Masculino" },
-    {_id: 2,nombre : "Femenino" }
-  ];
 
    $http({
      url: '/equipos',
@@ -210,7 +213,6 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.team = response.equipos;
@@ -229,9 +231,94 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
    }).error( function (response) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   }); 
+
+   $scope.ver = function(){
+  
+   $http({
+     url: '/eventos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      console.log(JSON.stringify(response));
+      if(response.eventos){
+        $scope.events = response.eventos;
+        var cont = $scope.events.length;
+        for(var i=0; i < cont; i++){
+
+          var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
+          var edad = parseInt(fecha/31556900000);
+          console.log(edad);
+          var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
+          console.log(rango.min);
+          console.log(rango.max);
+          if(edad >= rango.min   && edad <= rango.max){
+            $scope.ingresarDato($scope.events[i]);
+          }
+        }
+      }
+    }
+   }).error( function (response) {
    });
 
+   }
   
+  $scope.ingresarDato = function(item){
+    $http({
+     url: '/tipo/'+item.tipo,
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200")
+    {
+      $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo});
+      
+    }
+   }).error( function (response) {
+   });
+  }
+
+  $scope.add = function(item){
+    var cont = $scope.list.length;
+    var id_Atleta = $scope.id;
+    for(var i = 0; i<cont; i++){
+      $http({
+         url: '/atleta/'+id_Atleta+'/evento/'+$scope.list[i]+'/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+$cookies.get('token')
+          },
+           data: {      
+             hit     : 0,
+             tiempo  : 0,
+             carril: 0
+           }
+       }).success(function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "se agrego los eventos correctamente"; 
+       }).error( function (response) {
+          $scope.showMessage = "true";  
+          $scope.message = "NO se agrego los eventos correctamente"; 
+       });
+  }
+}
+
+  $scope.toggle = function (item, list) {
+    var idx = $scope.list.indexOf(item.id);
+    if (idx > -1) $scope.list.splice(idx, 1);
+    else $scope.list.push(item.id);
+  };
+  $scope.exists = function (item, list) {
+    return $scope.list.indexOf(item.id) > -1;
+  };
 
 
 });
@@ -461,7 +548,6 @@ function EditController($scope, $mdDialog,item) {
   $scope.dateBirthday = new Date(item.nacimiento)
   $scope.equipo = item.equipo;
   $scope.userGenderE = '';
-  console.log(item);
   if(item.genero = 1){
     $scope.userGenderE = {_id: 1,nombre : "Masculino" };
   }else{

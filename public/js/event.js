@@ -71,7 +71,6 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
    });
 
 $scope.eventCategory = function(){
-    console.log(JSON.stringify($scope.userEventCat));
   $http({
      url: '/atletas',
      method: 'GET',
@@ -90,7 +89,6 @@ $scope.eventCategory = function(){
       }
     }
    }).error( function (response) {
-    console.log(JSON.stringify(response));
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
@@ -121,7 +119,10 @@ $scope.createEvent =function(){
        }).success(function (response) {
         
         if(response.statusCode = "200"){
-          console.log(JSON.stringify(response));
+          $scope.nameEvent = "";
+          $scope.fromEvent = "";
+          $scope.carril = 0;
+          $scope.orden = 0;
           var cont = $scope.list.length;
           var id_Evento = response._id;
           for(var i = 0; i<cont; i++){
@@ -141,8 +142,7 @@ $scope.createEvent =function(){
              }).error( function (response) {
              });
           }
-          $scope.showMessage = "true";  
-          $scope.message = "Evento creado"; 
+          $scope.showMeene = "Evento creado"; 
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el Evento"; 
@@ -230,7 +230,6 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
       }
    }).success(function (response) {
     if(response.statusCode = "200"){
-      console.log(JSON.stringify(response));
       $scope.nameEvent = response.evento.nombre;
       $scope.fromEvent = response.evento.lugar;
       $scope.carril = response.evento.carriles;
@@ -428,11 +427,9 @@ app.controller('addEventEditTimeCtrl', function($scope,$mdDialog,$http,$cookies)
         'Authorization': 'Bearer '+token
       }
    }).success(function (response) {
-        console.log(JSON.stringify(response));
       if(response.statusCode = "200"){
       }
    }).error( function (response) {
-        console.log(JSON.stringify(response));
    });
 
 
@@ -581,9 +578,6 @@ $scope.editTiempos = function(){
           + parseInt(document.getElementById("ms"+$scope.items[i].atleta._id).value);
           id_atleta = $scope.items[i].atleta._id;
 
-          console.log(id_atleta);
-          console.log(id_tipo_Evento);
-          console.log(time);
          $http({
            url: '/tiempos/save',
            method: 'POST',
@@ -597,7 +591,6 @@ $scope.editTiempos = function(){
               tiempo: time
              }
          }).success(function (response) {
-          console.log(JSON.stringify(response));
             if(response.statusCode = "200"){
               $scope.showMessage = "true";  
               $scope.message = "edicion exitosa"; 
@@ -662,7 +655,6 @@ app.controller('addEvenViewTimeCtrl', function($scope,$mdDialog,$http,$cookies) 
       }
 
    }).success(function (response) {
-    console.log(JSON.stringify(response));
     if(response.statusCode ="200"){
       nombreTipoEvento = response.tipo.nombre;
       var data = [], fontSize = 8, height = 0, doc;
@@ -757,7 +749,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
    });
 
 $scope.getEntryList = function(array){
-      console.log(array);
  $http({
      url: '/eventos/atletas',
      method: 'GET',
@@ -1022,7 +1013,6 @@ function EditControllers($scope, $mdDialog,item) {
 }
 
 function EditTimeControllers($scope, $mdDialog,item) { 
-  console.log(JSON.stringify(item));
   $scope.nombre = item.nombre;
   $scope.id_Evento = item._id;
   $scope.id_Tipo_Evento = item.tipo;
