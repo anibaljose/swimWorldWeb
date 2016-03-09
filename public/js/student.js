@@ -256,7 +256,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
           console.log(rango.min);
           console.log(rango.max);
-          if(edad >= rango.min   && edad <= rango.max && $scope.events[i].genero = $scope.userGenderE){
+          if(edad >= rango.min   && edad <= rango.max && $scope.events[i].genero == $scope.userGenderE){
             $scope.ingresarDato($scope.events[i]);
           }
         }
