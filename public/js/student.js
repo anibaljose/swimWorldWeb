@@ -261,15 +261,12 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
           var edad = parseInt(fecha/31556900000);
           console.log(edad);
+          console.log(parseInt($scope.events[i].categoria)-1);
           var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
-          console.log($scope.events[i].genero);
-          console.log($scope.userGenderE);
+
           var gen = 1;
-          if($scope.userGenderE = "Masculino"){
-            gen = 1;
-          }else{
-            gen = 2;
-          }
+          console.log(rango.min );
+          console.log(rango.max );
           if(edad >= rango.min   && edad <= rango.max){
             $scope.ingresarDato($scope.events[i]);
           }
@@ -282,6 +279,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
    }
   
   $scope.ingresarDato = function(item){
+    console.log(JSON.stringify(item));
     $http({
      url: '/tipo/'+item.tipo,
      method: 'GET',
@@ -290,12 +288,13 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
+    console.log(JSON.stringify(response));
     if(response.statusCode = "200")
     {
         $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Masculino"});
-      
     }
    }).error( function (response) {
+    console.log(JSON.stringify(response));
    });
   }
 
