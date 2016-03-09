@@ -85,9 +85,6 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   }
   $scope.team = [];
   $scope.generos = [];
-  $scope.userTeam = '';
-  $scope.userGender = '';
-
    $scope.user = {
       fisrtName   : '',
       lastName   : '',
@@ -103,13 +100,8 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
     {_id: 2,nombre : "Femenino" }
   ];
 
+  $scope.userGenderE = $scope.generos[$scope.gen-1]; 
 
-
-  if($scope.gen = 1){
-    $scope.userGenderE = {_id: 1,nombre : "Masculino" };
-  }else{
-    $scope.userGenderE = {_id: 2,nombre : "Femenino" };
-  }
    $http({
      url: '/equipos',
      method: 'GET',
@@ -209,11 +201,12 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
       dateBirthday : ''
    };
 
-  if($scope.gen = 1){
-    $scope.userGenderE =  "Masculino" 
-  }else{
-    $scope.userGenderE =  "Femenino" 
-  }
+  $scope.generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+
+  $scope.userGenderE = $scope.generos[$scope.gen-1].nombre; 
 
   $scope.cancel = function() {
      location.reload();
