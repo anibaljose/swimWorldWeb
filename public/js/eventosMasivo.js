@@ -171,6 +171,17 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
     }
   ];
 
+    $scope.openSideNavPanel = function() {
+        $mdSidenav('left').open();
+    };
+
+    $scope.closeSideNavPanel = function() {
+        $mdSidenav('left').close();
+    };
+
+    $scope.toggleSidenav = function(menuId) {
+      $mdSidenav(menuId).toggle();
+    };
    $scope.go = function(locationPage){
       if(locationPage ==""){
         $cookies.remove('token');
