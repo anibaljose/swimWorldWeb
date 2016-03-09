@@ -19,7 +19,7 @@ app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProv
       when('/team', {
         templateUrl: '../templates/team.html'
       }).
-      when('/masivo', {
+      when('/Masivo', {
         templateUrl: '../templates/eventosMasivo.html'
       }).
       otherwise({

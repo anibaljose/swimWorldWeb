@@ -139,5 +139,36 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.message = "Por favor, complete el formulario"; 
     }
 }
-
+ $scope.menu = [
+    {
+      link : '#/student',
+      title: 'Atleta',
+      icon: 'fa-male'
+    },
+    {
+      link : '#/team',
+      title: 'Equipo',
+      icon: 'fa-briefcase'
+    },
+    {
+      link : '#/eventType',
+      title: 'Tipo Evento',
+      icon: 'fa-get-pocket'
+    },
+    {
+      link : '#/event',
+      title: 'Evento',
+      icon: 'fa-star'
+    },
+    {
+      link : '#/Masivo',
+      title: 'Evento Masivo',
+      icon: 'fa-star'
+    },
+    {
+      link : '',
+      title: 'Cerrar Sesion',
+      icon: 'fa-times-circle'
+    }
+  ];
 });
