@@ -291,7 +291,11 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
     console.log(JSON.stringify(response));
     if(response.statusCode = "200")
     {
-        $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Masculino"});
+        if(item.genero=="1"){
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Masculino"});
+        }else{
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Femenino"});
+        }
     }
    }).error( function (response) {
     console.log(JSON.stringify(response));
