@@ -740,7 +740,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   $scope.EliminarMasivo = function(){
 
     var cont = $scope.list.length;
-    var id_Evento = response._id;
     for(var i = 0; i<cont; i++){
       $scope.deleteEvent($scope.list[i]);
     }
