@@ -176,6 +176,63 @@ $scope.studentEdit =function(){
 
 
 });
+app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies) {
+  if(!$cookies.get('token')){
+    window.location = "#/login";
+  }
+  $scope.team = [];
+  $scope.generos = [];
+  $scope.userTeam = '';
+  $scope.userGender = '';
+
+   $scope.user = {
+      fisrtName   : '',
+      lastName   : '',
+      dateBirthday : ''
+   };
+
+  $scope.cancel = function() {
+     location.reload();
+    $mdDialog.cancel();
+  };
+  $scope.generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+
+   $http({
+     url: '/equipos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    console.log(JSON.stringify(response));
+    if(response.statusCode = "200"){
+      if(response.equipos){
+        $scope.team = response.equipos;
+      } 
+      var cont = $scope.team.length;
+      var bandera = true;
+      for(var i= 0; i< cont && bandera; i++){
+        if($scope.team[i]._id == $scope.equipo){
+          bandera=false;
+          $scope.userTeam = $scope.team[i];
+        }
+      }
+      
+      //$scope.team._id = item.equipo;
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
+  
+
+
+});
 app.controller('addStudentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
@@ -316,6 +373,29 @@ $scope.enable =function(id){
     });
 
   };
+  $scope.AsignarEventos = function(item) {
+
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      templateUrl : '../templates/studentAsignar.tmpl.html',
+      controller  : AsignarController,
+      parent      : angular.element(document.body),
+      clickOutsideToClose:true,
+      fullscreen  : useFullScreen,
+      locals: {item:item}
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+
+  };
     $scope.showMobileMainHeader = true;
  
     $scope.openSideNavPanel = function() {
@@ -384,6 +464,24 @@ function EditController($scope, $mdDialog,item) {
     $scope.userGenderE = {_id: 1,nombre : "Masculino" };
   }else{
     $scope.userGenderE = {_id: 2,nombre : "Femenino" };
+  }
+  $scope.id = item._id;
+
+
+}
+
+
+function AsignarController($scope, $mdDialog,item) { 
+  $scope.fisrtName = item.nombre;
+  $scope.lastName = item.apellido;
+  $scope.dateBirthday = new Date(item.nacimiento)
+  $scope.equipo = item.equipo;
+  $scope.userGenderE = '';
+
+  if(item.genero = 1){
+    $scope.userGenderE = "Masculino" ;
+  }else{
+    $scope.userGenderE = "Femenino" ;
   }
   $scope.id = item._id;
 
