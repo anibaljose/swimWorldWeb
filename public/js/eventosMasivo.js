@@ -101,8 +101,7 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.createEvent =function(noOrden, genero, tipoEvento,categoria){
   var token = $cookies.get('token');
     if($scope.nameEvent != '' && $scope.fromEvent != '' 
-      && $scope.carril != '' && $scope.userEvent != ''
-      && $scope.dateBirthday )
+      && $scope.carril != '' && $scope.dateBirthday )
     {
        $http({
          url: '/eventos/create',
