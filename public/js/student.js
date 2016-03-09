@@ -104,12 +104,12 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   ];
 
 
-  if($scope.gene = 1){
-    $scope.userGenderE = "Masculino" ;
-  }else{
-    $scope.userGenderE = "Femenino" ;
-  }
 
+  if($scope.gen = 1){
+    $scope.userGenderE = {_id: 1,nombre : "Masculino" };
+  }else{
+    $scope.userGenderE = {_id: 2,nombre : "Femenino" };
+  }
    $http({
      url: '/equipos',
      method: 'GET',
@@ -208,6 +208,12 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
       lastName   : '',
       dateBirthday : ''
    };
+
+  if($scope.gen = 1){
+    $scope.userGenderE =  "Masculino" 
+  }else{
+    $scope.userGenderE =  "Femenino" 
+  }
 
   $scope.cancel = function() {
      location.reload();
@@ -568,11 +574,8 @@ function EditController($scope, $mdDialog,item) {
   $scope.dateBirthday = new Date(item.nacimiento)
   $scope.equipo = item.equipo;
   $scope.userGenderE = '';
-  if(item.genero = 1){
-    $scope.userGenderE = {_id: 1,nombre : "Masculino" };
-  }else{
-    $scope.userGenderE = {_id: 2,nombre : "Femenino" };
-  }
+  console.log("genero: "+item.genero);
+  $scope.gen = item.genero ;
   $scope.id = item._id;
 
 
@@ -585,7 +588,8 @@ function AsignarController($scope, $mdDialog,item) {
   $scope.dateBirthday = new Date(item.nacimiento)
   $scope.equipo = item.equipo;
   $scope.userGenderE = '';
-  $scope.gene = item.genero;
+  console.log("genero: "+item.genero);
+  $scope.gen = item.genero ;
   $scope.id = item._id;
 
 
