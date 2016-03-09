@@ -65,7 +65,7 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.toggleTwo = function (item, list) {
     var idx = $scope.listTwo.indexOf(item._id);
     if (idx > -1) $scope.listTwo.splice(idx, 1);
-    else $scope.lisTwot.push(item._id);
+    else $scope.listTwo.push(item._id);
   };
   $scope.existsTwo = function (item, list) {
     return $scope.listTwo.indexOf(item._id) > -1;
