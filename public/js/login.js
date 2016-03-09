@@ -7,8 +7,8 @@ app.controller('LoginCtrl', function($scope,$cookies,$q,$http) {
    $scope.message = "";
    $scope.showMessage = "false";
    $scope.user = {
-      mail   : 'dvd',
-      password: 'dvddvd'
+      mail   : '',
+      password: ''
    };
 
    $scope.LogIn = function() {

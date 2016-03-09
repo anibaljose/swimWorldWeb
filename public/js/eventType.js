@@ -24,6 +24,7 @@ $scope.createEventType =function(){
        }).success(function (response) {
         
         if(response.statusCode = "200"){
+          $scope.user.name = "";
           $scope.showMessage = "true";  
           $scope.message = "Tipo evento creado"; 
         }else{
