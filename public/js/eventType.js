@@ -134,6 +134,11 @@ app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedi
       icon: 'fa-star'
     },
     {
+      link : '#/Masivo',
+      title: 'Evento Masivo',
+      icon: 'fa-star'
+    },
+    {
       link : '',
       title: 'Cerrar Sesion',
       icon: 'fa-times-circle'

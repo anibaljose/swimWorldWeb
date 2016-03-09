@@ -121,7 +121,8 @@ $scope.createEvent =function(){
        }).success(function (response) {
         
         if(response.statusCode = "200"){
-          console.log(JSON.stringify(response));
+          $scope.showMessage = "true";  
+          $scope.message = "Evento creado"; 
           var cont = $scope.list.length;
           var id_Evento = response._id;
           for(var i = 0; i<cont; i++){
@@ -819,6 +820,11 @@ $scope.deleteEvent =function(id){
     {
       link : '#/event',
       title: 'Evento',
+      icon: 'fa-star'
+    },
+    {
+      link : '#/Masivo',
+      title: 'Evento Masivo',
       icon: 'fa-star'
     },
     {
