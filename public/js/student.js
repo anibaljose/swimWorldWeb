@@ -62,6 +62,8 @@ $scope.createStudent =function(){
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
           $scope.message = "Atleta creado"; 
+          $scope.fisrtName = ''  
+          $scope.lastName = '';
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el Atleta"; 
