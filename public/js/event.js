@@ -774,18 +774,40 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
         console.log(JSON.stringify(response))
      });
 
-  items = [{
-    name: "John Smith",
-    email: "j.smith@example.com",
-    dob: "1985-10-10"
-  }, {
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    dob: "1988-12-22"
-  }];
-  
-        alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',
-          [response.atletas]);
+
+       $scope.student = [];
+       $http({
+         url: '/atletas/',
+         method: 'GET',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+$cookies.get('token')
+          }
+       }).success(function (response) {
+        if(response.statusCode = "200"){
+          if(response.atletas){
+            var cont = response.atletas.length;
+            for(int i = 0; i< cont; i++){
+              $scope.student.push(response.atletas._id);
+            }
+          }
+        }
+       }).error( function (response) {
+       });
+
+
+//
+      items = [{
+        name: "John Smith",
+        email: "j.smith@example.com",
+        dob: "1985-10-10"
+      }, {
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        dob: "1988-12-22"
+      }];
+      alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',
+          [items]);
 }
 
 $scope.nombreCategoria = function(_id){
