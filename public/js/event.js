@@ -790,8 +790,8 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             $scope.EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
-            console.log(JSON.stringify(response.atletas[i]));
-              var idx = $scope.student.indexOf(response.atletas[i].atleta._id);
+            console.log(JSON.stringify(response.atletas[j]));
+              var idx = $scope.student.indexOf(response.atletas[j].atleta._id);
               if ($scope.EntryFinal[idx].eventos){
                 $scope.EntryFinal[idx].eventos.push({"nombre":nombre,"tipo":tipo});
               }else{
