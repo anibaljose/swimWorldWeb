@@ -800,6 +800,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                 $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:"eventos"};
               }
             }
+              console.log("FINAL: "+JSON.stringify($scope.EntryFinal));
           }
          }).error( function (response) {
             console.log(JSON.stringify(response));
@@ -810,7 +811,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
      }).error( function (response) {
      });
 
-    console.log(JSON.stringify($scope.EntryFinal));
       items = [{
         name: "John Smith",
         email: "j.smith@example.com",
