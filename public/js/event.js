@@ -787,7 +787,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
           if(response.statusCode ="200"){
             console.log(JSON.stringify(response));
             var contEntry = response.atletas.length;
-            EntryFinal = new Array(contAtletas);
+            $scope.EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
               console.log("contEntry: "+contEntry);
@@ -848,7 +848,7 @@ $scope.setEntry = function(eventoArray, i){
                if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
                else tiempoE = eventoArray.tiempo;
 
-               if ($scope.EntryFinal[idx].eventos != null){
+               if ($scope.EntryFinal[idx]){
                  $scope.EntryFinal[idx].eventos.push(
                   {tipo:responseTipo.tipo.nombre ,tiempo:eventoArray.evento});
                 }else{
