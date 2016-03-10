@@ -270,7 +270,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           if( $scope.userGenderE = "Masculino"){
             gen = 1;
           }else{
-            gen = 1;
+            gen = 2;
           }
           if(edad >= rango.min   && edad <= rango.max && gen == $scope.events[i].genero){
             $scope.ingresarDato($scope.events[i]);
