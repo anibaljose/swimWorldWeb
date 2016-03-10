@@ -791,7 +791,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
-              eventoArray = response.atletas[j].atleta;
+              eventoArray = response.atletas[j];
               var idx = student.indexOf(eventoArray.atleta._id);
               /**traer info de evento*/
               $http({
