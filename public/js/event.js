@@ -726,7 +726,8 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
   $scope.showSearch = false;
   $scope.events = [];
-  $scope.list = [];;
+  $scope.list = [];
+  $scope.orden = 0;
 
   
   $scope.toggle = function (item, list) {
@@ -747,7 +748,8 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
 
   $scope.ordenar = function(){
-    contOrden = 0;
+    console.log($scope.orden);
+    conteo = parseInt($scope.orden);
   }
 
   $scope.EntryList = function(){
