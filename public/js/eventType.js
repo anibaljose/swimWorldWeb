@@ -159,7 +159,7 @@ $scope.deleteEventType =function(id){
     if(response.statusCode = "200")
     {
       document.getElementById("eventType"+id).style.display = "none";
-      $scope.showAlert("se elimino el tipo de Evento");
+      //$scope.showAlert("se elimino el tipo de Evento");
     }else{
       $scope.showAlert("No se pudo eliminar el tipo de Evento");
     }

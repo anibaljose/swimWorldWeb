@@ -746,6 +746,40 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
     }
   }
 
+  $scope.EntryList = function(){
+    
+   $http({
+       url: '/eventos/atletas',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        },
+        params:{
+          eventos : $scope.list,
+          sort : true
+        }
+
+     }).success(function (response) {
+      if(response.statusCode ="200"){
+        console.log(JSON.stringify(response));
+alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',[response.atletas]);
+      }
+     }).error( function (response) {
+        console.log(JSON.stringify(response))
+     });
+
+  items = [{
+    name: "John Smith",
+    email: "j.smith@example.com",
+    dob: "1985-10-10"
+  }, {
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    dob: "1988-12-22"
+  }];
+}
+
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
   {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
@@ -800,7 +834,7 @@ $scope.deleteEvent =function(id){
     if(response.statusCode = "200")
     {
       document.getElementById("event"+id).style.display = "none";
-      $scope.showAlert("se elimino el Evento");
+      //$scope.showAlert("se elimino el Evento");
     }else{
       $scope.showAlert("No se pudo eliminar el Evento");
     }
@@ -819,11 +853,6 @@ $scope.deleteEvent =function(id){
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
-        /*var array = [];
-        for(var i = 0; i < response.eventos.length; i++){
-          array.push(response.eventos[i]._id);
-        }
-        $scope.getEntryList(array);*/
       }
     }
    }).error( function (response) {
@@ -831,27 +860,7 @@ $scope.deleteEvent =function(id){
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
    });
 
-$scope.getEntryList = function(array){
- $http({
-     url: '/eventos/atletas',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      },
-      params:{
-        eventos : array,
-        sort : true
-      }
 
-   }).success(function (response) {
-    if(response.statusCode ="200"){
-      console.log(JSON.stringify(response));
-    }
-   }).error( function (response) {
-      console.log(JSON.stringify(response))
-   });
-}
 
 $scope.deleteEvent =function(id){
   var token = $cookies.get('token');
@@ -866,7 +875,7 @@ $scope.deleteEvent =function(id){
     if(response.statusCode = "200")
     {
       document.getElementById("event"+id).style.display = "none";
-      $scope.showAlert("se elimino el Evento");
+      //$scope.showAlert("se elimino el Evento");
     }else{
       $scope.showAlert("No se pudo eliminar el Evento");
     }

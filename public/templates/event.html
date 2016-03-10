@@ -44,6 +44,9 @@
             <md-button aria-label="Search" ng-click="EliminarMasivo()">
                <i class="fa fa-minus-circle fa-2x"></i>  Eliminar
             </md-button>
+            <md-button aria-label="Search" ng-click="EntryList()">
+               <i class="fa fa-file fa-2x"></i>  Entry List
+            </md-button>
             </div>
             <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
                <md-tab id="tab1" aria-controls="tab1-content">
@@ -75,7 +78,7 @@
                      ng-switch-when="0"
                      md-swipe-left="next()"
                      md-swipe-right="previous()"
-                     layout="row" layout-align="center center">
+                     layout="row" layout-align="center center" id = "tab">
                      <md-card flex-gt-sm="90" flex-gt-md="80">
                         <md-card-content>
                            <md-list>
