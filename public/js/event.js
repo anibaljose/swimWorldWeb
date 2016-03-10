@@ -848,7 +848,7 @@ $scope.setEntry = function(eventoArray, i){
                if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
                else tiempoE = eventoArray.tiempo;
 
-               if ($scope.EntryFinal[idx]){
+               if ($scope.EntryFinal[idx].eventos != null){
                  $scope.EntryFinal[idx].eventos.push(
                   {tipo:responseTipo.tipo.nombre ,tiempo:eventoArray.evento});
                 }else{
