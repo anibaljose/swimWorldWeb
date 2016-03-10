@@ -793,11 +793,11 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             console.log(JSON.stringify(response.atletas[j]));
               var idx = $scope.student.indexOf(response.atletas[j].atleta._id);
               if ($scope.EntryFinal[idx]){
-                $scope.EntryFinal[idx].eventos.push({"nombre":nombre,"tipo":tipo});
+                $scope.EntryFinal[idx].eventos.push({nombre:"nombre",tipo:"tipo"});
               }else{
                 var eventos = [];
                 eventos.push({"nombre":nombre,"tipo":tipo});
-                $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:eventos};
+                $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:"eventos"};
               }
             }
           }
