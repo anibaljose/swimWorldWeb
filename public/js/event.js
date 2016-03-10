@@ -793,7 +793,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
               console.log("contEntry: "+contEntry);
               eventoArray = response.atletas[j];
               var idx = $scope.student.indexOf(eventoArray.atleta._id);
-              $scope.setEntry(eventoArray,i);
+              $scope.setEntry(eventoArray,idx);
             }
 
           }
