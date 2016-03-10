@@ -792,7 +792,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
 
             for(var j = 0; j <contEntry; j++){
               eventoArray = response.atletas[j].atleta;
-              var idx = student.indexOf(eventoArray.atleta.id);
+              var idx = student.indexOf(eventoArray.atleta._id);
               /**traer info de evento*/
               $http({
                  url: '/eventos/'+eventoArray.evento,
