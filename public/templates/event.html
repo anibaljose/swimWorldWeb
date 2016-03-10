@@ -41,6 +41,15 @@
                <md-button aria-label="Search" ng-click="showSearch = !showSearch">
                   <i class="fa fa-search fa-2x"></i>  Buscar
                </md-button>
+            <md-button aria-label="Search" ng-click="EliminarMasivo()">
+               <i class="fa fa-minus-circle fa-2x"></i>  Eliminar
+            </md-button>
+            <md-button aria-label="Search" ng-click="EntryList()">
+               <i class="fa fa-file fa-2x"></i>  Entry List
+            </md-button>
+            <md-button aria-label="Search" ng-click="ordenar()">
+               <i class="fa fa-file fa-2x"></i>  reiniciar orden
+            </md-button>
             </div>
             <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
                <md-tab id="tab1" aria-controls="tab1-content">
@@ -72,7 +81,7 @@
                      ng-switch-when="0"
                      md-swipe-left="next()"
                      md-swipe-right="previous()"
-                     layout="row" layout-align="center center">
+                     layout="row" layout-align="center center" id = "tab">
                      <md-card flex-gt-sm="90" flex-gt-md="80">
                         <md-card-content>
                            <md-list>
@@ -81,8 +90,14 @@
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
 
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
-                                          <div >{{item.lugar}}</div>
+                                          <span style="font-size: 14px; font-weight: bolder;">Nombre: </span> {{item.nombre}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Lugar: </span> {{item.lugar}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Categoria: </span> {{nombreCategoria(item.categoria)}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Genero: </span>{{nombreGenero(item.genero)}}
+                                          <span style="font-size: 14px; font-weight: bolder;">No: </span>{{item.numeroEvento}}
+
+                                          <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
+                                          </md-checkbox>
                                           <div>
                                              <md-button class="btn1" ng-click="showEditAdvance(item)">Editar</md-button>
                                              <md-button class="btn1" ng-click="showEditTimeAdvance(item)">Editar Tiempos</md-button>

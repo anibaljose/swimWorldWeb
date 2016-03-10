@@ -1,0 +1,45 @@
+<div ng-controller="addStudentAsignarCtrl">
+<md-content flex layout-padding  >
+   <md-card>
+      <md-card-content>
+         <md-content class="autoScroll"  >
+               <md-input-container class="md-block">
+                  <i class="fa fa-text-width  iconInput"></i>
+                  <input ng-model="fisrtName" type="text" placeholder="Nombre" ng-required="true" class="sytleInput" disabled>
+               </md-input-container>
+         <md-input-container class="md-block">
+         <input ng-model="userGenderE" type="text" placeholder="Genero" ng-required="true" class="sytleInput" disabled>
+         </md-content>
+
+         <md-input-container class="md-block">
+            <i class="fa fa-text-width  iconInput"></i>
+            <input ng-model="dateBirthday" type="date" placeholder="Fecha de Nacimiento" ng-required="true" class="sytleInput" disabled>
+         </md-input-container>
+         <div flex="50" flex-gt-sm="50" layout="column">
+            <div>
+               <fieldset class="standard" >
+                  <legend> <code>Evento</code> <code></co></legend>
+               <md-input-container md-theme="input" flex>
+                  <label>&nbsp;</label>
+                  Busque de evento:
+                  <input style ="margin-top: 22px !important;" ng-model="search.tipo_evento" placeholder="Escriba el tipo evento">
+               </md-input-container>
+                  <div layout="row" layout-wrap flex>
+                     <div flex="5"  ng-repeat="item in eventMod | filter:search" style="padding-right: 30%;">
+                        <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
+                           {{ item.nombre }} <span style = "color:red;">-{{ item.tipo_evento }} - </span>{{item.genero}} - <span style = "color:red;"> {{ item.categoria }}<span ng-if="exists(item, selected)"></span>
+                        </md-checkbox>
+                     </div>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
+
+         <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
+         <md-button class="btnAdd" ng-click="ver()" >Eventos</md-button>
+         <md-button class="btnAdd" ng-click="add()" >Asignar Eventos</md-button>
+         <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
+      </md-card-content>
+   </md-card>
+</md-content>
+</div>

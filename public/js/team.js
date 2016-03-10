@@ -15,6 +15,7 @@ app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
          }
        }).success(function (response) {
         if(response.statusCode = "200"){
+          $scope.user.name = '';
           $scope.showMessage = "true";  
           $scope.message = "Equipo creado"; 
         }else{
@@ -128,6 +129,11 @@ app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$md
       icon: 'fa-star'
     },
     {
+      link : '#/Masivo',
+      title: 'Evento Masivo',
+      icon: 'fa-star'
+    },
+    {
       link : '',
       title: 'Cerrar Sesion',
       icon: 'fa-times-circle'
@@ -150,7 +156,7 @@ $scope.deleteTeam =function(id){
       if(response.statusCode = "200")
       {
         document.getElementById("team"+id).style.display = "none";
-        $scope.showAlert("se eliminino el equipo");
+        //$scope.showAlert("se eliminino el equipo");
       }else{
         $scope.showAlert("No se pudo eliminar de baja al Atleta");
       }

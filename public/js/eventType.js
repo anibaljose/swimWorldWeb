@@ -24,6 +24,7 @@ $scope.createEventType =function(){
        }).success(function (response) {
         
         if(response.statusCode = "200"){
+          $scope.user.name = "";
           $scope.showMessage = "true";  
           $scope.message = "Tipo evento creado"; 
         }else{
@@ -134,6 +135,11 @@ app.controller('addEventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedi
       icon: 'fa-star'
     },
     {
+      link : '#/Masivo',
+      title: 'Evento Masivo',
+      icon: 'fa-star'
+    },
+    {
       link : '',
       title: 'Cerrar Sesion',
       icon: 'fa-times-circle'
@@ -153,7 +159,7 @@ $scope.deleteEventType =function(id){
     if(response.statusCode = "200")
     {
       document.getElementById("eventType"+id).style.display = "none";
-      $scope.showAlert("se elimino el tipo de Evento");
+      //$scope.showAlert("se elimino el tipo de Evento");
     }else{
       $scope.showAlert("No se pudo eliminar el tipo de Evento");
     }

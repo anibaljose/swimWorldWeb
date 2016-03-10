@@ -1,8 +1,10 @@
 
 var app = angular.module('swimAPP', ['ngMaterial','ngCookies','ngRoute']);
 
-
+var conteo = 1;
 app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProvider) {
+
+   
    $routeProvider.
       when('/login', {
         templateUrl: '../templates/login.html'
@@ -18,6 +20,9 @@ app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProv
       }).
       when('/team', {
         templateUrl: '../templates/team.html'
+      }).
+      when('/Masivo', {
+        templateUrl: '../templates/eventosMasivo.html'
       }).
       otherwise({
         redirectTo: '/login'
