@@ -792,9 +792,10 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             for(var j = 0; j <contEntry; j++){
               var idx = $scope.list.indexOf($scope.EntryFinal[j].atleta._id);
               if ($scope.EntryFinal[idx].eventos){
-                $scope.EntryFinal[idx].eventos.push{"nombre":nombre,"tipo":tipo}
+                $scope.EntryFinal[idx].eventos.push({"nombre":nombre,"tipo":tipo});
               }else{
                 var eventos = [];
+                eventos.push({"nombre":nombre,"tipo":tipo});
                 $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:eventos};
               }
             }
@@ -807,7 +808,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
       }
      }).error( function (response) {
      });
-     
+
     console.log(JSON.stringify($scope.EntryFinal));
       items = [{
         name: "John Smith",
