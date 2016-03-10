@@ -828,7 +828,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                             else tiempoE = response.atletas[j].tiempo;
                             eventos.push({tipo:responseTipo.nombre ,tiempo:tiempoE});
                             $scope.EntryFinal[idx] = 
-                            {nombre:response.atletas[j].atleta.nombre +" "response.atletas[j].atleta.apellido,
+                            {nombre:response.atletas[j].atleta.nombre +" "+response.atletas[j].atleta.apellido,
                             edad:edad};
                           }
                       }
