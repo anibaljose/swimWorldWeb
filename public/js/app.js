@@ -1,8 +1,10 @@
-
+var contOrden = 1;
 var app = angular.module('swimAPP', ['ngMaterial','ngCookies','ngRoute']);
 
 
 app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProvider) {
+
+   //$cookies.put('conteo', 1);
    $routeProvider.
       when('/login', {
         templateUrl: '../templates/login.html'

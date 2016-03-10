@@ -86,12 +86,12 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
     var cont1 =  $scope.list.length;
     var cont2 =  $scope.listTwo.length;
     var cont3 =  $scope.listThree.length;
-    var cont4 = 1;
+    //var cont4 = 1;
     for(var i = 0; i< cont1; i++){//tipo evento
       for(var j =0; j < cont2; j++){//genero
         for(var k = 0; k < cont3; k++){//categoria
-          $scope.createEvent(cont4, $scope.listTwo[j], $scope.list[i],$scope.listThree[k])
-          cont4++;
+          $scope.createEvent(contOrden, $scope.listTwo[j], $scope.list[i],$scope.listThree[k])
+          contOrden++;
         }
       } 
     }

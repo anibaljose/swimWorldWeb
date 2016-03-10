@@ -746,6 +746,10 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
     }
   }
 
+  $scope.ordenar = function(){
+    contOrden = 0;
+  }
+
   $scope.EntryList = function(){
     
    $http({
