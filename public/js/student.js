@@ -262,23 +262,23 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           var edad = parseInt(fecha/31556900000);
           var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
 
+          console.log(edad+'>='+ rango.min);
+          console.log(edad+'<='+ rango.max);
+          console.log(gen +'=='+ $scope.events[i].genero);
           var gen = 1;
           var gen = 1;
 
-          console.log(edad+'>='+ rango.min);
-          console.log(edad+'<='+ rango.max);
-          console.log(gen+ '=='+ $scope.events[i].genero);
           if( $scope.userGenderE = "Masculino"){
             gen = 1;
           }else{
             gen = 2;
           }
-          if(parseInt(edad) >= parseInt(rango.min)   && 
-            parseInt(edad) <= parseInt(rango.max) && 
-            parseInt(gen) == parseInt($scope.events[i].genero)){
+          if(parseInt(edad) >= parseInt(rango.min)   
+            && parseInt(edad) <= parseIntrango.max) 
+            && parseInt(gen) == parseInt($scope.events[i].genero){
             $scope.ingresarDato($scope.events[i]);
           }
-        
+        }
       }
     }
    }).error( function (response) {
