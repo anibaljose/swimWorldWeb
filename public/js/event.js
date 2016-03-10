@@ -791,6 +791,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
+              console.log("contEntry: "+contEntry);
               eventoArray = response.atletas[j];
               var idx = student.indexOf(eventoArray.atleta._id);
               /**traer info de evento*/
@@ -845,6 +846,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                });
               /**fin de traer info de evento*/
             }
+            
               console.log("FINAL: "+JSON.stringify(EntryFinal));
           }
          }).error( function (response) {
