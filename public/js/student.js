@@ -274,7 +274,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           }
           if(parseInt(edad) >= parseInt(rango.min)   
             && parseInt(edad) <= parseInt(rango.max) 
-            && parseInt(gen) == parseInt($scope.events[i].genero-1)){
+            && parseInt(gen) == parseInt($scope.events[i].genero)){
             $scope.ingresarDato($scope.events[i]);
           }
         }
@@ -298,11 +298,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
     console.log($scope.categoria[parseInt(item.categoria)-1]);
     if(response.statusCode = "200")
     {
-        if(parseInt(item.genero)==1){
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Masculino", categoria:$scope.categoria[parseInt(item.categoria-1)].name});
-        }else{
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Femenino", categoria:$scope.categoria[parseInt(item.categoria-1)].name});
-        }
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:$scope.generos[parseInt(item.genero-1)], categoria:$scope.categoria[parseInt(item.categoria-1)].name});
     }
    }).error( function (response) {
     console.log(JSON.stringify(response));
