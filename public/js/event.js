@@ -753,50 +753,62 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
 
   $scope.EntryList = function(){
-    
-   $http({
-       url: '/eventos/atletas',
+    $scope.student = [];
+    $scope.EntryFinal = [];
+    var contAtletas = 0;
+     $http({
+       url: '/atletas/',
        method: 'GET',
         headers : { 
           'Content-Type': 'application/json',
           'Authorization': 'Bearer '+$cookies.get('token')
-        },
-        params:{
-          eventos : $scope.list,
-          sort : true
         }
-
      }).success(function (response) {
-      if(response.statusCode ="200"){
-        console.log(JSON.stringify(response));
-      }
-     }).error( function (response) {
-        console.log(JSON.stringify(response))
-     });
-
-
-       $scope.student = [];
-       $http({
-         url: '/atletas/',
-         method: 'GET',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+$cookies.get('token')
+      if(response.statusCode = "200"){
+        if(response.atletas){
+          contAtletas = response.atletas.length;
+          for(var i = 0; i< contAtletas; i++){
+            $scope.student.push(response.atletas[i]._id);
           }
-       }).success(function (response) {
-        if(response.statusCode = "200"){
-          if(response.atletas){
-            var cont = response.atletas.length;
-            for(var i = 0; i< cont; i++){
-              $scope.student.push(response.atletas._id);
+          /**eventos en los que participan cada atleta*/
+          $http({
+           url: '/eventos/atletas',
+           method: 'GET',
+            headers : { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+$cookies.get('token')
+            },
+            params:{
+              eventos : $scope.list,
+              sort : true
+            }
+
+         }).success(function (response) {
+          if(response.statusCode ="200"){
+            console.log(JSON.stringify(response));
+            var contEntry = response.atletas.length;
+            $scope.EntryFinal = new Array(contAtletas);
+
+            for(var j = 0; j <contEntry; j++){
+              var idx = $scope.list.indexOf($scope.EntryFinal[j].atleta._id);
+              if ($scope.EntryFinal[idx].eventos){
+                $scope.EntryFinal[idx].eventos.push{"nombre":nombre,"tipo":tipo}
+              }else{
+                var eventos = [];
+                $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:eventos};
+              }
             }
           }
+         }).error( function (response) {
+            console.log(JSON.stringify(response));
+         });
+         /*fin http entry list*/
         }
-       }).error( function (response) {
-       });
-
-
-//
+      }
+     }).error( function (response) {
+     });
+     
+    console.log(JSON.stringify($scope.EntryFinal));
       items = [{
         name: "John Smith",
         email: "j.smith@example.com",
