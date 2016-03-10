@@ -267,7 +267,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
 
           var gen = 1;
 
-          if( $scope.userGenderE = "Masculino"){
+          if( $scope.userGenderE == "Masculino"){
             gen = 1;
           }else{
             gen = 2;
@@ -298,7 +298,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
     console.log($scope.categoria[parseInt(item.categoria)-1]);
     if(response.statusCode = "200")
     {
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:$scope.generos[parseInt(item.genero-1)], categoria:$scope.categoria[parseInt(item.categoria-1)].name});
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:$scope.generos[parseInt(item.genero-1)].nombre, categoria:$scope.categoria[parseInt(item.categoria-1)].name});
     }
    }).error( function (response) {
     console.log(JSON.stringify(response));
