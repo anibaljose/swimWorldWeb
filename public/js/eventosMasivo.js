@@ -90,8 +90,8 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
     for(var i = 0; i< cont1; i++){//tipo evento
       for(var j =0; j < cont2; j++){//genero
         for(var k = 0; k < cont3; k++){//categoria
-          $scope.createEvent(contOrden, $scope.listTwo[j], $scope.list[i],$scope.listThree[k])
-          contOrden++;
+          $scope.createEvent(conteo, $scope.listTwo[j], $scope.list[i],$scope.listThree[k])
+           conteo++;
         }
       } 
     }
