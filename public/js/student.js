@@ -274,8 +274,8 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
             gen = 2;
           }
           if(parseInt(edad) >= parseInt(rango.min)   
-            && parseInt(edad) <= parseIntrango.max) 
-            && parseInt(gen) == parseInt($scope.events[i].genero){
+            && parseInt(edad) <= parseInt(rango.max) 
+            && parseInt(gen) == parseInt($scope.events[i].genero)){
             $scope.ingresarDato($scope.events[i]);
           }
         }
