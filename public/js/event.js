@@ -753,8 +753,9 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
 
   $scope.EntryList = function(){
-    $scope.student = [];
-    $scope.EntryFinal = [];
+    var student = [];
+    var EntryFinal = [];
+    var eventoArray =[];
     var contAtletas = 0;
      $http({
        url: '/atletas/',
@@ -790,10 +791,11 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             $scope.EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
-              var idx = $scope.student.indexOf(response.atletas[j].atleta._id);
+              eventoArray = response.atletas[j].atleta;
+              var idx = $scope.student.indexOf(eventoArray.atleta.id);
               /**traer info de evento*/
               $http({
-                 url: '/eventos/'+response.atletas[j].evento,
+                 url: '/eventos/'+eventoArray.evento,
                  method: 'GET',
                   headers : { 
                     'Content-Type': 'application/json',
@@ -814,21 +816,21 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                       if(responseTipo.statusCode = "200")
                       {
                          var tiempoE = 0;
-                         if(parseInt(response.atletas[j].tiempo) <= 0) tiempoE = "NT";
-                         else tiempoE = response.atletas[j].tiempo;
+                         if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
+                         else tiempoE = eventoArray.tiempo;
 
-                         if ($scope.EntryFinal[idx]){
-                           $scope.EntryFinal[idx].eventos.push(
-                            {tipo:responseTipo.nombre ,tiempo:response.atletas[j].evento});
+                         if (EntryFinal[idx]){
+                           EntryFinal[idx].eventos.push(
+                            {tipo:responseTipo.tipo.nombre ,tiempo:eventoArray.evento});
                           }else{
                             var eventos = [];
-                            var edad = parseInt(new Date().getTime() - response.atletas[j].atleta.nacimiento/31556900000); 
+                            var edad = parseInt(new Date().getTime() - eventoArray.atleta.nacimiento/31556900000); 
                             var tiempoE = 0;
-                            if(parseInt(response.atletas[j].tiempo) <=0) tiempoE = "NT";
-                            else tiempoE = response.atletas[j].tiempo;
-                            eventos.push({tipo:responseTipo.nombre ,tiempo:tiempoE});
+                            if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
+                            else tiempoE = eventoArray.tiempo;
+                            eventos.push({tipo:responseTipo.tipo.nombre ,tiempo:tiempoE});
                             $scope.EntryFinal[idx] = 
-                            {nombre:response.atletas[j].atleta.nombre +" "+response.atletas[j].atleta.apellido,
+                            {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
                             edad:edad};
                           }
                       }
