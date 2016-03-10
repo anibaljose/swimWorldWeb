@@ -260,11 +260,10 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
 
           var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
           var edad = parseInt(fecha/31556900000);
+          console.log($scope.events[i].categoria);
+          console.log($scope.categoria[parseInt($scope.events[i].categoria)-1]);
           var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
 
-          console.log(edad+'>='+ rango.min);
-          console.log(edad+'<='+ rango.max);
-          console.log(gen +'=='+ $scope.events[i].genero);
           var gen = 1;
           var gen = 1;
 
