@@ -298,10 +298,10 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
     console.log($scope.categoria[parseInt(item.categoria)-1]);
     if(response.statusCode = "200")
     {
-        if(item.genero=="1"){
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Masculino", categoria:$scope.categoria[parseInt(item.categoria)-1].name});
+        if(parseInt(item.genero)==1){
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Masculino", categoria:$scope.categoria[parseInt(item.categoria-1)].name});
         }else{
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Femenino", categoria:$scope.categoria[parseInt(item.categoria)-1].name});
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Femenino", categoria:$scope.categoria[parseInt(item.categoria-1)].name});
         }
     }
    }).error( function (response) {
