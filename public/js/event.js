@@ -797,7 +797,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
               }else{
                 var eventos = [];
                 eventos.push({nombre:"nombre",tipo:"tipo"});
-                $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:"eventos"};
+                $scope.EntryFinal[idx] = {nombre:"nombre",apellido:"apellido",eventos:eventos};
               }
             }
               console.log("FINAL: "+JSON.stringify($scope.EntryFinal));
