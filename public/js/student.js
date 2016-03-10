@@ -92,7 +92,7 @@ app.controller('addStudentEditCtrl', function($scope,$mdDialog,$http,$cookies) {
    };
 
   $scope.cancel = function() {
-     location.reload();
+     //location.reload();
     $mdDialog.cancel();
   };
   $scope.generos = [
