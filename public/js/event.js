@@ -769,7 +769,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
         if(response.atletas){
           contAtletas = response.atletas.length;
           for(var i = 0; i< contAtletas; i++){
-            $scope.student.push(response.atletas[i]._id);
+            student.push(response.atletas[i]._id);
           }
           /**eventos en los que participan cada atleta*/
           $http({
