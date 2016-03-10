@@ -769,7 +769,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
      }).success(function (response) {
       if(response.statusCode ="200"){
         console.log(JSON.stringify(response));
-alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',[response.atletas]);
       }
      }).error( function (response) {
         console.log(JSON.stringify(response))
@@ -784,6 +783,9 @@ alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',[response.atletas
     email: "jane.smith@example.com",
     dob: "1988-12-22"
   }];
+  
+        alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',
+          [response.atletas]);
 }
 
 $scope.nombreCategoria = function(_id){

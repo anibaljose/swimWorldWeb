@@ -261,7 +261,7 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
           var edad = parseInt(fecha/31556900000);
           console.log($scope.events[i].categoria);
-          var contCat =parseInt($scope.events[i].categoria)-1;
+          var contCat =parseInt($scope.events[i].categoria-1);
           console.log($scope.categoria[contCat]);
           var rango = $scope.categoria[contCat]; 
 
