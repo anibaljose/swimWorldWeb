@@ -76,7 +76,6 @@ exports.atleta = function(request, reply){
 exports.create = function(request, reply){
   new db.Evento(request.payload).save(function(err, evento, numberAffected){
     if(err){
-      console.log(JSON.stringify(err));
       return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
     }
     return reply({statusCode: 200, _id: evento._id});
