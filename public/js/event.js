@@ -787,7 +787,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
         if(response.statusCode = "200"){
           if(response.atletas){
             var cont = response.atletas.length;
-            for(int i = 0; i< cont; i++){
+            for(var i = 0; i< cont; i++){
               $scope.student.push(response.atletas._id);
             }
           }
