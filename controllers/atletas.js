@@ -35,7 +35,7 @@ exports.listar = function(request, reply){
       var today = new Date();
       var edadmax = new Date(today);
       var edadmin = new Date(today);
-      edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax);
+      edadmax.setFullYear(edadmax.getFullYear() - request.query.edadmax - 1);
       edadmin.setFullYear(edadmin.getFullYear() - request.query.edadmin);
       querySelector["$and"] = [
         {nacimiento:{"$gte": edadmax.getTime()}},
