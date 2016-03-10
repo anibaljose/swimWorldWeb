@@ -800,17 +800,17 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                     'Authorization': 'Bearer '+$cookies.get('token')
                   }
                }).success(function (responseEvento) {
-                    console.log(JSON.stringify(responseEvento));
                   if(responseEvento.statusCode = "200")
                   {
                     $http({
-                     url: '/tipo/'+responseEvento.tipo,
+                     url: '/tipo/'+responseEvento.evento.tipo,
                      method: 'GET',
                       headers : { 
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer '+$cookies.get('token')
                       }
                    }).success(function (responseTipo) {
+                    console.log(JSON.stringify(responseTipo));
                       if(responseTipo.statusCode = "200")
                       {
                          var tiempoE = 0;
