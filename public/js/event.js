@@ -800,7 +800,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                     'Authorization': 'Bearer '+$cookies.get('token')
                   }
                }).success(function (responseEvento) {
-                  /**traer info tipo evento*/
+                    console.log(JSON.stringify(responseEvento));
                   if(responseEvento.statusCode = "200")
                   {
                     $http({
