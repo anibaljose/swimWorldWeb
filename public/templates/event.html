@@ -84,9 +84,11 @@
                                     <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
 
                                        <div>
-                                          <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
-                                          <div >{{item.lugar}}</div>
-                                          <div >{{item.numeroEvento}}</div>
+                                          <span style="font-size: 14px; font-weight: bolder;">Nombre: </span> {{item.nombre}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Lugar: </span> {{item.lugar}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Categoria: </span> {{nombreCategoria(item.categoria)}}
+                                          <span style="font-size: 14px; font-weight: bolder;">Genero: </span>{{nombreGenero(item.genero)}}
+                                          <span style="font-size: 14px; font-weight: bolder;">No: </span>{{item.numeroEvento}}
 
                                           <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
                                           </md-checkbox>

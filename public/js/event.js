@@ -726,7 +726,8 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
   }
   $scope.showSearch = false;
   $scope.events = [];
-  $scope.list = [];
+  $scope.list = [];;
+
   
   $scope.toggle = function (item, list) {
     var idx = $scope.list.indexOf(item._id);
@@ -745,6 +746,46 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
     }
   }
 
+$scope.nombreCategoria = function(_id){
+  categoria = [{id:1,name:"BEBES",min:0,max:4},
+  {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
+  {id:4,name:"INFANTIL A",min:9,max:10},{id:5,name:"INFANTIL B",min:11,max:12},
+  {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
+  {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
+  {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
+  {id:14,name:"Agua Triner",min:19,max:99}]
+  return categoria[_id-1].name;
+}
+
+
+$scope.nombreGenero = function(_id){
+  generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+  return generos[parseInt(_id)-1].nombre;
+}
+
+$scope.nombreTipo= function(id){
+  $http({
+     url: '/tipo/'+id,
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    //console.log(JSON.stringify(response));
+    if(response.statusCode = "200")
+    {
+
+      return response.tipo.nombre;
+    }
+   }).error( function (response) {
+     return 'Indefinido';
+   });
+}
 
 $scope.deleteEvent =function(id){
   var token = $cookies.get('token');

@@ -27,7 +27,7 @@
                   <div layout="row" layout-wrap flex>
                      <div flex="5"  ng-repeat="item in eventMod | filter:search" style="padding-right: 30%;">
                         <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
-                           {{ item.nombre }} <span style = "color:red;">-{{ item.tipo_evento }}-</span>{{item.genero}} <span ng-if="exists(item, selected)"></span>
+                           {{ item.nombre }} <span style = "color:red;">-{{ item.tipo_evento }} - </span>{{item.genero}} - <span style = "color:red;"> {{ item.categoria }}<span ng-if="exists(item, selected)"></span>
                         </md-checkbox>
                      </div>
                   </div>

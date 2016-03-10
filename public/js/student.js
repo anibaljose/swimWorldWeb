@@ -265,9 +265,14 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
           var rango = $scope.categoria[parseInt($scope.events[i].categoria)-1]; 
 
           var gen = 1;
-          console.log(rango.min );
-          console.log(rango.max );
-          if(edad >= rango.min   && edad <= rango.max){
+          var gen = 1;
+
+          if( $scope.userGenderE = "Masculino"){
+            gen = 1;
+          }else{
+            gen = 1;
+          }
+          if(edad >= rango.min   && edad <= rango.max && gen == $scope.events[i].genero){
             $scope.ingresarDato($scope.events[i]);
           }
         }
@@ -279,7 +284,6 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
    }
   
   $scope.ingresarDato = function(item){
-    console.log(JSON.stringify(item));
     $http({
      url: '/tipo/'+item.tipo,
      method: 'GET',
@@ -288,13 +292,14 @@ app.controller('addStudentAsignarCtrl', function($scope,$mdDialog,$http,$cookies
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
-    console.log(JSON.stringify(response));
+    console.log(item.categoria);
+    console.log($scope.categoria[parseInt(item.categoria)-1]);
     if(response.statusCode = "200")
     {
         if(item.genero=="1"){
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Masculino"});
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Masculino", categoria:$scope.categoria[parseInt(item.categoria)-1].name});
         }else{
-          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,"genero":"Femenino"});
+          $scope.eventMod.push({id:item._id, nombre: item.nombre, tipo_evento:response.tipo.nombre,tipoEvento:item.tipo,genero:"Femenino", categoria:$scope.categoria[parseInt(item.categoria)-1].name});
         }
     }
    }).error( function (response) {
