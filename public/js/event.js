@@ -788,11 +788,11 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
           if(response.statusCode ="200"){
             console.log(JSON.stringify(response));
             var contEntry = response.atletas.length;
-            $scope.EntryFinal = new Array(contAtletas);
+            EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
               eventoArray = response.atletas[j].atleta;
-              var idx = $scope.student.indexOf(eventoArray.atleta.id);
+              var idx = student.indexOf(eventoArray.atleta.id);
               /**traer info de evento*/
               $http({
                  url: '/eventos/'+eventoArray.evento,
@@ -829,7 +829,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                             if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
                             else tiempoE = eventoArray.tiempo;
                             eventos.push({tipo:responseTipo.tipo.nombre ,tiempo:tiempoE});
-                            $scope.EntryFinal[idx] = 
+                            EntryFinal[idx] = 
                             {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
                             edad:edad};
                           }
@@ -845,7 +845,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
                });
               /**fin de traer info de evento*/
             }
-              console.log("FINAL: "+JSON.stringify($scope.EntryFinal));
+              console.log("FINAL: "+JSON.stringify(EntryFinal));
           }
          }).error( function (response) {
             console.log(JSON.stringify(response));
