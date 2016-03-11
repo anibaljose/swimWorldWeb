@@ -866,15 +866,17 @@ $scope.EntryListFinall = function(){
   var fin = [];
   var par = 1;
   for(var i =0; i<cant; i++){
-    var genero  = $scope.nombreGenero($scope.EntryFinal[i].genero);
-    fin.push({individuales:(i+1)+" "+$scope.EntryFinal[i].nombre+" - "+genero+" - Age: "+$scope.EntryFinal[i].edad, "time": "","": "","time:": ""});
-    var evnt =  $scope.EntryFinal[i].eventos.length;
-    for(var j =0; j<evnt; j++){
-      if((j+2) < evnt){
-        fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": $scope.EntryFinal[i].eventos[j+2].tipo+" "+genero,"time:":$scope.EntryFinal[i].eventos[j+2].tiempo});
-        j = j +2;;
-      }else{
-        fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": "","time:": ""});
+    if($scope.EntryFinal[i] != null){
+      var genero  = $scope.nombreGenero($scope.EntryFinal[i].genero);
+      fin.push({individuales:(i+1)+" "+$scope.EntryFinal[i].nombre+" - "+genero+" - Age: "+$scope.EntryFinal[i].edad, "time": "","": "","time:": ""});
+      var evnt =  $scope.EntryFinal[i].eventos.length;
+      for(var j =0; j<evnt; j++){
+        if((j+2) < evnt){
+          fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": $scope.EntryFinal[i].eventos[j+2].tipo+" "+genero,"time:":$scope.EntryFinal[i].eventos[j+2].tiempo});
+          j = j +2;;
+        }else{
+          fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": "","time:": ""});
+        }
       }
     }
   }
