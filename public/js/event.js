@@ -946,18 +946,19 @@ $scope.programa = function(){
   for(var i = 0; i<k; i++){ 
     tmp = Servicios.evento($scope.list[i]);
     tmp.then(function(eventt){
-      console.log(JSON.stringify(eventt));
+      //console.log(JSON.stringify(eventt));
       tmptwo = Servicios.AtletasEvento(eventt.evento._id);
       tmptwo.then(function(atletas){
         //console.log(JSON.stringify(atletas));
         var idx = $scope.list.indexOf(eventt.evento._id);
-        $scope.ingresarAtletas(atletas,idx,5);
+        $scope.ingresarAtletas(atletas,idx,eventt.evento.carriles);
       });
     });
   }
 }
 
 $scope.ingresarAtletas = function(atleta, id,carriles){
+    console.log(JSON.stringify(atleta));
     var cont = atleta.length;
     var carril = carriles;
     var auxCarril = 1;
