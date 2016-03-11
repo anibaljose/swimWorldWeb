@@ -723,7 +723,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
 
   if(!$cookies.get('token')){
     window.location = "#/login";
-  }Servicios
+  }
   $scope.showSearch = false;
   $scope.events = [];
   $scope.list = [];
@@ -731,12 +731,12 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.EntryFinal = [];
   $scope.student = [];
 
-  $scope.toggle = function (item, list) {
+  $scope.toggle = function (item,selected) {
     var idx = $scope.list.indexOf(item._id);
     if (idx > -1) $scope.list.splice(idx, 1);
     else $scope.list.push(item._id);
   };
-  $scope.exists = function (item, list) {
+  $scope.exists = function (item,selected) {
     return $scope.list.indexOf(item._id) > -1;
   };
 
@@ -766,6 +766,13 @@ $scope.getMs = function(ms){
   $scope.ordenar = function(){
     console.log($scope.orden);
     conteo = parseInt($scope.orden);
+  }
+
+  $scope.SeleccionarTodos = function(){
+    var cont = $scope.events.length;
+    for(var i=0; i < cont; i++){
+      $scope.list.push($scope.events[i]._id);
+    }
   }
 
   $scope.EntryList = function(){
