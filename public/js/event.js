@@ -927,15 +927,6 @@ $scope.EntryListFinall = function(){
     }
   }
 }
-$scope.programa = function(){
-  var k = $scope.list.length;
-  for(int i = 0; i<k; i++){ 
-    tmp = Servicios.evento($scope.list[i]);
-    tmp.then(function(eventt){
-      console.log(JSON.stringify(eventt));
-    });
-  }
-}
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
   {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
