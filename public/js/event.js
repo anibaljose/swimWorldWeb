@@ -192,7 +192,8 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
   {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
   {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
-  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
+  {id:13,name:"Agua Triner",min:19,max:99}]
   $scope.userEventCat = {id:1,name:"BEBES",min:0,max:4};
   $scope.generos = [
     {_id: 1,nombre : "Masculino" },
@@ -840,7 +841,8 @@ $scope.setEntry = function(eventoArray, i){
               {tipo:tipoo.tipo.nombre ,tiempo:eventoArray.evento});
             }else{
               var eventos = [];
-              var edad = parseInt((new Date().getTime() - eventoArray.atleta.nacimiento)/31556900000); 
+              var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
+              var edad = parseInt(fecha/31556900000); 
               var tiempoE = 0;
               if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
               else tiempoE = eventoArray.tiempo;
@@ -866,7 +868,8 @@ $scope.nombreCategoria = function(_id){
   {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
   {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
   {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
-  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
+  {id:13,name:"Agua Triner",min:19,max:99}]
   return categoria[_id-1].name;
 }
 

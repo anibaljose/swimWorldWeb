@@ -23,8 +23,7 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
   {_id:6,nombre:"JUEVENIL A",min:13,max:14},{_id:7,nombre:"JUEVENIL B",min:15,max:18},
   {_id:8,nombre:"SENIOR",min:19,max:24},{_id:9,nombre:"MASTER A",min:25,max:30},
   {_id:10,nombre:"MASTER B",min:31,max:36},{_id:11,nombre:"MASTER C",min:37,max:41},
-  {_id:12,nombre:"MASTER D",min:42,max:52},{_id:13,nombre:"MASTER E",min:53,max:99},
-  {_id:14,nombre:"Agua Triner",min:19,max:99}]
+  {_id:12,nombre:"MASTER D",min:42,max:52},{_id:13,nombre:"MASTER E",min:53,max:99}]
 
   $scope.generos = [
     {_id: 1,nombre : "Masculino" },
