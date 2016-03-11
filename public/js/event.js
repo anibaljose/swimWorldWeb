@@ -944,8 +944,7 @@ $scope.programa = function(){
   for(var i = 0; i<k; i++){ 
     tmp = Servicios.evento($scope.list[i]);
     tmp.then(function(eventt){
-      console.log(JSON.stringify(eventt));
-      tmptwo = Servicios.AtletasEvento(eventt._id);
+      tmptwo = Servicios.AtletasEvento(eventt.evento._id);
       tmptwo.then(function(atletas){
         console.log(JSON.stringify(atletas));
       });
