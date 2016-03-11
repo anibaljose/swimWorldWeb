@@ -939,6 +939,16 @@ $scope.nombreCategoria = function(_id){
   return categoria[_id-1].name;
 }
 
+$scope.programa = function(){
+  var k = $scope.list.length;
+  for(var i = 0; i<k; i++){ 
+    tmp = Servicios.evento($scope.list[i]);
+    tmp.then(function(eventt){
+      console.log(JSON.stringify(eventt));
+    });
+  }
+}
+
 
 $scope.nombreGenero = function(_id){
   generos = [
