@@ -820,17 +820,6 @@ $scope.getMs = function(ms){
      }).error( function (response) {
      });
 
-      items = [{
-        name: "John Smith",
-        email: "j.smith@example.com",
-        dob: "1985-10-10"
-      }, {
-        name: "Jane Smith",
-        email: "jane.smith@example.com",
-        dob: "1988-12-22"
-      }];
-      alasql('SELECT * INTO XLSX("john.xlsx",{headers:true}) FROM ?',
-          [items]);
 }
 
 $scope.setEntry = function(eventoArray, i){
@@ -850,7 +839,7 @@ $scope.setEntry = function(eventoArray, i){
            else tiempoE = $scope.getMin(eventoArray.tiempo)+":"+$scope.getSeg(eventoArray.tiempo)+":"+$scope.getMs(eventoArray.tiempo);
            if ($scope.EntryFinal[idx]){
              $scope.EntryFinal[idx].eventos.push(
-              {tipo:tipoo.tipo.nombre ,tiempo:tiempoE});
+              {tipo:"#"+eventt.evento.numeroEvento+" "+tipoo.tipo.nombre ,tiempo:tiempoE});
             }else{
               var eventos = [];
               var fecha = new Date().getTime() - eventoArray.atleta.nacimiento;
@@ -858,10 +847,11 @@ $scope.setEntry = function(eventoArray, i){
               var tiempoE = 0;
               if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
               else tiempoE = $scope.getMin(eventoArray.tiempo)+":"+$scope.getSeg(eventoArray.tiempo)+":"+$scope.getMs(eventoArray.tiempo);
-              eventos.push({tipo:tipoo.tipo.nombre ,tiempo:tiempoE});
+              eventos.push({tipo:"#"+eventt.evento.numeroEvento+" "+tipoo.tipo.nombre ,tiempo:tiempoE});
               $scope.EntryFinal[idx] = 
               {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
               edad:edad,
+              genero: eventoArray.atleta.genero,
               eventos:eventos};
             }
         }
@@ -872,6 +862,34 @@ $scope.setEntry = function(eventoArray, i){
 
 $scope.EntryListFinall = function(){
   console.log(JSON.stringify($scope.EntryFinal));
+  var cant =  $scope.EntryFinal.length;
+  var fin = [];
+  var par = 1;
+  for(var i =0; i<cant; i++){
+    var genero  = $scope.nombreGenero($scope.EntryFinal[i].genero);
+    fin.push({individuales:(i+1)+" "+$scope.EntryFinal[i].nombre+" - "+genero+" - Age: "+$scope.EntryFinal[i].edad, "time": "","": "","time:": ""});
+    var evnt =  $scope.EntryFinal[i].eventos.length;
+    for(var j =0; j<evnt; j++){
+      if((j+2) < evnt){
+        fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": $scope.EntryFinal[i].eventos[j+2].tipo+" "+genero,"time:":$scope.EntryFinal[i].eventos[j+2].tiempo});
+        j = j +2;;
+      }else{
+        fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo, "": "","time:": ""});
+      }
+    }
+  }
+  $scope.EntryFinal
+      items = [{
+        name: "John Smith",
+        email: "j.smith@example.com",
+        dob: "1985-10-10"
+      }, {
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        dob: "1988-12-22"
+      }];
+      alasql('SELECT * INTO XLSX("EntryList.xlsx",{headers:true}) FROM ?',
+          [fin]);
 }
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
