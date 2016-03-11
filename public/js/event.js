@@ -21,8 +21,7 @@ app.controller('addEventCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
   {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
   {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
   {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
-  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
-  {id:14,name:"Agua Triner",min:19,max:99}]
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
   $scope.userEventCat = {id:1,name:"BEBES",min:0,max:4};
 
   $scope.generos = [
@@ -193,8 +192,7 @@ app.controller('addEventEditCtrl', function($scope,$mdDialog,$http,$cookies) {
   {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
   {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
   {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
-  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
-  {id:13,name:"Agua Triner",min:19,max:99}]
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
   $scope.userEventCat = {id:1,name:"BEBES",min:0,max:4};
   $scope.generos = [
     {_id: 1,nombre : "Masculino" },
@@ -719,11 +717,12 @@ $scope.getMs = function(ms){
 
 });
 
-app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
+  $mdBottomSheet,$http,$cookies,Servicios) {
 
   if(!$cookies.get('token')){
     window.location = "#/login";
-  }
+  }Servicios
   $scope.showSearch = false;
   $scope.events = [];
   $scope.list = [];
@@ -790,7 +789,6 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
             $scope.EntryFinal = new Array(contAtletas);
 
             for(var j = 0; j <contEntry; j++){
-              console.log("contEntry: "+contEntry);
               eventoArray = response.atletas[j];
               var idx = $scope.student.indexOf(eventoArray.atleta._id);
               $scope.setEntry(eventoArray,idx);
@@ -822,61 +820,44 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$m
 $scope.setEntry = function(eventoArray, i){
   
   var idx = i;
-    /**traer info de evento*/
-    $http({
-       url: '/eventos/'+eventoArray.evento,
-       method: 'GET',
-        headers : { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+$cookies.get('token')
-        }
-     }).success(function (responseEvento) {
-        if(responseEvento.statusCode = "200")
+  tmp = Servicios.evento(eventoArray.evento);
+  tmp.then(function(eventt){
+    console.log(JSON.stringify(eventt));
+    if(eventt.statusCode = "200")
+    {
+
+      tmpTipo = Servicios.Tipoevento(eventt.evento.tipo);
+      tmpTipo.then(function(tipoo){
+        console.log(JSON.stringify(tipoo));
+        if(tipoo.statusCode = "200")
         {
-          $http({
-           url: '/tipo/'+responseEvento.evento.tipo,
-           method: 'GET',
-            headers : { 
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer '+$cookies.get('token')
+           var tiempoE = 0;
+           if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
+           else tiempoE = eventoArray.tiempo;
+           console.log($scope.EntryFinal[idx]);
+           if ($scope.EntryFinal[idx]){
+             $scope.EntryFinal[idx].eventos.push(
+              {tipo:tipoo.tipo.nombre ,tiempo:eventoArray.evento});
+            }else{
+              var eventos = [];
+              var edad = parseInt((new Date().getTime() - eventoArray.atleta.nacimiento)/31556900000); 
+              var tiempoE = 0;
+              if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
+              else tiempoE = eventoArray.tiempo;
+              eventos.push({tipo:tipoo.tipo.nombre ,tiempo:tiempoE});
+              $scope.EntryFinal[idx] = 
+              {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
+              edad:edad,
+              eventos:eventos};
             }
-         }).success(function (responseTipo) {
-          console.log(JSON.stringify(responseTipo));
-            if(responseTipo.statusCode = "200")
-            {
-               var tiempoE = 0;
-               if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
-               else tiempoE = eventoArray.tiempo;
-
-               if ($scope.EntryFinal[idx]){
-                 $scope.EntryFinal[idx].eventos.push(
-                  {tipo:responseTipo.tipo.nombre ,tiempo:eventoArray.evento});
-                }else{
-                  var eventos = [];
-                  var edad = parseInt(new Date().getTime() - eventoArray.atleta.nacimiento/31556900000); 
-                  var tiempoE = 0;
-                  if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
-                  else tiempoE = eventoArray.tiempo;
-                  eventos.push({tipo:responseTipo.tipo.nombre ,tiempo:tiempoE});
-                  $scope.EntryFinal[idx] = 
-                  {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
-                  edad:edad};
-                }
-            }
-         }).error( function (response) {
-          console.log(JSON.stringify(response));
-         });
-
         }
-        /*fin traer info de tipo de evento*/
-     }).error( function (response) {
-      console.log(JSON.stringify(response));
-     });
-    /**fin de traer info de evento*/
+      });
+    }
+  });
 }
 
 $scope.EntryListFinall = function(){
-  console.log("FINAL: "+JSON.stringify(EntryFinal));
+  console.log("FINAL: "+JSON.stringify($scope.sEntryFinal));
 }
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
@@ -885,8 +866,7 @@ $scope.nombreCategoria = function(_id){
   {id:6,name:"JUEVENIL A",min:13,max:14},{id:7,name:"JUEVENIL B",min:15,max:18},
   {id:8,name:"SENIOR",min:19,max:24},{id:9,name:"MASTER A",min:25,max:30},
   {id:10,name:"MASTER B",min:31,max:36},{id:11,name:"MASTER C",min:37,max:41},
-  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99},
-  {id:14,name:"Agua Triner",min:19,max:99}]
+  {id:12,name:"MASTER D",min:42,max:52},{id:13,name:"MASTER E",min:53,max:99}]
   return categoria[_id-1].name;
 }
 

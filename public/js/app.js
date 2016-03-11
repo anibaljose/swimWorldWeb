@@ -1,5 +1,5 @@
 
-var app = angular.module('swimAPP', ['ngMaterial','ngCookies','ngRoute']);
+var app = angular.module('swimAPP', ['ngMaterial','ngCookies','ngRoute','swim.httpServices']);
 
 var conteo = 1;
 app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProvider) {
