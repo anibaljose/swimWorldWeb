@@ -36,6 +36,25 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
+    NombreEquipo:function(id){
+
+      var deferred=$q.defer();
+       $http({
+         url: '/equipos/'+id,
+         method: 'GET',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+token
+          }
+       }).success(function(response){
+          deferred.resolve(response);
+        }
+      ).error(function(response){
+          deferred.resolve(response);
+      });
+      return deferred.promise;
+
+    },
     Tipoevento:function(TipoEvento){
 
       var deferred=$q.defer();

@@ -730,6 +730,7 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.orden = 0;
   $scope.EntryFinal = [];
   $scope.student = [];
+  $scope.programa = [];
 
   $scope.equipos = [];
    $http({
@@ -941,15 +942,33 @@ $scope.nombreCategoria = function(_id){
 
 $scope.programa = function(){
   var k = $scope.list.length;
+  $scope.programa = new Array(k);
   for(var i = 0; i<k; i++){ 
     tmp = Servicios.evento($scope.list[i]);
     tmp.then(function(eventt){
+      console.log(JSON.stringify(eventt));
       tmptwo = Servicios.AtletasEvento(eventt.evento._id);
       tmptwo.then(function(atletas){
-        console.log(JSON.stringify(atletas));
+        //console.log(JSON.stringify(atletas));
+        var idx = $scope.list.indexOf(eventt.evento._id);
+        $scope.ingresarAtletas(atletas,idx,5);
       });
     });
   }
+}
+
+$scope.ingresarAtletas = function(atleta, id,carriles){
+    var cont = atleta.length;
+    var carril = carriles;
+    var auxCarril = 1;
+    var evento = [];
+    for(var i=0; i<cont; i++){
+      tmptwo = Servicios.NombreEquipo(atleta[i].atleta.equipo);
+      tmptwo.then(function(equipo){
+        console.log(JSON.stringify(equipo));
+      });
+    }
+    //$scope.programa[id].push(atletas);
 }
 
 
