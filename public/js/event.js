@@ -731,6 +731,29 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.EntryFinal = [];
   $scope.student = [];
 
+  $scope.equipos = [];
+   $http({
+     url: '/equipos',
+     method: 'GET',
+      headers : { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+$cookies.get('token')
+      }
+   }).success(function (response) {
+    if(response.statusCode = "200"){
+      if(response.equipos){
+        var cant = response.equipos.length;
+        for(var i=0; i<cant; i++){
+          $scope.equipos.push(response.equipos[i]._id);
+        }
+
+      }
+    }
+   }).error( function (response) {
+      $scope.showMessage = "true";  
+      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+   });
+
   $scope.toggle = function (item,selected) {
     var idx = $scope.list.indexOf(item._id);
     if (idx > -1) $scope.list.splice(idx, 1);
@@ -858,42 +881,51 @@ $scope.setEntry = function(eventoArray, i){
               $scope.EntryFinal[idx] = 
               {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
               edad:edad,
+              equipo:eventoArray.atleta.equipo,
               genero: eventoArray.atleta.genero,
               eventos:eventos};
             }
         }
       });
-    }
+     }
   });
 }
 
 $scope.EntryListFinall = function(){
   console.log(JSON.stringify($scope.EntryFinal));
   var cant =  $scope.EntryFinal.length;
-  var fin = [];
+  var cantTwo = $scope.equipos.length;
+  Arrayequipos = new Array(cantTwo);
+  
   var par = 1;
   for(var i =0; i<cant; i++){
     if($scope.EntryFinal[i] != null){
+      var fin = [];
       var genero  = $scope.nombreGenero($scope.EntryFinal[i].genero);
       fin.push({individuales:(i+1)+" "+$scope.EntryFinal[i].nombre+" - "+genero+" - Age: "+$scope.EntryFinal[i].edad, "time": ""});
       var evnt =  $scope.EntryFinal[i].eventos.length;
       for(var j =0; j<evnt; j++){
           fin.push({individuales:$scope.EntryFinal[i].eventos[j].tipo+" "+genero,"time":$scope.EntryFinal[i].eventos[j].tiempo});      
       }
+      var idx = $scope.equipos.indexOf($scope.EntryFinal[i].equipo);
+      if (Arrayequipos[idx]){
+          Arrayequipos[idx].equipo.push.apply(Arrayequipos[idx].equipo[0],fin);
+      }else{
+          var equipo = [];
+          equipo.push(fin);
+          Arrayequipos[idx] = {equipo:equipo};
+      }
     }
   }
-  $scope.EntryFinal
-      items = [{
-        name: "John Smith",
-        email: "j.smith@example.com",
-        dob: "1985-10-10"
-      }, {
-        name: "Jane Smith",
-        email: "jane.smith@example.com",
-        dob: "1988-12-22"
-      }];
-      alasql('SELECT * INTO XLSX("EntryList.xlsx",{headers:true}) FROM ?',
-          [fin]);
+  console.log(JSON.stringify(Arrayequipos));
+  var largo = Arrayequipos.length;
+  for(var u = 0; u<largo; u++){
+    var arrayEquipoo = [];
+    if(Arrayequipos[u] != null){
+     alasql('SELECT * INTO XLSX("EntryList'+u+'.xlsx",{headers:true}) FROM ? ',
+      [Arrayequipos[u].equipo[0]]);
+    }
+  }
 }
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
