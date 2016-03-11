@@ -740,6 +740,21 @@ app.controller('addEventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
     return $scope.list.indexOf(item._id) > -1;
   };
 
+$scope.getMin = function(min){
+  var minutes = Math.floor( min / 60000  );  
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return minutes;
+}
+$scope.getSeg = function(seg){
+  var segundes = Math.floor( (seg % 60000) / 1000 );  
+  segundes = segundes < 10 ? '0' + segundes : segundes;
+  return segundes;
+}
+$scope.getMs = function(ms){
+  var milesimas = Math.floor( ms % 1000 );  
+  milesimas = milesimas < 10 ? '0' + milesimas : milesimas;
+  return milesimas;
+}
   $scope.EliminarMasivo = function(){
 
     var cont = $scope.list.length;
@@ -823,29 +838,26 @@ $scope.setEntry = function(eventoArray, i){
   var idx = i;
   tmp = Servicios.evento(eventoArray.evento);
   tmp.then(function(eventt){
-    console.log(JSON.stringify(eventt));
     if(eventt.statusCode = "200")
     {
 
       tmpTipo = Servicios.Tipoevento(eventt.evento.tipo);
       tmpTipo.then(function(tipoo){
-        console.log(JSON.stringify(tipoo));
         if(tipoo.statusCode = "200")
         {
            var tiempoE = 0;
            if(parseInt(eventoArray.tiempo) <= 0) tiempoE = "NT";
-           else tiempoE = eventoArray.tiempo;
-           console.log($scope.EntryFinal[idx]);
+           else tiempoE = $scope.getMin(eventoArray.tiempo)+":"+$scope.getSeg(eventoArray.tiempo)+":"+$scope.getMs(eventoArray.tiempo);
            if ($scope.EntryFinal[idx]){
              $scope.EntryFinal[idx].eventos.push(
-              {tipo:tipoo.tipo.nombre ,tiempo:eventoArray.evento});
+              {tipo:tipoo.tipo.nombre ,tiempo:tiempoE});
             }else{
               var eventos = [];
-              var fecha = new Date().getTime() - $scope.dateBirthday.getTime();
-              var edad = parseInt(fecha/31556900000); 
+              var fecha = new Date().getTime() - eventoArray.atleta.nacimiento;
+              var edad = parseInt(fecha/31556900000);
               var tiempoE = 0;
               if(parseInt(eventoArray.tiempo) <=0) tiempoE = "NT";
-              else tiempoE = eventoArray.tiempo;
+              else tiempoE = $scope.getMin(eventoArray.tiempo)+":"+$scope.getSeg(eventoArray.tiempo)+":"+$scope.getMs(eventoArray.tiempo);
               eventos.push({tipo:tipoo.tipo.nombre ,tiempo:tiempoE});
               $scope.EntryFinal[idx] = 
               {nombre:eventoArray.atleta.nombre +" "+eventoArray.atleta.apellido,
@@ -859,7 +871,7 @@ $scope.setEntry = function(eventoArray, i){
 }
 
 $scope.EntryListFinall = function(){
-  console.log("FINAL: "+JSON.stringify($scope.sEntryFinal));
+  console.log(JSON.stringify($scope.EntryFinal));
 }
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
