@@ -44,7 +44,7 @@ angular.module('swim.httpServices',['ngCookies'])
          method: 'GET',
           headers : { 
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '++$cookies.get('token')
+            'Authorization': 'Bearer '+$cookies.get('token')
           }
        }).success(function(response){
           deferred.resolve(response);
