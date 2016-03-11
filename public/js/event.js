@@ -933,7 +933,7 @@ $scope.EntryListFinall = function(){
   for(var u = 0; u<largo; u++){
     if($scope.programa[u] != null){
      alasql('SELECT * INTO XLSX("EntryList'+u+'.xlsx",{headers:true}) FROM ? ',
-      [$scope.programa[u]);
+      [$scope.programa[u]]);
     }
   }
 }
