@@ -959,12 +959,13 @@ $scope.programa = function(){
 
 $scope.ingresarAtletas = function(atleta, id,carriles){
     console.log(JSON.stringify(atleta));
-    var cont = atleta.length;
+    var cont = atleta.atletas.length;
+    var atle = atleta.atletas;
     var carril = carriles;
     var auxCarril = 1;
     var evento = [];
     for(var i=0; i<cont; i++){
-      tmptwo = Servicios.NombreEquipo(atleta[i].atleta.equipo);
+      tmptwo = Servicios.NombreEquipo(atle[i].atleta.equipo);
       tmptwo.then(function(equipo){
         console.log(JSON.stringify(equipo));
       });
