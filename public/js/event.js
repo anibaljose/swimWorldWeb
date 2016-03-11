@@ -927,6 +927,15 @@ $scope.EntryListFinall = function(){
       [Arrayequipos[u].equipo[0]]);
     }
   }
+
+
+  var largo = $scope.programa[id].length;
+  for(var u = 0; u<largo; u++){
+    if($scope.programa[id][u] != null){
+     alasql('SELECT * INTO XLSX("EntryList'+u+'.xlsx",{headers:true}) FROM ? ',
+      [$scope.programa[id][u][0]]);
+    }
+  }
 }
 $scope.nombreCategoria = function(_id){
   categoria = [{id:1,name:"BEBES",min:0,max:4},
@@ -963,14 +972,27 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
     var atle = atleta.atletas;
     var carril = carriles;
     var auxCarril = 1;
+    var hit = 1;
     var evento = [];
     for(var i=0; i<cont; i++){
       tmptwo = Servicios.NombreEquipo(atle[i].atleta.equipo);
       tmptwo.then(function(equipo){
-        console.log(JSON.stringify(equipo));
+        var fecha = new Date().getTime() - atle[i].atlet.nacimiento.getTime();
+        var edad = parseInt(fecha/31556900000);
+        var tiempoE = "";
+        if(parseInt(atle[i].tiempo) <=0) tiempoE = "NT";
+        else tiempoE = $scope.getMin(atle[i].tiempo)+":"+$scope.getSeg(atle[i].tiempo)+":"+$scope.getMs(eventoArray.tiempo);
+              
+        evento.push.apply(
+          {serie:hit,
+           nombre:atle[i].atleta.nombre+" "+atle[i].atleta.apellido,
+           edad:edad, 
+           equipo:equipo.equipo.nombre, 
+           time:tiempoE});
+        console.log(JSON.stringify(equipo.equipo.nombre));
       });
     }
-    //$scope.programa[id].push(atletas);
+    $scope.programa[id].push(evento);
 }
 
 
