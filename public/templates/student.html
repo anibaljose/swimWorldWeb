@@ -73,8 +73,9 @@
                   layout="row" layout-align="center center">
                   <md-card flex-gt-sm="90" flex-gt-md="80">
                      <md-card-content>
-                        <md-list>
-                           <md-item ng-repeat="item in student | filter:search">
+                        <md-list >
+                        <legend> <code>Cantidad de Atletas: </code style ="color:blue;" >{{ student.length}} <code></co></legend>
+                           <md-item ng-repeat="item in student | filter:search" >
                               <md-item-content id = "student{{item._id}}">
                                  <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
                                     <i class="fa fa-user fa-3x"></i>
