@@ -387,7 +387,7 @@ $scope.deleteEvent =function(id){
       icon: 'fa-star'
     },
     {
-      link : '#/Masivo',
+      link : '#/massive',
       title: 'Evento Masivo',
       icon: 'fa-star'
     },

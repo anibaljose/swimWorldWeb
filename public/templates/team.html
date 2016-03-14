@@ -1,5 +1,5 @@
 <link href="../css/team.css" rel="stylesheet">
-<div layout="row" style="height:100% !important; width:100% !important;" ng-controller="addteamCrtl" >
+<div layout="row" style="height:100% !important; width:100% !important;" ng-controller="teamCrtl" >
    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style ="background: #8BC34A;">
       <md-toolbar class="md-tall md-hue-2" >
       <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
@@ -27,7 +27,7 @@
       </md-list>
    </md-sidenav>
    <div layout="column" class="relative" layout-fill role="main" style="rgba(2, 119, 189, 0.15)">
-      <md-button style="background: rgba(255, 222, 121, 0.96);color: rgba(0, 0, 0, 0.42);" class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdvanced($event)" >
+      <md-button style="background: rgba(255, 222, 121, 0.96);color: rgba(0, 0, 0, 0.42);" class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="createTeam($event)" >
          <i class="fa fa-plus fa-1x"></i>
       </md-button>
       <md-toolbar ng-show="!showSearch">
@@ -80,7 +80,7 @@
                                     <div>
                                        <div style="font-size: 14px; font-weight: bolder;">{{item.nombre}}</div>
                                        <div>
-                                          <md-button class="btn1" ng-click="showEditAdvance(item._id,item.nombre)"> Editar </md-button>
+                                          <md-button class="btn1" ng-click="edtiTeam(item._id,item.nombre)"> Editar </md-button>
                                           <md-button class="btn1" ng-click="deleteTeam(item._id)" >Eliminar</md-button>
                                        </div>
                                     </div>

@@ -18,8 +18,8 @@ app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProv
       when('/team', {
         templateUrl: '../templates/team.html'
       }).
-      when('/Masivo', {
-        templateUrl: '../templates/eventosMasivo.html'
+      when('/massive', {
+        templateUrl: '../templates/eventMassive.html'
       }).
       otherwise({
         redirectTo: '/login'
@@ -38,8 +38,7 @@ app.config(function($mdThemingProvider) {
     .primaryPalette('customBlue', {
       'default': '500',
       'hue-1': '50'
-    })
-    .accentPalette('pink');
+    }).accentPalette('pink');
   $mdThemingProvider.theme('input', 'default')
         .primaryPalette('grey')
 });

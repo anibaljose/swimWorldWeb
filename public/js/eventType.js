@@ -48,7 +48,7 @@ app.controller('eventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$
       icon: 'fa-star'
     },
     {
-      link : '#/Masivo',
+      link : '#/massive',
       title: 'Evento Masivo',
       icon: 'fa-star'
     },
