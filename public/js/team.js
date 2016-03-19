@@ -1,86 +1,4 @@
-app.controller('addTeamCreateCtrl', function($scope,$mdDialog,$http,$cookies) {
-  $scope.createTeam =function(){
-  var token = $cookies.get('token');
-    if($scope.user.name != '')
-    {
-       $http({
-         url: '/equipos/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {
-           nombre: $scope.user.name
-         }
-       }).success(function (response) {
-        if(response.statusCode = "200"){
-          $scope.user.name = '';
-          $scope.showMessage = "true";  
-          $scope.message = "Equipo creado"; 
-        }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el equipo"; 
-        }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, ingrese un nombre"; 
-    }
-}
-  $scope.cancel = function() {
-  location.reload();
-    $mdDialog.cancel();
-  };
-
-});
-
-app.controller('addTeamEditCtrl', function($scope,$mdDialog,$http,$cookies) {
-  $scope.EditTeam =function(){
-  if($scope.nombre != ''){
-    var token = $cookies.get('token');
-     $http({
-       url: '/equipos/'+$scope.id+'/save',
-       method: 'POST',
-        headers : { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+token
-        },
-        data: {
-           nombre: $scope.nombre
-         }
-     }).success(function (response) {
-        if(response.statusCode = "200")
-        {
-            $scope.showMessage = "true";  
-            $scope.message = "Se edito el equipo"; 
-        }else{
-            $scope.showMessage = "true";  
-            $scope.message = "No se pudo editar el equipo"; 
-        }
-     }).error( function (response) {
-            $scope.showMessage = "true";  
-            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-     });
-  }else{
-        $scope.showMessage = "true";  
-        $scope.message = "Ingresa un nombre, por favor"; 
-
-  }
-}
-  $scope.cancel = function() {
-  location.reload();
-    $mdDialog.cancel();
-  };
-
-
-});
-
-
-app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+app.controller('teamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
 
   if(!$cookies.get('token')){
     window.location = "#/login";
@@ -129,7 +47,7 @@ app.controller('addteamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$md
       icon: 'fa-star'
     },
     {
-      link : '#/Masivo',
+      link : '#/massive',
       title: 'Evento Masivo',
       icon: 'fa-star'
     },
@@ -180,11 +98,11 @@ $scope.deleteTeam =function(id){
       );
     };
 
-  $scope.showAdvanced = function(ev) {
+  $scope.createTeam = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      controller  : DialogController,
-      templateUrl : '../templates/team.tmpl.html',
+      controller  : createController,
+      templateUrl : '../templates/createTeam.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
@@ -202,15 +120,15 @@ $scope.deleteTeam =function(id){
     });
   };
 
-  $scope.showEditAdvance = function(id,nombre) {
+  $scope.edtiTeam = function(id,nombre) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      templateUrl : '../templates/teamEdit.tmpl.html',
-      controller  : EdtirController,
+      templateUrl : '../templates/editTeam.html',
+      controller  : editController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
-      locals: { nombre: nombre, id:id }
+      locals      : { nombre: nombre, id:id }
     })
     .then(function(answer) {
       $scope.status = 'You said the information was "' + answer + '".';
@@ -261,27 +179,11 @@ $scope.deleteTeam =function(id){
 
 
 });
-app.config(function($mdThemingProvider) {
-  var customBlueMap =     $mdThemingProvider.extendPalette('light-blue', {
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': ['50'],
-    '50': 'ffffff'
-  });
-  $mdThemingProvider.definePalette('customBlue', customBlueMap);
-  $mdThemingProvider.theme('default')
-    .primaryPalette('customBlue', {
-      'default': '500',
-      'hue-1': '50'
-    })
-    .accentPalette('pink');
-  $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey')
-});
 
-function DialogController($scope, $mdDialog) {
+function createController() {
 }
 
-function EdtirController($scope, $mdDialog,$cookies,$http,nombre,id) { 
+function editController($scope,nombre,id) { 
   $scope.nombre = nombre;
   $scope.id = id;
 
