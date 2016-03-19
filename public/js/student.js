@@ -1,88 +1,48 @@
-app.controller('studentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+app.controller('studentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,
+  $http,$cookies,Servicios) {
 
   if(!$cookies.get('token')){
     window.location = "#/login";
   }
-  $scope.showSearch = false;
 
   $scope.student = [];
-  $scope.list = [];
+  $scope.menu = menu;
+  $scope.showSearch = false;
   
-
-   $http({
-     url: '/atletas/',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+  tmpTipo = Servicios.atletas();
+  tmpTipo.then(function(response){
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.student = response.atletas;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
+  });
 
-  $scope.menu = [
-    {
-      link : '#/student',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : '#/team',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : '#/eventType',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : '#/event',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '#/massive',
-      title: 'Evento Masivo',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
+  $scope.edad = function(nacimiento){
+    var fecha = new Date().getTime() - nacimiento;
+    return parseInt(fecha/31556900000);;
+  }
 
+  $scope.nombreGenero = function(_id){
+    generos = [
+      {_id: 1,nombre : "Masculino" },
+      {_id: 2,nombre : "Femenino" },
+      {_id: 3,nombre : "--------" }
+    ];
+    return generos[parseInt(_id)-1].nombre;
+  }
 
-
-$scope.enable =function(id){
-  var token = $cookies.get('token');
-       $http({
-         url: '/atletas/'+id,
-         method: 'DELETE',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          }
-       }).success(function (response) {
-        if(response.statusCode = "200")
-        {
-          document.getElementById("student"+id).style.display = "none";
-          //$scope.showAlert("se dio de baja al Atleta");
-        }else{
-          $scope.showAlert("No se pudo dar de baja al Atleta");
-        }
-       }).error( function (response) {
-          $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
-       });
-}
+  $scope.enable =function(id){
+    tmpTipo = Servicios.atletas();
+    tmpTipo.then(function(response){
+      if(response.statusCode = "200")
+      {
+        document.getElementById("student"+id).style.display = "none";
+      }else{
+        $scope.showAlert("No se pudo eliminar de baja al Atleta");
+      }
+    });
+  }
 
 
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -101,8 +61,8 @@ $scope.enable =function(id){
   $scope.createStudent = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      controller  : createController,
-      templateUrl : '../templates/creaeStudent.html',
+      controller  : createStudentController,
+      templateUrl : '../templates/createStudent.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
@@ -121,11 +81,10 @@ $scope.enable =function(id){
   };
 
   $scope.editStudent = function(item) {
-
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      templateUrl : '../templates/editStudent',
-      controller  : editController,
+      templateUrl : '../templates/editStudent.html',
+      controller  : editStudentController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
@@ -189,26 +148,3 @@ $scope.enable =function(id){
     }
 
 });
-function createController($scope, $mdDialog) {
-}
-
-function editController($scope, $mdDialog,item) { 
-  $scope.fisrtName    = item.nombre;
-  $scope.lastName     = item.apellido;
-  $scope.dateBirthday = new Date(item.nacimiento)
-  $scope.equipo       = item.equipo;
-  $scope.userGenderE  = '';
-  $scope.gen          = item.genero ;
-  $scope.id           = item._id;
-}
-
-
-function assignStudentController($scope,item) { 
-  $scope.fisrtName    = item.nombre;
-  $scope.lastName     = item.apellido;
-  $scope.dateBirthday = new Date(item.nacimiento)
-  $scope.equipo       = item.equipo;
-  $scope.userGenderE  = '';
-  $scope.gen          = item.genero ;
-  $scope.id           = item._id;
-}

@@ -78,13 +78,14 @@
                            <md-item ng-repeat="item in student | filter:search" >
                               <md-item-content id = "student{{item._id}}">
                                  <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
-                                    <i class="fa fa-user fa-3x"></i>
                                     <div>
-                                       <div style="font-size: 12px;"> {{item.nombre}} {{item.apellido}}</div>
-                                       <div>
-                                          <md-button class="btn1" ng-click="editStudent(item)">Editar</md-button>
-                                          <md-button class="btn1" ng-click="enable(item._id)"> Desactivar </md-button>
-                                          <md-button class="btn1" ng-click="assignEvent(item)"> Asignar Eventos </md-button>
+                                       <div style="font-size: 12px; font-weight: 700;"> {{item.nombre}} {{item.apellido}}</div>
+                                       <div style="font-size: 12px;"> {{nombreGenero(item.genero)}}</div>
+                                       <div style="font-size: 12px;"> {{edad(item.nacimiento)}} años</div>
+                                       <div class="botones">
+                                          <i class="fa fa-minus-circle fa-1x" alt ="eliminar" ng-click="enable(item._id)" style="cursor:pointer;"></i>
+                                          <i class="fa fa-pencil-square-o fa-1x" style ="color:rebeccapurple; cursor:pointer;" ng-click="editStudent(item)"></i>
+                                          <i class="fa fa-wrench fa-1x" ng-click="assignStudent(item)" style ="color: #2196F3; cursor:pointer;"></i>
                                        </div>
                                     </div>
                                  </div>

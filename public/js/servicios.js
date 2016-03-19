@@ -2,6 +2,38 @@ angular.module('swim.httpServices',['ngCookies'])
 
 .factory('Servicios', function($http, $q,$cookies) {
   return {
+    atletas:function(){
+      var deferred=$q.defer();
+      $http({
+       url: '/atletas/',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+     }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(error);
+      });
+      return deferred.promise;
+    },
+    EliminarAtleta:function(){
+      var deferred=$q.defer();
+      $http({
+         url: '/atletas/'+id,
+         method: 'DELETE',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+$cookies.get('token')
+          }
+       }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(error);
+      });
+      return deferred.promise;
+    },
     evento:function(idEvent){
       var deferred=$q.defer();
       $http({

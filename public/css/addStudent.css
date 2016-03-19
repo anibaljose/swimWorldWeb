@@ -155,3 +155,12 @@ md-sidenav {
   color : rgb(187, 187, 187);
   background-color: rgba(230, 230, 229, 0.96);
 }
+
+
+.botones{
+    position: relative;
+    float: right;
+    top: -37px;
+    color: red;
+    font-size: 1.7vw;
+}

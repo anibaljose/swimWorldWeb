@@ -1,7 +1,40 @@
 
 var app = angular.module('swimAPP', ['ngMaterial','ngCookies','ngRoute','swim.httpServices']);
 var conteo = 1;
+menu = [
+    {
+      link : '#/student',
+      title: 'Atleta',
+      icon: 'fa-male'
+    },
+    {
+      link : '#/team',
+      title: 'Equipo',
+      icon: 'fa-briefcase'
+    },
+    {
+      link : '#/eventType',
+      title: 'Tipo Evento',
+      icon: 'fa-get-pocket'
+    },
+    {
+      link : '#/event',
+      title: 'Evento',
+      icon: 'fa-star'
+    },
+    {
+      link : '#/massive',
+      title: 'Evento Masivo',
+      icon: 'fa-star'
+    },
+    {
+      link : '',
+      title: 'Cerrar Sesion',
+      icon: 'fa-times-circle'
+    }
+  ];
 app.config(['$httpProvider','$routeProvider', function ($httpProvider,$routeProvider) {
+
    $routeProvider.
       when('/login', {
         templateUrl: '../templates/login.html'
@@ -42,3 +75,28 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('input', 'default')
         .primaryPalette('grey')
 });
+
+
+function createStudentController($scope, $mdDialog) {
+}
+
+function editStudentController($scope,item) { 
+  $scope.fisrtName    = item.nombre;
+  $scope.lastName     = item.apellido;
+  $scope.dateBirthday = new Date(item.nacimiento)
+  $scope.equipo       = item.equipo;
+  $scope.userGenderE  = '';
+  $scope.gen          = item.genero ;
+  $scope.id           = item._id;
+}
+
+
+function assignStudentController($scope,item) { 
+  $scope.fisrtName    = item.nombre;
+  $scope.lastName     = item.apellido;
+  $scope.dateBirthday = new Date(item.nacimiento)
+  $scope.equipo       = item.equipo;
+  $scope.userGenderE  = '';
+  $scope.gen          = item.genero ;
+  $scope.id           = item._id;
+}
