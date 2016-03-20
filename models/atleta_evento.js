@@ -24,7 +24,7 @@ module.exports = {
   hit: {type: Number, required: true, unique:false},
   tiempo: {type: Number, required: true, unique:false},
   atleta: { type: Schema.Types.ObjectId, ref: 'Atleta'},
-  evento: { type: Schema.Types.ObjectId, ref: 'Evento'},
+  subevento: { type: Schema.Types.ObjectId, ref: 'Subevento'},
   created: {type: Date, required: true, unique: false, default: Date.now},
   modified:  {type: Date, required: true, unique: false, default: Date.now}
 };

@@ -47,10 +47,10 @@ exports.atletas = function(request, reply){
   if (request.query.sort){
     options.sort = {tiempo:1};
   }
-  if (request.params.idEvento){
-    querySelector.evento = request.params.idEvento;
-  } else if (request.query.eventos){
-    querySelector.evento = {$in: request.query.eventos};
+  if (request.params.idSubevento){
+    querySelector.subevento = request.params.idSubevento;
+  } else if (request.query.subeventos){
+    querySelector.subevento = {$in: request.query.subeventos};
   }
   db.AtletaEvento
   .find(querySelector, null, options)
@@ -66,7 +66,7 @@ exports.atletas = function(request, reply){
   });
 };
 exports.atleta = function(request, reply){
-  db.AtletaEvento.remove({atleta:request.query.atleta, evento: request.params.idEvento}, function(err){
+  db.AtletaEvento.remove({atleta:request.query.atleta, subevento: request.params.idSubevento}, function(err){
     if (err) {
       return reply({statusCode:600});
     }
@@ -98,12 +98,13 @@ exports.delete = function(request, reply){
       console.log("ATLETAS_DELETE err="+JSON.stringify(err));
       return reply({statusCode:600});
     }
-    db.AtletaEvento.remove({evento:request.params.idEvento}, function(errAE){
-      if (errAE) {
-        console.log("ATLETA_EVENTOS_DELETE err="+JSON.stringify(errAE));
+    db.Subevento.remove({evento:request.params.idEvento}, function(errSE){
+      if (errSE) {
+        console.log("ATLETA_EVENTOS_DELETE err="+JSON.stringify(errSE));
         return reply({statusCode:600});
       }
       return reply({statusCode: 200});
     });
+    // TODO borrar documentos en AtletaEvento
   });
 }

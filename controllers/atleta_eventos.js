@@ -21,7 +21,7 @@ var db = require('../models');
 exports.create = function(request, reply){
   var atletaEvento = request.payload;
   atletaEvento.atleta = request.params.idAtleta;
-  atletaEvento.evento = request.params.idEvento;
+  atletaEvento.subevento = request.params.idSubevento;
   new db.AtletaEvento(atletaEvento).save(function(err, atleta_evento, numberAffected){
     if(err){
       return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
@@ -32,7 +32,7 @@ exports.create = function(request, reply){
 exports.save = function(request, reply){
   var atletaEvento = request.payload;
   atletaEvento.modified = Date.now();
-  db.AtletaEvento.update({atleta:request.params.idAtleta, evento:request.params.idEvento}, {$set: atletaEvento}, function(err, raw){
+  db.AtletaEvento.update({atleta:request.params.idAtleta, subevento:request.params.idSubevento}, {$set: atletaEvento}, function(err, raw){
     if (err) {
       console.log("ATLETA_EVENTOS_SAVE err="+JSON.stringify(err));
       return reply({statusCode:600});

@@ -27,6 +27,7 @@ validar = require('./validators'),
 validarUsuarios = require('./validators/usuarios'),
 validarAtletas = require('./validators/atletas'),
 validarEventos = require('./validators/eventos'),
+validarSubeventos = require('./validators/subeventos'),
 validarTipoEvento = require('./validators/tipo_eventos'),
 validarEquipos = require('./validators/equipos'),
 validarAtletaEvento = require('./validators/atleta_eventos'),
@@ -182,10 +183,10 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'GET',
-    path: '/eventos/atletas/{idEvento?}',
+    path: '/eventos/atletas/{idSubevento?}',
     config: {
       auth: config.auth,
-      validate: validarEventos.idEvento
+      validate: validarSubeventos.idEvento
     },
     handler: rutas.eventos.atletas
   });
@@ -200,12 +201,48 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'DELETE',
-    path: '/eventos/{idEvento}/atleta',
+    path: '/eventos/{idSubevento}/atleta',
     config: {
       auth: config.auth,
       validate: validarEventos.atleta
     },
     handler: rutas.eventos.atleta
+  });
+  server.route({
+    method: 'POST',
+    path: '/subeventos/create',
+    config: {
+      auth: config.auth,
+      validate: validarSubeventos.create
+    },
+    handler: rutas.subeventos.create
+  });
+  server.route({
+    method: 'POST',
+    path: '/subeventos/{idSubevento}/save',
+    config: {
+      auth: config.auth,
+      validate: validarSubeventos.save
+    },
+    handler: rutas.subeventos.save
+  });
+  server.route({
+    method: 'GET',
+    path: '/subeventos/{idSubevento?}',
+    config: {
+      auth: config.auth,
+      validate: validarSubeventos.idSubevento
+    },
+    handler: rutas.subeventos.listar
+  });
+  server.route({
+    method: 'DELETE',
+    path: '/subeventos/{idSubevento}',
+    config: {
+      auth: config.auth,
+      validate: validarSubeventos.idSubevento
+    },
+    handler: rutas.subeventos.delete
   });
   server.route({
     method: 'POST',
@@ -281,7 +318,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/atleta/{idAtleta}/evento/{idEvento}/create',
+    path: '/atleta/{idAtleta}/subevento/{idSubevento}/create',
     config: {
       auth: config.auth,
       validate: validarAtletaEvento.create
@@ -290,7 +327,7 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'POST',
-    path: '/atleta/{idAtleta}/evento/{idEvento}/save',
+    path: '/atleta/{idAtleta}/subevento/{idSubevento}/save',
     config: {
       auth: config.auth,
       validate: validarAtletaEvento.save

@@ -19,30 +19,32 @@
  */
 var Joi = require('joi');
 exports.create = {
-  params: {
-    idAtleta: Joi.string().min(10).max(49),
-    idSubevento: Joi.string().min(10).max(49)
-  },
   payload: {
-    carril: Joi.number().required(),
-    hit: Joi.number().required(),
-    tiempo: Joi.number().required(),
+    orden: Joi.number(),
+    genero: Joi.number(),
+    carriles: Joi.number(),
+    tipo: Joi.string().min(1),
+    evento: Joi.string().min(1),
   }
 };
 exports.save = {
   params: {
-    idAtleta: Joi.string().min(10).max(49),
     idSubevento: Joi.string().min(10).max(49)
   },
   payload: {
-    carril: Joi.number(),
-    hit: Joi.number(),
-    tiempo: Joi.number(),
+    orden: Joi.number(),
+    genero: Joi.number(),
+    carriles: Joi.number(),
+    tipo: Joi.string().min(1),
+    evento: Joi.string().min(1),
   }
 };
-// Utilizado para el GET y DELETE
-exports.idAtletaEvento = {
+exports.idSubevento = {
   params: {
-    idAtletaEvento: Joi.string().min(10).max(49)
+    idSubevento: Joi.string().min(10).max(49)
+  },
+  query: {
+    sort: Joi.boolean(),
+    subeventos: Joi.array().items(Joi.string().min(10).max(49)),
   }
 };
