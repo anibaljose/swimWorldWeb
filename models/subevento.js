@@ -20,12 +20,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 module.exports = {
-    nombre: {type: String, required: false, unique: false},
-    lugar: {type: String, required: false, unique: false},
-    fecha_inicial: {type: Number, required: true, unique:false},
-    fecha_final: {type: Number, required: true, unique:false},
-    categoria: {type: Number, required: true, unique:false},
-    numeroEvento: {type: Number, required: true, unique:false},
-    created: {type: Date, required: true, unique: false, default: Date.now},
-    modified:  {type: Date, required: true, unique: false, default: Date.now}
+    carriles: {type: Number, required: true, unique:false},
+    orden: {type: Number, required: true, unique:false},
+    genero: {type: Number, required: true, unique:false},
+    tipo: { type: Schema.Types.ObjectId, ref: 'TipoEvento' },
+    evento: { type: Schema.Types.ObjectId, ref: 'Evento' }
 };
