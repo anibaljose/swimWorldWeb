@@ -161,6 +161,11 @@ md-sidenav {
     position: relative;
     float: right;
     top: -37px;
-    color: red;
-    font-size: 1.7vw;
+}
+
+.boxStudent{
+  box-shadow: -1px 1px 6px 1px rgba(19,19,20,1);
+    background: #859095;
+    color: white;
+    border-radius: 6px;
 }

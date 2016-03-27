@@ -1,86 +1,32 @@
-app.controller('teamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+app.controller('teamCrtl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
+  $mdBottomSheet,$http,$cookies,Servicios) {
 
   if(!$cookies.get('token')){
     window.location = "#/login";
   }
   $scope.showSearch = false;
-
+  $scope.menu = menu;
   $scope.person = [];
-   $http({
-     url: '/equipos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+   
+  tmpTeam = Servicios.equipos();
+  tmpTeam.then(function(response){
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.person = response.equipos;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-
-
-  $scope.menu = [
-    {
-      link : '#/student',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : '#/team',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : '#/eventType',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : '#/event',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '#/massive',
-      title: 'Evento Masivo',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
-
-
-
-
+  });
+   
 $scope.deleteTeam =function(id){
-  var token = $cookies.get('token');
-   $http({
-     url: '/equipos/'+id,
-     method: 'DELETE',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token
-      }
-   }).success(function (response) {
-      if(response.statusCode = "200")
-      {
+  tmpTeamDelete = Servicios.eliminarEquipo(id);
+  tmpTeamDelete.then(function(response){
+    if(response.statusCode = "200")
+    {
         document.getElementById("team"+id).style.display = "none";
-        //$scope.showAlert("se eliminino el equipo");
-      }else{
+    }else{
         $scope.showAlert("No se pudo eliminar de baja al Atleta");
-      }
-   }).error( function (response) {
-        $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
-   });
+    }
+  });
 }
 
 
@@ -101,7 +47,7 @@ $scope.deleteTeam =function(id){
   $scope.createTeam = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      controller  : createController,
+      controller  : createTeamController,
       templateUrl : '../templates/createTeam.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
@@ -124,7 +70,7 @@ $scope.deleteTeam =function(id){
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       templateUrl : '../templates/editTeam.html',
-      controller  : editController,
+      controller  : editTeamController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
@@ -179,12 +125,3 @@ $scope.deleteTeam =function(id){
 
 
 });
-
-function createController() {
-}
-
-function editController($scope,nombre,id) { 
-  $scope.nombre = nombre;
-  $scope.id = id;
-
-}

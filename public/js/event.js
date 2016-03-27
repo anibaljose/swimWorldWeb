@@ -463,7 +463,7 @@ $scope.deleteEvent =function(id){
   
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      templateUrl : '../templates/eventEditTime.html',
+      templateUrl : '../templates/editEventTime.html',
       controller  : EditTimeController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
@@ -536,27 +536,3 @@ $scope.deleteEvent =function(id){
 
 
 });
-
-function createEventController($scope, $mdDialog) {
-}
-
-function EditEventController($scope, $mdDialog,item) { 
-  $scope.id_Evento      = item._id;
-  $scope.id_Tipo_Evento = item.tipo;
-  $scope.Nocategoria    = item.categoria;
-  $scope.Nogenero       = item.genero;
-}
-
-function EditTimeController($scope, $mdDialog,item) { 
-  $scope.nombre = item.nombre;
-  $scope.id_Evento = item._id;
-  $scope.id_Tipo_Evento = item.tipo;
-}
-
-
-function ViewEventTimeController($scope, $mdDialog,item) { 
-  $scope.carriles = item.carriles;
-  $scope.nombre = item.nombre;
-  $scope.id_Evento = item._id;
-  $scope.id_Tipo_Evento = item.tipo;
-}

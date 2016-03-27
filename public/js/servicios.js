@@ -18,7 +18,7 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
-    EliminarAtleta:function(){
+    eliminarAtleta:function(){
       var deferred=$q.defer();
       $http({
          url: '/atletas/'+id,
@@ -66,7 +66,7 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
-    AtletasEvento:function(idEvent){
+    atletasEvento:function(idEvent){
       var deferred=$q.defer();
       $http({
        url: '/eventos/atletas/'+idEvent,
@@ -82,7 +82,7 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
-    NombreEquipo:function(id){
+    nombreEquipo:function(id){
       var deferred=$q.defer();
        $http({
          url: '/equipos/'+id,
@@ -99,7 +99,43 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
-    Tipoevento:function(idTipoEvento){
+    tipoEventos:function(){
+      var deferred=$q.defer();
+      $http({
+       url: '/tipo',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+      }).success(function(response){
+          deferred.resolve(response);
+        }
+      ).error(function(response){
+          deferred.resolve(response);
+      });
+      return deferred.promise;
+
+    },
+    eliminarTipoEvento:function(idTipoEvento){
+      var deferred=$q.defer();
+     $http({
+       url: '/tipo/'+idTipoEvento,
+       method: 'DELETE',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+     }).success(function(response){
+          deferred.resolve(response);
+        }
+      ).error(function(response){
+          deferred.resolve(response);
+      });
+      return deferred.promise;
+
+    },
+    tipoEvento:function(idTipoEvento){
 
       var deferred=$q.defer();
       $http({
@@ -118,7 +154,25 @@ angular.module('swim.httpServices',['ngCookies'])
       return deferred.promise;
 
     },
-    Equipos:function(){
+    eliminarEquipo:function(id){
+     var deferred=$q.defer();   
+     $http({
+       url: '/equipos/'+id,
+       method: 'DELETE',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+     }).success(function(response){
+            deferred.resolve(response);
+          }
+        ).error(function(response){
+            deferred.resolve(response);
+        });
+        return deferred.promise;
+     },
+    equipos:function(){
+     var deferred=$q.defer();   
        $http({
          url: '/equipos',
          method: 'GET',

@@ -1,7 +1,6 @@
 app.controller('editEventTypeCtrl', function($scope,$mdDialog,$http,$cookies) {
-  if(!$cookies.get('token')){
-    window.location = "#/login";
-  }
+console.log("aqui");
+
   $scope.cancel = function() {
      location.reload();
     $mdDialog.cancel();
