@@ -1,4 +1,4 @@
-app.controller('createStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('createStudentCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
   if(!$cookies.get('token')){
     window.location = "#/login";
   }
@@ -18,24 +18,15 @@ app.controller('createStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
     $mdDialog.cancel();
   };
 
-   $http({
-     url: '/equipos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+  tmpTeam = Servicios.equipos();
+  tmpTeam.then(function(response){
     if(response.statusCode = "200"){
       if(response.equipos){
         $scope.team = response.equipos;
       }
+      $scope.userTeam = $scope.team[0];
     }
-        $scope.userTeam = $scope.team[0];
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
+  });
 
 $scope.createStudent =function(){
   var token = $cookies.get('token');
@@ -43,38 +34,26 @@ $scope.createStudent =function(){
     $scope.dateBirthday != '' && $scope.userGenderE != ''&&
     $scope.userTeamE != '')
     {
-       $http({
-         url: '/atletas/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {
-           nombre: $scope.fisrtName,
-           apellido: $scope.lastName,
-           nacimiento: $scope.dateBirthday.getTime(),
-           genero: $scope.userGender ,
-           equipo: $scope.userTeam._id
-         }
-       }).success(function (response) {
-        
-        if(response.statusCode = "200"){
-          $scope.showMessage = "true";  
-          $scope.message = "Atleta creado"; 
-          $scope.fisrtName = ''  
-          $scope.lastName = '';
+      tmpStudent = Servicios.crearAtletas($scope.fisrtName,$scope.lastName,$scope.dateBirthday.getTime(),
+                   $scope.userGenderE._id,$scope.userTeam._id);
+      tmpStudent.then(function(response){
+        if(response.statusCode = "200")
+        {
+            $scope.showMessage = "true";  
+            $scope.message = "Se creo el Atleta"; 
         }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el Atleta"; 
+            $scope.showMessage = "true";  
+            $scope.message = "No se pudo crear el Atleta"; 
         }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
+
+      }).catch(function (error) {
+            $scope.showMessage = "true";  
+            $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
+      });
     }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, complete el formulario"; 
+          $scope.showMessage = "true";  
+          $scope.message = "complete el formulario"; 
+
     }
 }
 

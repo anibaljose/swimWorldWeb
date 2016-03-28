@@ -2,6 +2,7 @@ angular.module('swim.httpServices',['ngCookies'])
 
 .factory('Servicios', function($http, $q,$cookies) {
   return {
+    /**atletas*/
     atletas:function(){
       var deferred=$q.defer();
       $http({
@@ -13,6 +14,54 @@ angular.module('swim.httpServices',['ngCookies'])
         }
      }).success(function (response) {
           deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
+    crearAtletas:function(fisrtName,lastName,dateBirthday,idGender,idTeam){
+      var deferred=$q.defer();
+      $http({
+         url: '/atletas/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+$cookies.get('token')
+          },
+         data: {
+           nombre     : fisrtName,
+           apellido   : lastName,
+           nacimiento : dateBirthday,
+           genero     : idGender,
+           equipo     : idTeam
+         }
+       }).success(function (response) {
+        console.log(JSON.stringify(response));
+        deferred.resolve(response);
+      }).error( function (response) {
+        console.log(JSON.stringify(response));
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
+    editarAtletas:function(idAtleta,fisrtName,lastName,dateBirthday,idGender,idTeam){
+      var deferred=$q.defer();
+      $http({
+       url: '/atletas/'+idAtleta+'/save',
+       method: 'POST',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        },
+        data: {
+           nombre    : fisrtName,
+           apellido  : lastName,
+           nacimiento: dateBirthday,
+           genero    : idGender,
+           equipo    : idTeam
+         }
+     }).success(function (response) {
+        deferred.resolve(response);
       }).error( function (response) {
         deferred.resolve(error);
       });
@@ -30,10 +79,11 @@ angular.module('swim.httpServices',['ngCookies'])
        }).success(function (response) {
           deferred.resolve(response);
       }).error( function (response) {
-        deferred.resolve(error);
+        deferred.resolve(response);
       });
       return deferred.promise;
     },
+    /**eventos*/
     evento:function(idEvent){
       var deferred=$q.defer();
       $http({
@@ -46,7 +96,7 @@ angular.module('swim.httpServices',['ngCookies'])
       }).success(function (response) {
           deferred.resolve(response);
       }).error( function (response) {
-        deferred.resolve(error);
+        deferred.resolve(response);
       });
       return deferred.promise;
     },
@@ -62,7 +112,7 @@ angular.module('swim.httpServices',['ngCookies'])
       }).success(function (response) {
           deferred.resolve(response);
       }).error( function (response) {
-        deferred.resolve(error);
+        deferred.resolve(response);
       });
       return deferred.promise;
     },
@@ -78,7 +128,7 @@ angular.module('swim.httpServices',['ngCookies'])
      }).success(function (response) {
           deferred.resolve(response);
       }).error( function (response) {
-        deferred.resolve(error);
+        deferred.resolve(response);
       });
       return deferred.promise;
     },
@@ -99,6 +149,7 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
+    /***tipo de evento***/
     tipoEventos:function(){
       var deferred=$q.defer();
       $http({
@@ -171,6 +222,7 @@ angular.module('swim.httpServices',['ngCookies'])
         });
         return deferred.promise;
      },
+     /**************equipos*****************/
     equipos:function(){
      var deferred=$q.defer();   
        $http({
