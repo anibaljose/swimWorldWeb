@@ -1,4 +1,4 @@
-app.controller('createEventCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('createEventCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
   
   if(!$cookies.get('token')){
     window.location = "#/login";
@@ -29,94 +29,56 @@ app.controller('createEventCtrl', function($scope,$mdDialog,$http,$cookies) {
     {_id: 2,nombre : "Femenino" }
   ];
   $scope.userGenderE = $scope.generos[0];
-   $http({
-     url: '/tipo',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+
+  tmpEventType = Servicios.tipoEventos();
+  tmpEventType.then(function(response){
     if(response.statusCode = "200"){
       if(response.tipos){
         $scope.eventType = response.tipos;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-  
-  $http({
-     url: '/atletas',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      },
-      params:{
-        edadmin:0,
-        edadmax:4
-      }
-   }).success(function (response) {
+  })
+
+  tmpStudent = Servicios.atletasRango(0,4);
+  tmpStudent.then(function(response){
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.items = response.atletas;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
+  });
+  
 
 $scope.eventCategory = function(){
-  $http({
-     url: '/atletas',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      },
-      params:{
-        edadmin:$scope.userEventCat.min,
-        edadmax:$scope.userEventCat.max
-      }
-   }).success(function (response) {
+  tmpStudent = Servicios.atletasRango($scope.userEventCat.min,$scope.userEventCat.max);
+  tmpStudent.then(function(response){
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.items = response.atletas;
       }
     }
-   }).error( function (response) {
+  }).catch(function (error) {
       $scope.showMessage = "true";  
       $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
- };
+  });
+};
+
 $scope.createEvent =function(){
   var token = $cookies.get('token');
     if($scope.nameEvent != '' && $scope.fromEvent != '' 
       && $scope.carril != '' && $scope.userEvent != ''
       && $scope.dateBirthday )
     {
-       $http({
-         url: '/eventos/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+token
-          },
-         data: {      
-           nombre   : $scope.nameEvent  ,
-           lugar    : $scope.fromEvent,
-           fecha    : $scope.dateBirthday.getTime(),
-           carriles : $scope.carril,
-           tipo     : $scope.userEvent,
-           categoria: $scope.userEventCat.id, 
-           genero   : $scope.userGenderE._id,
-           numeroEvento: $scope.orden
-         }
-       }).success(function (response) {
-        
+      console.log( $scope.nameEvent);
+      tmpEvent = Servicios.crearEvento
+        (
+           $scope.nameEvent,$scope.fromEvent,
+           $scope.dateBirthday.getTime(),$scope.carril,
+           $scope.userEvent,$scope.userEventCat.id, 
+           $scope.userGenderE._id,$scope.orden
+        );
+      tmpEvent.then(function(response){
+        console.log(JSON.stringify(response));
         if(response.statusCode = "200"){
           $scope.showMessage = "true";  
           $scope.message = "Evento creado"; 
@@ -127,34 +89,22 @@ $scope.createEvent =function(){
           var cont = $scope.list.length;
           var id_Evento = response._id;
           for(var i = 0; i<cont; i++){
-            $http({
-               url: '/atleta/'+$scope.list[i]+'/evento/'+id_Evento+'/create',
-               method: 'POST',
-                headers : { 
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer '+token
-                },
-                 data: {      
-                   hit     : 1,
-                   tiempo  : 0,
-                   carril: 0
-                 }
-             }).success(function (response) {
-             }).error( function (response) {
-             });
+            tmpStudentEvent = Servicios.crearEventoAtleta($scope.list[i],id_Evento,0,0,0);
+            tmpStudentEvent.then(function(response){
+            });
           }
-          $scope.showMeene = "Evento creado"; 
+          $scope.message = "Evento creado"; 
         }else{
           $scope.showMessage = "true";  
           $scope.message = "No se pudo crear el Evento"; 
         }
-       }).error( function (response) {
+      }).catch(function (error) {
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
+      });
     }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, complete el formulario"; 
+          $scope.showMessage = "true";  
+          $scope.message = "complete el formulario"; 
     }
 }
   $scope.cancel = function() {

@@ -12,28 +12,19 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.student = [];
   $scope.programa = [];
 
-  $scope.equipos = [];
-   $http({
-     url: '/equipos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+  tmpTeam = Servicios.equipos();
+  tmpTeam.then(function(response){
     if(response.statusCode = "200"){
       if(response.equipos){
         var cant = response.equipos.length;
         for(var i=0; i<cant; i++){
           $scope.equipos.push(response.equipos[i]._id);
         }
-
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
+  });
+
+  $scope.equipos = [];
 
   $scope.toggle = function (item,selected) {
     var idx = $scope.list.indexOf(item._id);
@@ -275,128 +266,50 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
 }
 
 
-$scope.nombreGenero = function(_id){
-  generos = [
-    {_id: 1,nombre : "Masculino" },
-    {_id: 2,nombre : "Femenino" }
-  ];
-  return generos[parseInt(_id)-1].nombre;
-}
+  $scope.nombreGenero = function(_id){
+    generos = [
+      {_id: 1,nombre : "Masculino" },
+      {_id: 2,nombre : "Femenino" }
+    ];
+    return generos[parseInt(_id)-1].nombre;
+  }
 
-$scope.nombreTipo= function(id){
-  $http({
-     url: '/tipo/'+id,
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
+  $scope.nombreTipo= function(id){
+    tmpNameType = Servicios.tipoEvento(id);
+    tmpNameType.then(function(response){
+      if(response.statusCode = "200")
+      {
+        return response.tipo.nombre;
       }
-   }).success(function (response) {
-    //console.log(JSON.stringify(response));
-    if(response.statusCode = "200")
-    {
+    }).catch(function (error) {
+        $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
+    });
+  }
 
-      return response.tipo.nombre;
-    }
-   }).error( function (response) {
-     return 'Indefinido';
-   });
-}
-
-$scope.deleteEvent =function(id){
-  var token = $cookies.get('token');
-   $http({
-     url: '/eventos/'+id,
-     method: 'DELETE',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token
-      }
-   }).success(function (response) {
-    if(response.statusCode = "200")
-    {
-      document.getElementById("event"+id).style.display = "none";
-      //$scope.showAlert("se elimino el Evento");
-    }else{
-      $scope.showAlert("No se pudo eliminar el Evento");
-    }
-   }).error( function (response) {
-      $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
-   });
-}
-   $http({
-     url: '/eventos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+  tmpEvent = Servicios.equipos();
+  tmpEvent.then(function(response){
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-
-
+  });
 
 $scope.deleteEvent =function(id){
-  var token = $cookies.get('token');
-   $http({
-     url: '/eventos/'+id,
-     method: 'DELETE',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token
-      }
-   }).success(function (response) {
+  tmpLogin = Servicios.eliminarEvento(id);
+  tmpLogin.then(function(response){
     if(response.statusCode = "200")
     {
       document.getElementById("event"+id).style.display = "none";
-      //$scope.showAlert("se elimino el Evento");
     }else{
       $scope.showAlert("No se pudo eliminar el Evento");
     }
-   }).error( function (response) {
+  }).catch(function (error) {
       $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
-   });
+  });
 }
-  $scope.menu = [
-    {
-      link : '#/student',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : '#/team',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : '#/eventType',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : '#/event',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '#/massive',
-      title: 'Evento Masivo',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
+
+  $scope.menu = menu;
 
 
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
