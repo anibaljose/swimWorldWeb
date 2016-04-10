@@ -173,4 +173,9 @@ md-sidenav {
     border-bottom-color: red;
 }
 
-
+.itemEvent{
+    background: #FFDF7E;
+    border-bottom-color: black;
+    border-bottom-width: 2px;
+    border-bottom-style: dashed;
+}

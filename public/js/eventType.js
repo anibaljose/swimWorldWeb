@@ -108,6 +108,10 @@ $scope.deleteEventType =function(id){
         window.location = ""+locationPage;
       }
     }
+    $scope.visibleSearch = function(){
+      $scope.showSearch = !$scope.showSearch;
+      $scope.search = '';
+    }
     
 });
 

@@ -109,6 +109,10 @@ $scope.deleteTeam =function(id){
         window.location = ""+locationPage;
       }
     }
+    $scope.visibleSearch = function(){
+      $scope.showSearch = !$scope.showSearch;
+      $scope.search = '';
+    }
     
   $scope.alert = '';
   $scope.showListBottomSheet = function($event) {

@@ -11,6 +11,11 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.EntryFinal = [];
   $scope.student = [];
   $scope.programa = [];
+  $scope.generos = [
+    {_id: 1,nombre : "Masculino" },
+    {_id: 2,nombre : "Femenino" }
+  ];
+  $scope.userGenderE = $scope.generos[0];
 
   tmpTeam = Servicios.equipos();
   tmpTeam.then(function(response){

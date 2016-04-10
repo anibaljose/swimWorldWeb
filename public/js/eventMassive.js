@@ -1,4 +1,4 @@
-app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
   
   if(!$cookies.get('token')){
     window.location = "#/login";
@@ -17,6 +17,8 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.selected = []; 
   $scope.eventType = [];
   $scope.orden = '';
+  $scope.events = [];
+
   $scope.categoria = [{_id:1,nombre:"BEBES",min:0,max:4},
   {_id:2,nombre:"MENORES",min:5,max:6},{_id:3,nombre:"PRE INFANTIL",min:7,max:8},
   {_id:4,nombre:"INFANTIL A",min:9,max:10},{_id:5,nombre:"INFANTIL B",min:11,max:12},
@@ -30,69 +32,89 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
     {_id: 2,nombre : "Femenino" }
   ];
 
-   $http({
-     url: '/tipo',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+  tmpEventType = Servicios.tipoEventos();
+  tmpEventType.then(function(response){
     if(response.statusCode = "200"){
       if(response.tipos){
         $scope.eventType = response.tipos;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-  
+  });
 
-
-
+  $scope.eventTyp = function (){
+    $scope.eventTyp
+    return 
+  }
   $scope.toggle = function (item, list) {
-    var idx = $scope.list.indexOf(item._id);
+    var idx = $scope.list.indexOf(item);
     if (idx > -1) $scope.list.splice(idx, 1);
-    else $scope.list.push(item._id);
+    else $scope.list.push(item);
   };
   $scope.exists = function (item, list) {
-    return $scope.list.indexOf(item._id) > -1;
+    return $scope.list.indexOf(item) > -1;
   };
 
 
   $scope.toggleTwo = function (item, list) {
-    var idx = $scope.listTwo.indexOf(item._id);
+    var idx = $scope.listTwo.indexOf(item);
     if (idx > -1) $scope.listTwo.splice(idx, 1);
-    else $scope.listTwo.push(item._id);
+    else $scope.listTwo.push(item);
   };
   $scope.existsTwo = function (item, list) {
-    return $scope.listTwo.indexOf(item._id) > -1;
+    return $scope.listTwo.indexOf(item) > -1;
   };
 
 
   $scope.toggleThree = function (item, list) {
-    var idx = $scope.listThree.indexOf(item._id);
+    var idx = $scope.listThree.indexOf(item);
     if (idx > -1) $scope.listThree.splice(idx, 1);
-    else $scope.listThree.push(item._id);
+    else $scope.listThree.push(item);
   };
   $scope.existsThree = function (item, list) {
-    return $scope.listThree.indexOf(item._id) > -1;
+    return $scope.listThree.indexOf(item) > -1;
   };
 
-  $scope.createEventos =function(){
-
-    var cont1 =  $scope.list.length;
-    var cont2 =  $scope.listTwo.length;
-    var cont3 =  $scope.listThree.length;
-    //var cont4 = 1;
+  $scope.createEventSimple = function () {
+    var cont1 =  $scope.list.length;//tipo evento
+    var cont2 =  $scope.listTwo.length;//genero
+    var cont3 =  $scope.listThree.length;//categoria
+    eventAux = [];
     for(var i = 0; i< cont1; i++){//tipo evento
       for(var j =0; j < cont2; j++){//genero
         for(var k = 0; k < cont3; k++){//categoria
-          $scope.createEvent(conteo, $scope.listTwo[j], $scope.list[i],$scope.listThree[k])
+          $scope.events.push(
+            {
+              id        : conteo,
+              tipo      : $scope.list[i].nombre,
+              id_tipo   : $scope.list[i]._id,
+              genero    : $scope.listTwo[j].nombre,
+              id_genero : $scope.listTwo[j]._id,
+              categoria : $scope.listThree[k].nombre,
+              id_categoria : $scope.listThree[k]._id,
+
+            });
            conteo++;
         }
       } 
+    }
+    console.log(JSON.stringify($scope.events));
+  };
+
+  $scope.deleteItem = function(item){
+    conteo = 1;
+    var idx = $scope.events.indexOf(item);
+    if (idx > -1) $scope.events.splice(idx, 1);
+  };
+
+
+  $scope.createEventos =function(){
+
+    var cont1 =  $scope.events.length;
+    var conteoAux = 1;
+    for(var i = 0; i< cont1; i++){
+      var item = $scope.events[i];
+      $scope.createEvent(conteo, item.id_genero, item.id_tipo,item.id_categoria);
+      conteoAux++; 
     }
   
   }
@@ -137,38 +159,7 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies) {
       $scope.message = "Por favor, complete el formulario"; 
     }
 }
- $scope.menu = [
-    {
-      link : '#/student',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : '#/team',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : '#/eventType',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : '#/event',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '#/Masivo',
-      title: 'Evento Masivo',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
+ $scope.menu = menu;
 
     $scope.openSideNavPanel = function() {
         $mdSidenav('left').open();

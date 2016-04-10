@@ -47,17 +47,22 @@
       </md-tabs>
     </md-toolbar>
     <md-toolbar class="md-hue-1" ng-show="showSearch">
-      <div class="md-toolbar-tools">
         <md-button ng-click="visibleSearch()" aria-label="Back">
           <i class="fa fa-arrow-left  fa-2x"></i>
         </md-button>
+      <div class="md-toolbar-tools">
         <md-input-container md-theme="input" flex>
           <label>&nbsp;</label>
           <input style ="margin-top: 22px !important;"ng-model="search.nombre" placeholder="Escriba el nombre">
         </md-input-container>
-        <md-button aria-label="Search" ng-click="visibleSearch()">
-          <i class="fa fa-search fa-2x"></i>  Buscar
-        </md-button>
+      </div>
+    </md-toolbar>
+    <md-toolbar class="md-hue-1" ng-show="showSearch">
+      <div class="md-toolbar-tools">
+        <md-input-container md-theme="input" flex>
+          <label>&nbsp;</label>
+          <input style ="margin-top: 22px !important;"ng-model="search.apellido" placeholder="Escriba el apellido">
+        </md-input-container>
       </div>
     </md-toolbar>
     <md-content flex md-scroll-y >
