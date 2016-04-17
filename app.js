@@ -32,6 +32,7 @@ validarTipoEvento = require('./validators/tipo_eventos'),
 validarEquipos = require('./validators/equipos'),
 validarAtletaEvento = require('./validators/atleta_eventos'),
 validarTiemposNado = require('./validators/tiempos_nado'),
+validarReporte = require('./validators/reporte'),
 
 server = new Hapi.Server();
 server.connection({
@@ -360,6 +361,15 @@ server.register(require('hapi-auth-jwt'), (err) =>{
       validate: validarTiemposNado.delete
     },
     handler: rutas.tiemposNado.delete
+  });
+  server.route({
+    method: 'GET',
+    path: '/reporte/reporte1',
+    config: {
+      auth: config.auth,
+      validate: validarReporte.reporte1
+    },
+    handler: rutas.reporte.reporte1
   });
 });
 server.register(require('inert'), (err) => {

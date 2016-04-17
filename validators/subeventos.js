@@ -23,6 +23,8 @@ exports.create = {
     orden: Joi.number(),
     genero: Joi.number(),
     carriles: Joi.number(),
+    categoria: Joi.number(),
+    numeroEvento: Joi.number(),
     tipo: Joi.string().min(1),
     evento: Joi.string().min(1),
   }
@@ -35,6 +37,8 @@ exports.save = {
     orden: Joi.number(),
     genero: Joi.number(),
     carriles: Joi.number(),
+    categoria: Joi.number(),
+    numeroEvento: Joi.number(),
     tipo: Joi.string().min(1),
     evento: Joi.string().min(1),
   }

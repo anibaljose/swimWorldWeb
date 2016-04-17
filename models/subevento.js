@@ -23,6 +23,8 @@ module.exports = {
     carriles: {type: Number, required: true, unique:false},
     orden: {type: Number, required: true, unique:false},
     genero: {type: Number, required: true, unique:false},
+    categoria: {type: Number, required: true, unique:false},
+    numeroEvento: {type: Number, required: true, unique:false},
     tipo: { type: Schema.Types.ObjectId, ref: 'TipoEvento' },
     evento: { type: Schema.Types.ObjectId, ref: 'Evento' }
 };

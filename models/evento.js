@@ -24,8 +24,6 @@ module.exports = {
     lugar: {type: String, required: false, unique: false},
     fecha_inicial: {type: Number, required: true, unique:false},
     fecha_final: {type: Number, required: true, unique:false},
-    categoria: {type: Number, required: true, unique:false},
-    numeroEvento: {type: Number, required: true, unique:false},
     created: {type: Date, required: true, unique: false, default: Date.now},
     modified:  {type: Date, required: true, unique: false, default: Date.now}
 };
