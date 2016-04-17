@@ -22,8 +22,7 @@ var Schema = mongoose.Schema;
 module.exports = {
     nombre: {type: String, required: false, unique: false},
     lugar: {type: String, required: false, unique: false},
-    fecha_inicial: {type: Number, required: true, unique:false},
-    fecha_final: {type: Number, required: true, unique:false},
+    fecha: {type: Number, required: true, unique:false},
     created: {type: Date, required: true, unique: false, default: Date.now},
     modified:  {type: Date, required: true, unique: false, default: Date.now}
 };
