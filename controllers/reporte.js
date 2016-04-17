@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+ "use strict";
  var db = require('../models');
  exports.reporte1 = function(request, reply){
    db.Evento.findOne({_id: request.query.idEvento}, function(err, evento){
