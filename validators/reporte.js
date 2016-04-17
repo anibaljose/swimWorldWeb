@@ -20,11 +20,11 @@
 var Joi = require('joi');
 exports.reporte1 = {
   query: {
-    idEvento: Joi.string().min(10).max(49)
+    idEvento: Joi.string().min(10).max(49).required()
   }
 };
 exports.reporte2 = {
   query: {
-    idEvento: Joi.string().min(10).max(49)
+    idEvento: Joi.string().min(10).max(49).required()
   }
 };
