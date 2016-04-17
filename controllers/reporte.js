@@ -63,5 +63,52 @@
    });
  };
 exports.reporte2 = function(request, reply){
-
+  db.Evento.findOne({_id: request.query.idEvento}, function(err, evento){
+    if (err){
+      reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+    } else if (evento){
+      let answer = {
+        statusCode: 200,
+        evento: evento
+      };
+      db.Subevento.find({evento: request.query.idEvento})
+      .populate("tipo", "nombre")
+      .exec(function(err, subeventos){
+        let subeventos_id = [];
+        for(let i = 0; i < subeventos.length; i++){
+          subeventos_id.push(subeventos[i]._id);
+        }
+        db.AtletaEvento.find({subevento: {$in: subeventos_id}}, function(err, atletaEventos){
+          let atletas_id = [];
+          for(let i = 0; i < atletaEventos.length; i++){
+            atletas_id.push(atletaEventos[i].atleta);
+          }
+          db.Atleta.find({_id: {$in: atletas_id}})
+          .populate("equipo")
+          .exec(function(err, atletas){
+            // A brawl starts here
+            for (let i = 0; i < atletas.length; i++){
+              let atleta = atletas[i];
+              for (let j = 0; j < atletaEventos.length; j++){
+                let atletaEvento = atletaEventos[j];
+                if (atletaEvento.atleta == atleta._id){
+                  atleta.detalle = atletaEvento;
+                  for (let k = 0; k < subeventos.length; k++){
+                    let subevento = subeventos[k]; // clone
+                    if (subevento._id == atletaEvento.subevento){
+                      atleta.subevento = subevento;
+                    }
+                  }
+                }
+              }
+            }
+            answer.atletas = atletas;
+            reply(answer);
+          });
+        });
+      });
+    } else {
+      reply({statusCode: 600, error: "Database", message:"Evento no encontrado"});
+    }
+  });
 }
