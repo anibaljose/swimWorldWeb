@@ -23,9 +23,7 @@ exports.create = {
     nombre: Joi.string().min(3).required(),
     lugar: Joi.string().min(3).required(),
     fecha: Joi.number(),
-    genero: Joi.number(),
     carriles: Joi.number(),
-    tipo: Joi.string().min(1),
   }
 };
 exports.save = {
@@ -36,9 +34,7 @@ exports.save = {
     nombre: Joi.string().min(3),
     lugar: Joi.string().min(3),
     fecha: Joi.number(),
-    genero: Joi.number(),
     carriles: Joi.number(),
-    tipo: Joi.string().min(1),
   }
 };
 // Utilizado para el GET y DELETE

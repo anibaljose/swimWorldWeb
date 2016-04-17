@@ -62,3 +62,6 @@
      }
    });
  };
+exports.reporte2 = function(request, reply){
+
+}
