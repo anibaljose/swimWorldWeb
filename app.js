@@ -380,16 +380,15 @@ server.register(require('hapi-auth-jwt'), (err) =>{
     },
     handler: rutas.reporte.reporte1
   });
-});
-server.route({
-  method: 'GET',
-  path: '/reporte/reporte2',
-  config: {
-    auth: config.auth,
-    validate: validarReporte.reporte2
-  },
-  handler: rutas.reporte.reporte2
-});
+  server.route({
+    method: 'GET',
+    path: '/reporte/reporte2',
+    config: {
+      auth: config.auth,
+      validate: validarReporte.reporte2
+    },
+    handler: rutas.reporte.reporte2
+  });
 });
 server.register(require('inert'), (err) => {
   if (err) {
