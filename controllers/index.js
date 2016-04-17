@@ -24,6 +24,7 @@ var privateKey = config.salt;
 exports.usuarios = require('./usuarios');
 exports.atletas = require('./atletas');
 exports.eventos = require('./eventos');
+exports.subeventos = require('./subeventos');
 exports.tipoEventos = require('./tipo_eventos');
 exports.equipos = require('./equipos');
 exports.atletaEventos = require('./atleta_eventos');
