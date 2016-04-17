@@ -45,8 +45,8 @@ exports.subeventos = function(request, reply){
   db.Subevento.find({evento: request.params.idEvento},function(err, subeventos){
     if (err){
       reply({statusCode: 600, error: "Database", message:"Subevento no encontrado"});
-    } else if (eventos){
-      reply({statusCode:200,eventos:eventos});
+    } else if (subeventos){
+      reply({statusCode:200,subeventos:subeventos});
     } else {
       reply({statusCode: 600, error: "Database", message:"Subevento no encontrado"});
     }
