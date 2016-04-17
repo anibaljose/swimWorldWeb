@@ -15,6 +15,11 @@
             <i class="fa fa-text-width  iconInput"></i>
             <input ng-model="dateBirthday" type="date" placeholder="Fecha de Nacimiento" ng-required="true" class="sytleInput" disabled>
          </md-input-container>
+              Elije el evento:
+             <md-input-container>
+                <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
+                </select>
+             </md-input-container>
          <div flex="50" flex-gt-sm="50" layout="column">
             <div>
                <fieldset class="standard" >
@@ -36,7 +41,7 @@
          </div>
 
          <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
-         <md-button class="btnAdd" ng-click="ver()" >Eventos</md-button>
+         <md-button class="btnAdd" ng-click="ver()" >Ver Eventos</md-button>
          <md-button class="btnAdd" ng-click="add()" >Asignar Eventos</md-button>
          <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
       </md-card-content>

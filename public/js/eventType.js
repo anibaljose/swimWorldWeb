@@ -1,74 +1,25 @@
-
-
-app.controller('eventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$mdBottomSheet,$http,$cookies) {
+app.controller('eventTypeCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
+  $mdBottomSheet,$http,$cookies,Servicios) {
 
   if(!$cookies.get('token')){
     window.location = "#/login";
   }
   $scope.showSearch = false;
-
+  $scope.menu = menu;
   $scope.person = [];
-   $http({
-     url: '/tipo',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+$cookies.get('token')
-      }
-   }).success(function (response) {
+
+  tmpEventType = Servicios.tipoEventos();
+  tmpEventType.then(function(response){
     if(response.statusCode = "200"){
       if(response.tipos){
         $scope.person = response.tipos;
       }
     }
-   }).error( function (response) {
-      $scope.showMessage = "true";  
-      $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-   });
-
-  $scope.menu = [
-    {
-      link : '#/student',
-      title: 'Atleta',
-      icon: 'fa-male'
-    },
-    {
-      link : '#/team',
-      title: 'Equipo',
-      icon: 'fa-briefcase'
-    },
-    {
-      link : '#/eventType',
-      title: 'Tipo Evento',
-      icon: 'fa-get-pocket'
-    },
-    {
-      link : '#/event',
-      title: 'Evento',
-      icon: 'fa-star'
-    },
-    {
-      link : '#/massive',
-      title: 'Evento Masivo',
-      icon: 'fa-star'
-    },
-    {
-      link : '',
-      title: 'Cerrar Sesion',
-      icon: 'fa-times-circle'
-    }
-  ];
+  });
 
 $scope.deleteEventType =function(id){
-  var token = $cookies.get('token');
-   $http({
-     url: '/tipo/'+id,
-     method: 'DELETE',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token
-      }
-   }).success(function (response) {
+  tmpEventType = Servicios.eliminarTipoEvento(id);
+  tmpEventType.then(function(response){
     if(response.statusCode = "200")
     {
       document.getElementById("eventType"+id).style.display = "none";
@@ -76,9 +27,7 @@ $scope.deleteEventType =function(id){
     }else{
       $scope.showAlert("No se pudo eliminar el tipo de Evento");
     }
-   }).error( function (response) {
-      $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
-   });
+  });
 }
 
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -96,7 +45,7 @@ $scope.deleteEventType =function(id){
   $scope.createEventType = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
-      controller  : createController,
+      controller  : createEventTypeController,
       templateUrl : '../templates/createEventType.html',
       parent      : angular.element(document.body),
       targetEvent : ev,
@@ -120,7 +69,7 @@ $scope.deleteEventType =function(id){
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
       templateUrl : '../templates/editEventType.html',
-      controller  : EditController,
+      controller  : editEventTypeController,
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
@@ -159,16 +108,13 @@ $scope.deleteEventType =function(id){
         window.location = ""+locationPage;
       }
     }
+    $scope.visibleSearch = function(){
+      $scope.showSearch = !$scope.showSearch;
+      $scope.search = '';
+    }
     
-  $scope.alert = '';
 });
 
 
-function createController($scope, $mdDialog) {
-}
 
-function EditController($scope, $mdDialog,nombre,id) { 
-  $scope.nombre = nombre;
-  $scope.id = id;
-}
 

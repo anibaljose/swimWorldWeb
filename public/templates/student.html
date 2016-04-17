@@ -1,105 +1,101 @@
 <link href="../css/addStudent.css" rel="stylesheet">
 <div layout="row" style="height:100% !important; width:100% !important;" ng-controller="studentCtrl" >
-   <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style ="background: #8BC34A;">
-      <md-toolbar class="md-tall md-hue-2" >
-      <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
-         <span flex></span>
-         <div layout="column" class="md-toolbar-tools-bottom inset">
-            <div style="margin-left: 77px;">
-               <i class="fa fa-user fa-5x"></i>
+  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style ="background: rgb(2, 119, 189);">
+    <md-toolbar class="md-tall md-hue-2" >
+    <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
+      <span flex></span>
+      <div layout="column" class="md-toolbar-tools-bottom inset">
+        <div style="margin-left: 77px;">
+          <i class="fa fa-user fa-5x"></i>
+        </div>
+        <div style="margin-left: 44px;">Juan Carlos</div>
+        <div style="margin-left: 30px;">jcacsnata@gmail.com</div>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-item ng-repeat="item in menu">
+        <a>
+          <md-item-content md-ink-ripple layout="row" layout-align="start center" ng-click="go(item.link)" style="cursor:pointer">
+            <div class="inset">
+              <i style = "color:white !important;" class="fa {{item.icon}} fa-1x"></i>
             </div>
-            <div style="margin-left: 44px;">Juan Carlos</div>
-            <div style="margin-left: 30px;">jcacsnata@gmail.com</div>
-         </div>
-      </md-toolbar>
-      <md-list>
-         <md-item ng-repeat="item in menu">
-            <a>
-               <md-item-content md-ink-ripple layout="row" layout-align="start center" ng-click="go(item.link)" style="cursor:pointer">
-                  <div class="inset">
-                     <i style = "color:black !important;" class="fa {{item.icon}} fa-1x"></i>
+            <div class="inset" style="color: white;">{{item.title}}
+            </div>
+          </md-item-content>
+        </a>
+      </md-item>
+    </md-list>
+  </md-sidenav>
+  <div layout="column" class="relative" layout-fill role="main">
+    <md-button style="background: rgba(255, 222, 121, 0.96);color: rgba(0, 0, 0, 0.42);" class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="createStudent($event)" >
+      <i class="fa fa-plus fa-1x"></i>
+    </md-button>
+    <md-toolbar ng-show="!showSearch">
+      <div class="md-toolbar-tools">
+        <md-button ng-click="toggleSidenav('left')" >
+          <i class="fa fa-bars fa-2x"></i>
+        </md-button>
+        <span flex></span>
+        <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+          <i class="fa fa-search fa-2x"></i>  Buscar
+        </md-button>
+      </div>
+      <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
+        <md-tab id="tab1" aria-controls="tab1-content">
+          Esutidantes
+        </md-tab>
+      </md-tabs>
+    </md-toolbar>
+    <md-toolbar class="md-hue-1" ng-show="showSearch">
+        <md-button ng-click="visibleSearch()" aria-label="Back">
+          <i class="fa fa-arrow-left  fa-2x"></i>
+        </md-button>
+      <div class="md-toolbar-tools">
+        <md-input-container md-theme="input" flex>
+          <label>&nbsp;</label>
+          <input style ="margin-top: 22px !important;"ng-model="search.nombre" placeholder="Escriba el nombre">
+        </md-input-container>
+      </div>
+    </md-toolbar>
+    <md-toolbar class="md-hue-1" ng-show="showSearch">
+      <div class="md-toolbar-tools">
+        <md-input-container md-theme="input" flex>
+          <label>&nbsp;</label>
+          <input style ="margin-top: 22px !important;"ng-model="search.apellido" placeholder="Escriba el apellido">
+        </md-input-container>
+      </div>
+    </md-toolbar>
+    <md-content flex md-scroll-y >
+      <ui-view layout="column" layout-fill layout-padding>
+        <div class="inset" hide-sm></div>
+        <ng-switch on="data.selectedIndex" class="tabpanel-container">
+          <div role="tabpanel"layout="row" >
+            <md-card flex-gt-sm="100" flex-gt-md="100">
+              <md-content>
+                  <legend> Cantidad de Atletas: {{ student.length}}</legend>
+                <md-list >
+                  <md-list-item class="md-3-line"  ng-repeat="item in student | filter:search" >
+                  <div class="md-list-item-text" id = "student{{item._id}}">
+                    <div class="md-tile-content boxStudent" >
+                      <h3 style="color:white;"> {{item.nombre}} {{item.apellido}}</h3>
+                      <h4 style="color:white;"> {{nombreGenero(item.genero)}}</h4>
+                      <p style="color:white;"> {{edad(item.nacimiento)}} años</p>
+                    </div>
+                    <div class="botones" alt ="eliminar">
+                      <i class="fa fa-minus-square fa-1x" ng-click="enable(item._id)" style="cursor:pointer;"></i>
+                      <i class="fa fa-pencil-square-o fa-1x" style ="cursor:pointer;" ng-click="editStudent(item)"></i>
+                      <i class="fa fa-wrench fa-1x" ng-click="assignStudent(item)" style ="cursor:pointer;"></i>
+                    </div>
                   </div>
-                  <div class="inset" style="color: black;">{{item.title}}
-                  </div>
-               </md-item-content>
-            </a>
-         </md-item>
-      </md-list>
-   </md-sidenav>
-   <div layout="column" class="relative" layout-fill role="main">
-      <md-button style="background: rgba(255, 222, 121, 0.96);color: rgba(0, 0, 0, 0.42);" class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="createStudent($event)" >
-         <i class="fa fa-plus fa-1x"></i>
-      </md-button>
-      <md-toolbar ng-show="!showSearch">
-         <div class="md-toolbar-tools">
-            <md-button ng-click="toggleSidenav('left')" >
-               <i class="fa fa-bars fa-2x"></i>
-            </md-button>
-            <span flex></span>
-            <md-button aria-label="Search" ng-click="showSearch = !showSearch">
-               <i class="fa fa-search fa-2x"></i>  Buscar
-            </md-button>
-         </div>
-         <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
-            <md-tab id="tab1" aria-controls="tab1-content">
-               Esutidantes
-            </md-tab>
-         </md-tabs>
-      </md-toolbar>
-      <md-toolbar class="md-hue-1" ng-show="showSearch">
-         <div class="md-toolbar-tools">
-            <md-button ng-click="visibleSearch()" aria-label="Back">
-               <i class="fa fa-arrow-left  fa-2x"></i>
-            </md-button>
-            <md-input-container md-theme="input" flex>
-               <label>&nbsp;</label>
-               <input style ="margin-top: 22px !important;"ng-model="search.nombre" placeholder="Escriba el nombre">
-            </md-input-container>
-            <md-button aria-label="Search" ng-click="visibleSearch()">
-               <i class="fa fa-search fa-2x"></i>  Buscar
-            </md-button>
-         </div>
-      </md-toolbar>
-      <md-content flex md-scroll-y style ="background: #8BC34A;">
-         <ui-view layout="column" layout-fill layout-padding>
-            <div class="inset" hide-sm></div>
-            <ng-switch on="data.selectedIndex" class="tabpanel-container">
-               <div role="tabpanel"
-                  id="tab1-content"
-                  aria-labelledby="tab1"
-                  ng-switch-when="0"
-                  md-swipe-left="next()"
-                  md-swipe-right="previous()"
-                  layout="row" layout-align="center center">
-                  <md-card flex-gt-sm="90" flex-gt-md="80">
-                     <md-card-content>
-                        <md-list >
-                           <legend> <code>Cantidad de Atletas: </code style ="color:blue;" >{{ student.length}} <code></co></legend>
-                           <md-item ng-repeat="item in student | filter:search" >
-                              <md-item-content id = "student{{item._id}}">
-                                 <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
-                                    <div>
-                                       <div style="font-size: 12px; font-weight: 700;"> {{item.nombre}} {{item.apellido}}</div>
-                                       <div style="font-size: 12px;"> {{nombreGenero(item.genero)}}</div>
-                                       <div style="font-size: 12px;"> {{edad(item.nacimiento)}} años</div>
-                                       <div class="botones">
-                                          <i class="fa fa-minus-circle fa-1x" alt ="eliminar" ng-click="enable(item._id)" style="cursor:pointer;"></i>
-                                          <i class="fa fa-pencil-square-o fa-1x" style ="color:rebeccapurple; cursor:pointer;" ng-click="editStudent(item)"></i>
-                                          <i class="fa fa-wrench fa-1x" ng-click="assignStudent(item)" style ="color: #2196F3; cursor:pointer;"></i>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </md-item-content>
-                              <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                              <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                           </md-item>
-                           <md-divider></md-divider>
-                        </md-list>
-                     </md-card-content>
-                  </md-card>
-               </div>
-            </ng-switch>
-         </ui-view>
-      </md-content>
-   </div>
+                  <md-divider ng-if="!$last"></md-divider>
+                  </md-item>
+                  <md-divider></md-divider>
+                </md-list>
+              </md-content>
+            </md-card>
+          </div>
+        </ng-switch>
+      </ui-view>
+    </md-content>
+  </div>
 </div>

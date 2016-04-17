@@ -72,8 +72,7 @@ app.config(function($mdThemingProvider) {
       'default': '500',
       'hue-1': '50'
     }).accentPalette('pink');
-  $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey')
+  $mdThemingProvider.theme('input', 'default').primaryPalette('grey')
 });
 
 
@@ -99,4 +98,48 @@ function assignStudentController($scope,item) {
   $scope.userGenderE  = '';
   $scope.gen          = item.genero ;
   $scope.id           = item._id;
+}
+
+/**eventos*/
+
+function createEventController($scope, $mdDialog) {
+}
+
+function EditEventController($scope, $mdDialog,item) { 
+  $scope.id_Evento      = item._id;
+  $scope.id_Tipo_Evento = item.tipo;
+  $scope.Nocategoria    = item.categoria;
+  $scope.Nogenero       = item.genero;
+}
+
+function EditTimeController($scope, $mdDialog,item) { 
+  $scope.nombre = item.nombre;
+  $scope.id_Evento = item._id;
+  $scope.id_Tipo_Evento = item.tipo;
+}
+
+
+function ViewEventTimeController($scope, $mdDialog,item) { 
+  $scope.carriles = item.carriles;
+  $scope.nombre = item.nombre;
+  $scope.id_Evento = item._id;
+  $scope.id_Tipo_Evento = item.tipo;
+}
+/**equipos*/
+
+function createTeamController() {
+}
+
+function editTeamController($scope,nombre,id) { 
+  $scope.nombre = nombre;
+  $scope.id = id;
+}
+
+/**tipo de evento*/
+function createEventTypeController($scope, $mdDialog) {
+}
+
+function editEventTypeController($scope,nombre,id) { 
+  $scope.nombre = nombre;
+  $scope.id = id;
 }

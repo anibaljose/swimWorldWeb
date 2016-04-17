@@ -23,9 +23,36 @@
                <i class="fa fa-text-width  iconInput"></i>
                <input ng-model="dateBirthday" type="date" placeholder="Fecha de Nacimiento" ng-required="true" class="sytleInput">
             </md-input-container>
+
+              Elije el evento:
+             <md-input-container>
+                <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
+                </select>
+             </md-input-container>
+         <div flex="50" flex-gt-sm="50" layout="column">
+            <div>
+               <fieldset class="standard" >
+                  <legend> <code>Evento</code> <code></co></legend>
+               <md-input-container md-theme="input" flex>
+                  <label>&nbsp;</label>
+                  Busque de evento:
+                  <input style ="margin-top: 22px !important;" ng-model="search.tipo_evento" placeholder="Escriba el tipo evento">
+               </md-input-container>
+                  <div layout="row" layout-wrap flex>
+                     <div flex="5"  ng-repeat="item in eventMod | filter:search" style="padding-right: 30%;">
+                        <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;">
+                           {{ item.nombre }} <span style = "color:red;">-{{ item.tipo_evento }} - </span>{{item.genero}} - <span style = "color:red;"> {{ item.categoria }}<span ng-if="exists(item, selected)"></span>
+                        </md-checkbox>
+                     </div>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
          </md-content>
          <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
          <md-button class="btnAdd" ng-click="createStudent()" >Agregar</md-button>
+         <md-button class="btnAdd" ng-click="ver()" >Ver Eventos</md-button>
+         <md-button class="btnAdd" ng-click="add()" >Asignar Eventos</md-button>
          <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
       </md-card-content>
    </md-card>

@@ -146,5 +146,10 @@ app.controller('studentCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,$md
         window.location = ""+locationPage;
       }
     }
+    $scope.visibleSearch = function(){
+      $scope.showSearch = !$scope.showSearch;
+      $scope.showSearch2 = !$scope.showSearch2;
+      $scope.search = '';
+    }
 
 });

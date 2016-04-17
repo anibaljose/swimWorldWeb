@@ -156,3 +156,19 @@ md-sidenav {
   color : rgb(187, 187, 187);
   background-color: rgba(230, 230, 229, 0.96);
 }
+.botones{
+    position: relative;
+    float: right;
+    top: -19px;
+}
+
+.boxStudent{
+  box-shadow: -1px 1px 6px 1px rgba(19,19,20,1);
+    background: #859095;
+    color: white;
+    border-radius: 6px;
+}
+md-list-item.md-3-line, md-list-item.md-3-line>.md-no-style {
+    height: auto;
+    min-height: 0px;
+}
