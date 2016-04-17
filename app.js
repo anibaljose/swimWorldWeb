@@ -184,6 +184,15 @@ server.register(require('hapi-auth-jwt'), (err) =>{
   });
   server.route({
     method: 'GET',
+    path: '/eventos/{idEvento}/subeventos',
+    config: {
+      auth: config.auth,
+      validate: validarEventos.subeventos
+    },
+    handler: rutas.eventos.subeventos
+  });
+  server.route({
+    method: 'GET',
     path: '/eventos/atletas/{idSubevento?}',
     config: {
       auth: config.auth,

@@ -30,11 +30,11 @@ exports.listar = function(request, reply){
       }
     });
   } else {
-    db.Subevento.find(function(err, eventos){
+    db.Subevento.find(function(err, subeventos){
       if (err){
         reply({statusCode: 600, error: "Database", message:"Subevento no encontrado"});
       } else if (eventos){
-        reply({statusCode:200,eventos:eventos});
+        reply({statusCode:200,subeventos:subeventos});
       } else {
         reply({statusCode: 600, error: "Database", message:"Subevento no encontrado"});
       }

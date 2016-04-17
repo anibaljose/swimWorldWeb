@@ -18,6 +18,11 @@
  *
  */
 var Joi = require('joi');
+exports.subeventos = {
+  params: {
+    idEvento: Joi.string().min(10).max(49)
+  }
+};
 exports.create = {
   payload: {
     nombre: Joi.string().min(3).required(),
