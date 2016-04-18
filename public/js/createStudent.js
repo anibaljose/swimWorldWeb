@@ -7,6 +7,7 @@ app.controller('createStudentCtrl', function($scope,$mdDialog,$http,$cookies,Ser
   $scope.dateBirthday = '';
   $scope.events = [];
   $scope.eventMod = [];
+  $scope.subEvents = [];
   $scope.list = [];
   $scope.categoria = [{id:1,name:"BEBES",min:0,max:4},
   {id:2,name:"MENORES",min:5,max:6},{id:3,name:"PRE INFANTIL",min:7,max:8},
@@ -28,6 +29,30 @@ app.controller('createStudentCtrl', function($scope,$mdDialog,$http,$cookies,Ser
     location.reload();
     $mdDialog.cancel();
   };
+
+  tmpEvent = Servicios.eventos();
+  tmpEvent.then(function(response){
+    if(response.statusCode = "200"){
+      if(response.eventos){
+        $scope.events = response.eventos;
+        $scope.userEvents = $scope.events[0]; 
+
+        console.log(JSON.stringify($scope.events));
+        $scope.idEvent= $scope.events[0]._id;
+
+        tmpEventSub = Servicios.subEventos($scope.idEvent);
+        tmpEventSub.then(function(response){
+          console.log(JSON.stringify(response));
+          if(response.statusCode = "200"){
+            if(response.subeventos){
+              $scope.subEvents  = response.subeventos;
+            }
+          }
+        });
+      }
+    }
+  });
+
 
   tmpTeam = Servicios.equipos();
   tmpTeam.then(function(response){

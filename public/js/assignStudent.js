@@ -1,4 +1,4 @@
-app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
   if(!$cookies.get('token')){
     window.location = "#/login";
   }
@@ -7,6 +7,7 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.userTeam = '';
   $scope.userGender = '';
   $scope.events = [];
+  $scope.eventss = [];
   $scope.eventMod = [];
   $scope.list = [];
   $scope.categoria = [{id:1,name:"BEBES",min:0,max:4},
@@ -30,7 +31,28 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
   ];
 
   $scope.userGenderE = $scope.generos[$scope.gen-1].nombre; 
+ tmpEvent = Servicios.eventos();
+  tmpEvent.then(function(response){
+    if(response.statusCode = "200"){
+      if(response.eventos){
+        $scope.eventss = response.eventos;
+        $scope.userEvents = $scope.eventss[0]; 
 
+        $scope.idEvent= $scope.eventss[0]._id;
+
+        tmpEventSub = Servicios.subEventos($scope.idEvent);
+        tmpEventSub.then(function(response){
+          console.log(JSON.stringify(response));
+          if(response.statusCode = "200"){
+            if(response.subeventos){
+               $scope.ver();
+              $scope.subEvents  = response.subeventos;
+            }
+          }
+        });
+      }
+    }
+  });
   $scope.cancel = function() {
      location.reload();
     $mdDialog.cancel();
@@ -65,9 +87,9 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
    }); 
 
    $scope.ver = function(){
-  
+   $scope.idEvent = $scope.userEvents._id;
    $http({
-     url: '/eventos',
+    url: '/eventos/'+$scope.idEvent+'/subeventos',
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
@@ -76,8 +98,8 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
    }).success(function (response) {
     if(response.statusCode = "200"){
       console.log(JSON.stringify(response));
-      if(response.eventos){
-        $scope.events = response.eventos;
+      if(response.subeventos){
+        $scope.events = response.subeventos;
         var cont = $scope.events.length;
         for(var i=0; i < cont; i++){
 
@@ -134,7 +156,7 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
     var id_Atleta = $scope.id;
     for(var i = 0; i<cont; i++){
       $http({
-         url: '/atleta/'+id_Atleta+'/evento/'+$scope.list[i]+'/create',
+         url: '/atleta/'+id_Atleta+'/subevento/'+$scope.list[i]+'/create',
          method: 'POST',
           headers : { 
             'Content-Type': 'application/json',
@@ -143,7 +165,7 @@ app.controller('assignStudentCtrl', function($scope,$mdDialog,$http,$cookies) {
            data: {      
              hit     : 0,
              tiempo  : 0,
-             carril: 0
+             carril  : 0
            }
        }).success(function (response) {
           $scope.showMessage = "true";  

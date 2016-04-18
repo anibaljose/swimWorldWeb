@@ -26,6 +26,9 @@ app.controller('editEventCtrl', function($scope,$mdDialog,$http,$cookies) {
   ];
   $scope.userEventCat = $scope.categoria[$scope.Nocategoria-1];
   $scope.userGenderE = $scope.generos[$scope.Nogenero-1];
+  $scope.carril = $scope.carriles;
+  $scope.orden = $scope.noOrden;
+
   $http({
      url: '/atletas',
      method: 'GET',
@@ -59,9 +62,7 @@ app.controller('editEventCtrl', function($scope,$mdDialog,$http,$cookies) {
     if(response.statusCode = "200"){
       $scope.nameEvent = response.evento.nombre;
       $scope.fromEvent = response.evento.lugar;
-      $scope.carril = response.evento.carriles;
       $scope.dateBirthday = new Date(response.evento.fecha);
-      $scope.orden = response.evento.numeroEvento;
 
     }
    }).error( function (response) {
@@ -96,13 +97,14 @@ app.controller('editEventCtrl', function($scope,$mdDialog,$http,$cookies) {
    });
 
   $http({
-     url: '/eventos/atletas/'+$scope.id_Evento,
+     url: '/eventos/atletas/'+$scope.id_subEvento,
      method: 'GET',
       headers : { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+$cookies.get('token')
       }
    }).success(function (response) {
+    console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.atletas){
         $scope.items = response.atletas;
@@ -140,7 +142,7 @@ $scope.eventCategory = function(){
 $scope.deleteEventAtleta =function(item){
   $scope.showMessage2 = "false";  
   $http({
-     url: '/eventos/'+$scope.id_Evento+'/atleta',
+     url: '/subeventos/'+$scope.id_subEvento+'/atleta',
      method: 'DELETE',
       headers : { 
         'Content-Type': 'application/json',
@@ -165,27 +167,20 @@ $scope.deleteEventAtleta =function(item){
 
 };
 $scope.editEvent =function(){
+
+console.log("genero "+$scope.userGenderE._id);
   var token = $cookies.get('token');
-    if($scope.nameEvent != '' && $scope.fromEvent != '' 
-      && $scope.carril != '' && $scope.userEvent._id != ''
-      && $scope.dateBirthday )
-    {
        $http({
-         url: '/eventos/'+$scope.id_Evento+'/save',
+         url: '/subeventos/'+$scope.id_subEvento+'/save',
          method: 'POST',
           headers : { 
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+token
           },
          data: {      
-           nombre:$scope.nameEvent  ,
-           lugar: $scope.fromEvent,
-           fecha: $scope.dateBirthday.getTime(),
-           carriles: $scope.carril,
-           tipo: $scope.userEvent._id,
-           categoria: $scope.userEventCat.id, 
-           genero   : $scope.userGenderE.id,
-           numeroEvento: $scope.orden
+           genero      : $scope.userGenderE._id,
+           tipo        : $scope.userEvent._id,
+           categoria   : $scope.userEventCat.id
          }
        }).success(function (response) {
         if(response.statusCode = "200"){
@@ -193,7 +188,7 @@ $scope.editEvent =function(){
           var cont = $scope.list.length;
           for(var i = 0; i<cont; i++){
             $http({
-               url: '/atleta/'+$scope.list[i]+'/evento/'+$scope.id_Evento+'/create',
+               url: '/atleta/'+$scope.list[i]+'/subevento/'+$scope.id_Evento+'/create',
                method: 'POST',
                 headers : { 
                   'Content-Type': 'application/json',
@@ -202,7 +197,7 @@ $scope.editEvent =function(){
                  data: {      
                    hit     : 1,
                    tiempo  : 0,
-                   carril: 4
+                   carril  : 4
                  }
              }).success(function (response) {
              }).error( function (response) {
@@ -218,10 +213,6 @@ $scope.editEvent =function(){
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
        });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, complete el formulario"; 
-    }
 }
   $scope.cancel = function() {
     location.reload();

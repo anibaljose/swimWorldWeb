@@ -1,4 +1,4 @@
-app.controller('createEventTypeCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('createEventTypeCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
 
   $scope.cancel = function() {
      location.reload();

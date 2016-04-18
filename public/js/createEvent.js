@@ -64,18 +64,13 @@ $scope.eventCategory = function(){
 };
 
 $scope.createEvent =function(){
+
   var token = $cookies.get('token');
-    if($scope.nameEvent != '' && $scope.fromEvent != '' 
-      && $scope.carril != '' && $scope.userEvent != ''
-      && $scope.dateBirthday )
-    {
-      console.log( $scope.nameEvent);
-      tmpEvent = Servicios.crearEvento
+      orden, genero,carriles,categoria,tipoEvento, event
+
+      tmpEvent = Servicios.crearSubEvento
         (
-           $scope.nameEvent,$scope.fromEvent,
-           $scope.dateBirthday.getTime(),$scope.carril,
-           $scope.userEvent,$scope.userEventCat.id, 
-           $scope.userGenderE._id,$scope.orden
+           $scope.orden,$scope.userGenderE._id,2,$scope.userEventCat.id,$scope.userEvent,$scope.id_Evento 
         );
       tmpEvent.then(function(response){
         console.log(JSON.stringify(response));
@@ -102,10 +97,6 @@ $scope.createEvent =function(){
           $scope.showMessage = "true";  
           $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
       });
-    }else{
-          $scope.showMessage = "true";  
-          $scope.message = "complete el formulario"; 
-    }
 }
   $scope.cancel = function() {
     location.reload();

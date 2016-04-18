@@ -5,18 +5,6 @@
         <md-content class="autoScroll">
           <md-input-container class="md-block">
             <i class="fa fa-text-width  iconInput"></i>
-            <input ng-model="nameEvent" type="text" placeholder="Nombre de Evento" ng-required="true" class="sytleInput">
-          </md-input-container>
-          <md-input-container class="md-block">
-            <i class="fa fa-text-width  iconInput"></i>
-            <input ng-model="fromEvent" type="text" placeholder="Lugar de Evento" ng-required="true" class="sytleInput">
-          </md-input-container>
-          <md-input-container class="md-block">
-            <i class="fa fa-text-width  iconInput"></i>
-            <input ng-model="carril" type="number" placeholder="No. Carriles" ng-required="true" class="sytleInput" ng-value="5">
-          </md-input-container>
-          <md-input-container class="md-block">
-            <i class="fa fa-text-width  iconInput"></i>
             <input ng-model="orden" type="number" placeholder="No. Orden" ng-required="true" class="sytleInput" ng-value="5">
           </md-input-container>
           <md-input-container>
@@ -30,10 +18,6 @@
           <md-input-container>
             <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
             </select>
-          </md-input-container>
-          <md-input-container class="md-block">
-            <i class="fa fa-text-width  iconInput"></i>
-            <input ng-model="dateBirthday" type="date" placeholder="Fecha evento" ng-required="true" class="sytleInput">
           </md-input-container>
           <md-input-container>
             <select ng-options="cat as cat.name for cat in categoria track by cat.id" ng-model="userEventCat"  style="width: 592px !important;max-width: 594px;" ng-change="eventCategory()">

@@ -179,3 +179,16 @@ md-sidenav {
     border-bottom-width: 2px;
     border-bottom-style: dashed;
 }
+
+.botones{
+    position: relative;
+    float: right;
+    top: -37px;
+}
+
+.boxStudent{
+  box-shadow: -1px 1px 6px 1px rgba(19,19,20,1);
+    background: #859095;
+    color: white;
+    border-radius: 6px;
+}

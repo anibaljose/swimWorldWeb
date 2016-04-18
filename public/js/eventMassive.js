@@ -109,56 +109,31 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies,Serv
 
   $scope.createEventos =function(){
 
-    var cont1 =  $scope.events.length;
-    var conteoAux = 1;
-    for(var i = 0; i< cont1; i++){
-      var item = $scope.events[i];
-      $scope.createEvent(conteo, item.id_genero, item.id_tipo,item.id_categoria);
-      conteoAux++; 
-    }
+    tmpEvent = Servicios.crearEvento($scope.nameEvent,$scope.fromEvent,$scope.dateBirthday.getTime());
+    tmpEvent.then(function(response){
+      console.log(JSON.stringify(response));
+      if(response.statusCode = "200"){
+        var cont1 =  $scope.events.length;
+        var conteoAux = 1; 
+        var id_evento = response._id;
+        for(var i = 0; i< cont1; i++){
+          var item = $scope.events[i];
+          $scope.createSubEvent(conteo,item.id_genero,$scope.carril,item.id_categoria,
+            item.id_tipo,id_evento);
+          conteoAux++; 
+        }
+      }
+    });
+    
   
   }
 
-  $scope.createEvent =function(noOrden, genero, tipoEvento,categoria){
-  var token = $cookies.get('token');
-    if($scope.nameEvent != '' && $scope.fromEvent != '' 
-      && $scope.carril != '' && $scope.dateBirthday )
-    {
-       $http({
-         url: '/eventos/create',
-         method: 'POST',
-          headers : { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+$cookies.get('token')
-          },
-         data: {      
-           nombre   : $scope.nameEvent  ,
-           lugar    : $scope.fromEvent,
-           fecha    : $scope.dateBirthday.getTime(),
-           carriles : $scope.carril,
-           tipo     : tipoEvento,
-           categoria: categoria, 
-           genero   : genero,
-           numeroEvento: noOrden
-         }
-       }).success(function (response) {
-        
-        if(response.statusCode = "200"){
-          $scope.showMessage = "true";  
-          $scope.message = "Evento creado"; 
-        }else{
-          $scope.showMessage = "true";  
-          $scope.message = "No se pudo crear el Evento"; 
-        }
-       }).error( function (response) {
-          $scope.showMessage = "true";  
-          $scope.message = "Disculpe los inconveniente!! intenta mas tarde"; 
-       });
-    }else{
-      $scope.showMessage = "true";  
-      $scope.message = "Por favor, complete el formulario"; 
-    }
-}
+  $scope.createSubEvent =function(orden, genero,carriles,categoria,tipoEvento, evento){
+    tmpEvent = Servicios.crearSubEvento(orden, genero,carriles,categoria,tipoEvento, evento);
+    tmpEvent.then(function(response){
+
+    });
+  }
  $scope.menu = menu;
 
     $scope.openSideNavPanel = function() {

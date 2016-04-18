@@ -1,4 +1,4 @@
-app.controller('createTeamCtrl', function($scope,$mdDialog,$http,$cookies) {
+app.controller('createTeamCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
 
   $scope.createTeam =function(){
     if($scope.user.name != '')

@@ -42,8 +42,10 @@ exports.listar = function(request, reply){
   }
 };
 exports.create = function(request, reply){
+      console.log(JSON.stringify(request.payload));
   new db.Subevento(request.payload).save(function(err, subevento, numberAffected){
     if(err){
+      console.log(JSON.stringify(err));
       return reply({statusCode: 600, error: "Database", message: "Error de Base de datos."});
     }
     return reply({statusCode: 200, _id: subevento._id});
