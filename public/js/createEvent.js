@@ -10,7 +10,7 @@ app.controller('createEventCtrl', function($scope,$mdDialog,$http,$cookies,Servi
   $scope.fromEvent = ''; 
   $scope.carril = ''; 
   $scope.userAtletas = [];
-  $scope.userGenderE = [];
+  $scope.userEvent = [];
   $scope.list = [];
   $scope.selected = []; 
   $scope.eventType = [];

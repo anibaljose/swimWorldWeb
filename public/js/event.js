@@ -5,8 +5,8 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
     window.location = "#/login";
   }
   $scope.showSearch = false;
-  $scope.events = [];
   $scope.subEvents = [];
+  $scope.userEvents = [];
   $scope.idEvent = '';
   $scope.nombre = '';
   $scope.lugar = '';
@@ -311,17 +311,16 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
 
   tmpEvent = Servicios.eventos();
   tmpEvent.then(function(response){
+          console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
         $scope.userEvents = $scope.events[0]; 
 
-        console.log(JSON.stringify($scope.events));
         $scope.idEvent= $scope.events[0]._id;
 
         tmpEventSub = Servicios.subEventos($scope.idEvent);
         tmpEventSub.then(function(response){
-          console.log(JSON.stringify(response));
           if(response.statusCode = "200"){
             if(response.subeventos){
               $scope.subEvents  = response.subeventos;
@@ -331,6 +330,22 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
       }
     }
   });
+
+
+  $scope.getEventos = function(id){
+
+      console.log(JSON.stringify($scope.userEvents));
+      console.log(id);
+      $scope.subEvents  = [];
+      tmpEventSub = Servicios.subEventos($scope.userEvents._id);
+      tmpEventSub.then(function(response){
+        if(response.statusCode = "200"){
+          if(response.subeventos){
+            $scope.subEvents  = response.subeventos;
+          }
+        }
+      });
+  }
 
 $scope.deleteEvent =function(id){
   tmpLogin = Servicios.eliminarEvento(id);
