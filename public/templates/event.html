@@ -93,12 +93,12 @@
             <md-card flex-gt-sm="90" flex-gt-md="80">
               <md-card-content>
               Elije el evento:
-              
+
              <md-input-container>
                 <select ng-options="event as event.nombre for event in events track by event._id" ng-model="userEvents"  style="width: 592px !important;max-width: 594px;" ng-change="getEventos(event._id)">
                 </select>
-                            <md-button class="btn1" ng-click="reporte1()">Entry list</md-button>
-                            <md-button class="btn1" ng-click="reporte2()">Programa</md-button>
+                            <md-button class="btn1" ng-click="reporte1()">Entry list.</md-button>
+                            <md-button class="btn1" ng-click="reporte2()">Programa.</md-button>
              </md-input-container>
                 <md-list>
                   <md-list-item class="md-3-line"  ng-repeat="item in subEvents | filter:search">
