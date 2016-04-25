@@ -367,6 +367,7 @@ $scope.delete =function(id){
     if(response.statusCode = "200")
     {
       $scope.showAlert("se elimino el evento");
+      location.reload();
     }else{
       $scope.showAlert("No se pudo eliminar el evento");
     }

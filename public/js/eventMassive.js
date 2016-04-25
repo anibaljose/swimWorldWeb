@@ -1,4 +1,5 @@
-app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies,Servicios) {
+app.controller('eventoMasivoCtrl', function($scope,$http,$cookies,Servicios,$mdSidenav,$mdDialog, $mdMedia,
+  $mdBottomSheet) {
   
   if(!$cookies.get('token')){
     window.location = "#/login";
@@ -109,24 +110,43 @@ app.controller('eventoMasivoCtrl', function($scope,$mdDialog,$http,$cookies,Serv
 
   $scope.createEventos =function(){
 
-    tmpEvent = Servicios.crearEvento($scope.nameEvent,$scope.fromEvent,$scope.dateBirthday.getTime());
-    tmpEvent.then(function(response){
-      console.log(JSON.stringify(response));
-      if(response.statusCode = "200"){
-        var cont1 =  $scope.events.length;
-        var conteoAux = 1; 
-        var id_evento = response._id;
-        for(var i = 0; i< cont1; i++){
-          var item = $scope.events[i];
-          $scope.createSubEvent(conteoAux,item.id_genero,$scope.carril,item.id_categoria,
-            item.id_tipo,id_evento);
-          conteoAux++; 
+    if($scope.nameEvent != '' && $scope.fromEvent != '' && $scope.dateBirthday != ''){
+      tmpEvent = Servicios.crearEvento($scope.nameEvent,$scope.fromEvent,$scope.dateBirthday.getTime());
+      tmpEvent.then(function(response){
+        console.log(JSON.stringify(response));
+        if(response.statusCode = "200"){
+          var cont1 =  $scope.events.length;
+          var conteoAux = 1; 
+          var id_evento = response._id;
+          for(var i = 0; i< cont1; i++){
+            var item = $scope.events[i];
+            $scope.createSubEvent(conteoAux,item.id_genero,$scope.carril,item.id_categoria,
+              item.id_tipo,id_evento);
+            conteoAux++; 
+          }
+
+        $scope.showAlert("evento creado exitosamente");
         }
-      }
-    });
+      });
+    }else{
+      $scope.showAlert("llene el formulario");
+    }
     
   
   }
+
+  $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+    $scope.showAlert = function(msj) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(true)
+          .title('sosial')
+          .textContent(msj)
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Aceptar')
+      );
+    };
 
   $scope.createSubEvent =function(orden, genero,carriles,categoria,tipoEvento, evento){
     tmpEvent = Servicios.crearSubEvento(orden, genero,carriles,categoria,tipoEvento, evento);
