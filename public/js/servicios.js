@@ -191,6 +191,22 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
+    eliminarEventoMayor:function(idEvent){
+     var deferred=$q.defer();
+     $http({
+       url: '/eventos/'+idEvent,
+       method: 'DELETE',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+     }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
     eventos:function(){
       var deferred=$q.defer();
       $http({

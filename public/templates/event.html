@@ -98,6 +98,7 @@
                 </md-select>
                 <md-button class="btn1" ng-click="reporte1()">Entry list.</md-button>
                 <md-button class="btn1" ng-click="reporte2()">Programa.</md-button>
+                <md-button class="btn1" ng-click="delete(event._id)">Eliminar</md-button>
                 <md-list>
                   <md-list-item class="md-3-line"  ng-repeat="item in subEvents | filter:search">
                   <div class="md-list-item-text" id = "event{{item._id}}">

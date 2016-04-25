@@ -354,7 +354,21 @@ $scope.deleteEvent =function(id){
     {
       document.getElementById("event"+id).style.display = "none";
     }else{
-      $scope.showAlert("No se pudo eliminar el Evento");
+      $scope.showAlert("No se pudo eliminar el Sub-Evento");
+    }
+  }).catch(function (error) {
+      $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
+  });
+}
+
+$scope.delete =function(id){
+  tmpLogin = Servicios.eliminarEventoMayor(id);
+  tmpLogin.then(function(response){
+    if(response.statusCode = "200")
+    {
+      $scope.showAlert("se elimino el evento");
+    }else{
+      $scope.showAlert("No se pudo eliminar el evento");
     }
   }).catch(function (error) {
       $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
