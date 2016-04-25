@@ -1,34 +1,34 @@
 <div ng-controller="editEventTimeCtrl"  >
-   <md-content flex layout-padding  >
-      <md-card>
-         <md-card-content>
-            <div flex="25" flex-gt-sm="50" layout="column">
-               <div>
-                  <fieldset class="standard" style ="width: 500px;"  >
-                     <legend> <code>Atletas del evento </code> <code style="font-weight: 600;">{{nombre}}</code></legend>
-                     <div layout="column" layout-wrap >
-                        <div class="item2" flex="50"  ng-repeat="item in items" style="padding-right: 30%;">
-                           <span >
-                              {{ item.atleta.nombre }} {{ item.atleta.apellido }}
-                              <div style="display:flex;">
-                                 <input id = "min{{item.atleta._id}}" type="number" value ="00"  style="width: 32px;">
-                                 <input id = "seg{{item.atleta._id}}" type="number" value ="00" style="width: 32px;">
-                                 <input id = "ms{{item.atleta._id}}"  type="number" value ="00" style="width: 32px;">min-seg-ms
-                              </div>
-                           </span>
-                        </div>
-                     </div>
-                  </fieldset>
-               </div>
-            </div>
-            <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
-   </md-content>
-   <md-button class="btnAdd" ng-click="editEventTime()" >Editar</md-button>
-   <md-button class="btnAdd" ng-click="tiempos()" >Anteriores Tiempo</md-button>
-   <md-button class="btnAdd" ng-click="editCarril()" >Carriles</md-button>
-   <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
-   </md-content>
-   </md-card-content>
-   </md-card>
-   </md-content>
+  <md-content flex layout-padding  >
+    <md-card>
+      <md-card-content>
+        <div flex="25" flex-gt-sm="50" layout="column">
+          <div>
+            <fieldset class="standard" style ="width: 500px;"  >
+              <legend> <code>Atletas del evento </code> <code style="font-weight: 600;">{{nombre}}</code></legend>
+              <div layout="column" layout-wrap >
+                <div class="item2" flex="50"  ng-repeat="item in items" style="padding-right: 30%;">
+                  <span >
+                    {{ item.atleta.nombre }} {{ item.atleta.apellido }}
+                    <div style="display:flex;">
+                      <input id = "min{{item.atleta._id}}" type="number" value ="00"  style="width: 32px;">
+                      <input id = "seg{{item.atleta._id}}" type="number" value ="00" style="width: 32px;">
+                      <input id = "ms{{item.atleta._id}}"  type="number" value ="00" style="width: 32px;">min-seg-ms
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <span ng-show ="showMessage" class="messageLogin">{{message}}</span>
+  </md-content>
+  <md-button class="btnAdd" ng-click="editEventTime()" >Editar</md-button>
+  <md-button class="btnAdd" ng-click="tiempos()" >Anteriores Tiempo</md-button>
+  <md-button class="btnAdd" ng-click="editCarril()" >Carriles</md-button>
+  <md-button class="btnAdd" ng-click="cancel()" >Cancelar</md-button>
+  </md-content>
+  </md-card-content>
+  </md-card>
+  </md-content>
 </div>

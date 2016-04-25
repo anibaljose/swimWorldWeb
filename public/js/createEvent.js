@@ -66,8 +66,6 @@ $scope.eventCategory = function(){
 $scope.createEvent =function(){
 
   var token = $cookies.get('token');
-      orden, genero,carriles,categoria,tipoEvento, event
-
       tmpEvent = Servicios.crearSubEvento
         (
            $scope.orden,$scope.userGenderE._id,2,$scope.userEventCat.id,$scope.userEvent,$scope.id_Evento 

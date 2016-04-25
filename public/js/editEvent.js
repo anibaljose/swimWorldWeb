@@ -188,7 +188,7 @@ console.log("genero "+$scope.userGenderE._id);
           var cont = $scope.list.length;
           for(var i = 0; i<cont; i++){
             $http({
-               url: '/atleta/'+$scope.list[i]+'/subevento/'+$scope.id_Evento+'/create',
+               url: '/atleta/'+$scope.list[i]+'/subeventos/'+$scope.id_Evento+'/create',
                method: 'POST',
                 headers : { 
                   'Content-Type': 'application/json',
