@@ -92,25 +92,21 @@
             layout="row" layout-align="center center" id = "tab">
             <md-card flex-gt-sm="90" flex-gt-md="80">
               <md-card-content>
-              Elije el evento:
-
-             <md-input-container>
-                <select ng-options="event as event.nombre for event in events track by event._id" ng-model="userEvents"  style="width: 592px !important;max-width: 594px;" ng-change="getEventos(event._id)">
-                </select>
-                            <md-button class="btn1" ng-click="reporte1()">Entry list.</md-button>
-                            <md-button class="btn1" ng-click="reporte2()">Programa.</md-button>
-             </md-input-container>
+                Elije el evento:
+                <md-select placeholder="eventos" ng-model="event" ng-change="getEventos(event._id)" style="min-width: 200px;">
+                  <md-option ng-value="event" ng-repeat="event in events">{{event.nombre}}</md-option>
+                </md-select>
+                <md-button class="btn1" ng-click="reporte1()">Entry list.</md-button>
+                <md-button class="btn1" ng-click="reporte2()">Programa.</md-button>
                 <md-list>
                   <md-list-item class="md-3-line"  ng-repeat="item in subEvents | filter:search">
-
-
                   <div class="md-list-item-text" id = "event{{item._id}}">
                     <div class="md-tile-content boxStudent" >
                       <h3 style="color:white;"> {{item.orden}} {{Categoria}}</h3>
                       <h4 style="color:white;">Categoria: {{nombreCategoria(item.categoria)}}</h4>
                       <p style="color:white;"> Genero: {{nombreGenero(item.genero)}}</p>
                       <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
-                          </md-checkbox>
+                      </md-checkbox>
                     </div>
                     <div class="botones" alt ="eliminar">
                       <i class="fa fa-minus-square fa-1x" ng-click="deleteEvent(item._id)"  style="cursor:pointer;"></i>
@@ -118,12 +114,7 @@
                       <i class="fa fa-clock-o fa-1x" ng-click="showEditTimeAdvance(item)" style ="cursor:pointer;"></i>
                       <i class="fa fa-eye fa-1x" ng-click="showViewTimeAdvance(item)" style ="cursor:pointer;"></i>
                     </div>
-                  </div>                   
-
-                    <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                    <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                  </md-item>
-                  <md-divider></md-divider>
+                  </div>
                 </md-list>
               </md-card-content>
             </md-card>

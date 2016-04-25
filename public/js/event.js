@@ -6,7 +6,8 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   }
   $scope.showSearch = false;
   $scope.subEvents = [];
-  $scope.userEvents = [];
+  $scope.userEvents = null;
+  $scope.events = null;
   $scope.idEvent = '';
   $scope.nombre = '';
   $scope.lugar = '';
@@ -315,7 +316,7 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
-        $scope.userEvents = $scope.events[0]; 
+        //$scope.userEvents = $scope.events[0]; 
 
         $scope.idEvent= $scope.events[0]._id;
 
@@ -334,10 +335,9 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
 
   $scope.getEventos = function(id){
 
-      console.log(JSON.stringify($scope.userEvents));
-      console.log(id);
+      console.log(JSON.stringify(id));
       $scope.subEvents  = [];
-      tmpEventSub = Servicios.subEventos($scope.userEvents._id);
+      tmpEventSub = Servicios.subEventos(id);
       tmpEventSub.then(function(response){
         if(response.statusCode = "200"){
           if(response.subeventos){
