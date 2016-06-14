@@ -3,20 +3,6 @@ app.controller('editEventTimeCtrl', function($scope,$mdDialog,$http,$cookies) {
   $scope.items = [];
   $scope.userAtletas = [];
 
-  var token = $cookies.get('token');
-  $http({
-     url: '/tiempos',
-     method: 'GET',
-      headers : { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token
-      }
-   }).success(function (response) {
-      if(response.statusCode = "200"){
-      }
-   }).error( function (response) {
-   });
-
 
   $http({
      url: '/eventos/atletas/'+$scope.id_Evento,
@@ -78,7 +64,7 @@ $scope.editEventTime =function(){
           id_atleta = $scope.items[i].atleta._id;
 
         $http({
-           url: '/atleta/'+id_atleta+'/evento/'+id_Evento+'/save',
+           url: '/atleta/'+id_atleta+'/subeventos/'+id_Evento+'/save',
            method: 'POST',
             headers : { 
               'Content-Type': 'application/json',
@@ -118,7 +104,7 @@ $scope.editCarril =function(){
         id_atleta = $scope.items[i].atleta._id;
 
         $http({
-           url: '/atleta/'+id_atleta+'/evento/'+id_Evento+'/save',
+           url: '/atleta/'+id_atleta+'/subeventos/'+id_Evento+'/save',
            method: 'POST',
             headers : { 
               'Content-Type': 'application/json',

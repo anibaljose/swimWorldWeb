@@ -2,6 +2,44 @@ angular.module('swim.httpServices',['ngCookies'])
 
 .factory('Servicios', function($http, $q,$cookies) {
   return {
+    reporte1:function(idEvent){
+      var deferred=$q.defer();
+      $http({
+       url: '/reporte/reporte1',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        },
+        params :{
+            idEvento:idEvent
+        }
+     }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
+    reporte2:function(idEvent){
+      var deferred=$q.defer();
+      $http({
+       url: '/reporte/reporte2',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        },
+        params :{
+            idEvento:idEvent
+        }
+     }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
     login:function(mail, password){
       var deferred=$q.defer();
       $http({
@@ -140,7 +178,23 @@ angular.module('swim.httpServices',['ngCookies'])
     eliminarEvento:function(idEvent){
      var deferred=$q.defer();
      $http({
-       url: '/eventos/'+id,
+       url: '/subeventos/'+idEvent,
+       method: 'DELETE',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+     }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
+    eliminarEventoMayor:function(idEvent){
+     var deferred=$q.defer();
+     $http({
+       url: '/eventos/'+idEvent,
        method: 'DELETE',
         headers : { 
           'Content-Type': 'application/json',
@@ -169,7 +223,24 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
-    crearEvento:function(nombre, lugar, fecha, carriles, tipo, categoria, genero, numeroEvento){
+    subEventos:function(idEvent){
+      console.log("...."+idEvent);
+      var deferred=$q.defer();
+      $http({
+       url: '/eventos/'+idEvent+'/subeventos',
+       method: 'GET',
+        headers : { 
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+$cookies.get('token')
+        }
+      }).success(function (response) {
+          deferred.resolve(response);
+      }).error( function (response) {
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
+    crearEvento:function(nombre, lugar, fecha){
       var deferred=$q.defer();$http({
          url: '/eventos/create',
          method: 'POST',
@@ -178,14 +249,9 @@ angular.module('swim.httpServices',['ngCookies'])
             'Authorization': 'Bearer '+$cookies.get('token')
           },
          data: {      
-           nombre   : nombre  ,
+           nombre   : nombre,
            lugar    : lugar,
            fecha    : fecha,
-           carriles : carriles,
-           tipo     : tipo,
-           categoria: categoria, 
-           genero   : genero,
-           numeroEvento: numeroEvento
          }
        }).success(function (response) {
           deferred.resolve(response);
@@ -194,9 +260,35 @@ angular.module('swim.httpServices',['ngCookies'])
       });
       return deferred.promise;
     },
+    crearSubEvento:function(orden, genero,carriles,categoria,tipoEvento, evento ){
+    console.log(carriles);
+      var deferred=$q.defer();$http({
+         url: '/subeventos/create',
+         method: 'POST',
+          headers : { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+$cookies.get('token')
+          },
+         data: {    
+           orden      : orden,
+           genero     : genero,
+           carriles   : carriles,
+           categoria  : categoria,
+           tipo       : tipoEvento,
+           evento     : evento
+         }
+       }).success(function (response) {
+        console.log(JSON.stringify(response));
+          deferred.resolve(response);
+      }).error( function (response) {
+        console.log(JSON.stringify(response));
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    },
     crearEventoAtleta:function(idAtleta, idEvento,hit, tiempo, carril){
       var deferred=$q.defer();$http({
-         url: '/atleta/'+idAtleta+'/evento/'+idEvento+'/create',
+         url: '/atleta/'+idAtleta+'/subeventos/'+idEvento+'/create',
          method: 'POST',
          headers : { 
             'Content-Type': 'application/json',
@@ -217,7 +309,7 @@ angular.module('swim.httpServices',['ngCookies'])
     atletasEvento:function(idEvent){
       var deferred=$q.defer();
       $http({
-       url: '/eventos/atletas/'+idEvent,
+       url: '/subeventos/atletas/'+idEvent,
        method: 'GET',
         headers : { 
           'Content-Type': 'application/json',

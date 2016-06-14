@@ -5,7 +5,13 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
     window.location = "#/login";
   }
   $scope.showSearch = false;
-  $scope.events = [];
+  $scope.subEvents = [];
+  $scope.userEvents = null;
+  $scope.events = null;
+  $scope.idEvent = '';
+  $scope.nombre = '';
+  $scope.lugar = '';
+  $scope.fecha = '';
   $scope.list = [];
   $scope.orden = 0;
   $scope.EntryFinal = [];
@@ -39,7 +45,20 @@ app.controller('eventCtrl', function($scope,$mdSidenav,$mdDialog, $mdMedia,
   $scope.exists = function (item,selected) {
     return $scope.list.indexOf(item._id) > -1;
   };
-
+$scope.reporte1 = function(id){
+  console.log($scope.userEvents._id);
+  tmpReporte1 = Servicios.reporte1($scope.userEvents._id);
+  tmpReporte1.then(function(response){
+    console.log(JSON.stringify(response));
+  });
+}
+$scope.reporte2 = function(id){
+  console.log($scope.userEvents._id);
+  tmpReporte2 = Servicios.reporte2($scope.userEvents._id);
+  tmpReporte2.then(function(response){
+    console.log(JSON.stringify(response));
+  });
+}
 $scope.getMin = function(min){
   var minutes = Math.floor( min / 60000  );  
   minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -69,9 +88,9 @@ $scope.getMs = function(ms){
   }
 
   $scope.SeleccionarTodos = function(){
-    var cont = $scope.events.length;
+    var cont = $scope.subEvents.length;
     for(var i=0; i < cont; i++){
-      $scope.list.push($scope.events[i]._id);
+      $scope.toggle($scope.subEvents[i], $scope.list);
     }
   }
 
@@ -291,14 +310,42 @@ $scope.ingresarAtletas = function(atleta, id,carriles){
     });
   }
 
-  tmpEvent = Servicios.equipos();
+  tmpEvent = Servicios.eventos();
   tmpEvent.then(function(response){
+          console.log(JSON.stringify(response));
     if(response.statusCode = "200"){
       if(response.eventos){
         $scope.events = response.eventos;
+        //$scope.userEvents = $scope.events[0]; 
+
+        $scope.idEvent= $scope.events[0]._id;
+
+        tmpEventSub = Servicios.subEventos($scope.idEvent);
+        tmpEventSub.then(function(response){
+          if(response.statusCode = "200"){
+            if(response.subeventos){
+              $scope.subEvents  = response.subeventos;
+            }
+          }
+        });
       }
     }
   });
+
+
+  $scope.getEventos = function(id){
+
+      console.log(JSON.stringify(id));
+      $scope.subEvents  = [];
+      tmpEventSub = Servicios.subEventos(id);
+      tmpEventSub.then(function(response){
+        if(response.statusCode = "200"){
+          if(response.subeventos){
+            $scope.subEvents  = response.subeventos;
+          }
+        }
+      });
+  }
 
 $scope.deleteEvent =function(id){
   tmpLogin = Servicios.eliminarEvento(id);
@@ -307,7 +354,22 @@ $scope.deleteEvent =function(id){
     {
       document.getElementById("event"+id).style.display = "none";
     }else{
-      $scope.showAlert("No se pudo eliminar el Evento");
+      $scope.showAlert("No se pudo eliminar el Sub-Evento");
+    }
+  }).catch(function (error) {
+      $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
+  });
+}
+
+$scope.delete =function(id){
+  tmpLogin = Servicios.eliminarEventoMayor(id);
+  tmpLogin.then(function(response){
+    if(response.statusCode = "200")
+    {
+      $scope.showAlert("se elimino el evento");
+      location.reload();
+    }else{
+      $scope.showAlert("No se pudo eliminar el evento");
     }
   }).catch(function (error) {
       $scope.showAlert("Disculpe los inconveniente!! intenta mas tarde");
@@ -337,7 +399,9 @@ $scope.deleteEvent =function(id){
       parent      : angular.element(document.body),
       targetEvent : ev,
       clickOutsideToClose:true,
-      fullscreen  : useFullScreen
+      fullscreen  : useFullScreen,
+      locals      : {idEvent:$scope.idEvent}
+
     })
     .then(function(answer) {
       $scope.status = 'You said the information was "' + answer + '".';
@@ -361,7 +425,7 @@ $scope.deleteEvent =function(id){
       parent      : angular.element(document.body),
       clickOutsideToClose:true,
       fullscreen  : useFullScreen,
-      locals      : { item:item}
+      locals      : { item:item,idEvent:$scope.idEvent}
     })
     .then(function(answer) {
       $scope.status = 'You said the information was "' + answer + '".';
@@ -375,7 +439,6 @@ $scope.deleteEvent =function(id){
     });
 
   };
-
 
   $scope.showEditTimeAdvance = function(item) {
   

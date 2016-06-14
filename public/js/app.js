@@ -102,14 +102,18 @@ function assignStudentController($scope,item) {
 
 /**eventos*/
 
-function createEventController($scope, $mdDialog) {
+function createEventController($scope, $mdDialog,idEvent) {
+  $scope.id_Evento      = idEvent;
 }
 
-function EditEventController($scope, $mdDialog,item) { 
-  $scope.id_Evento      = item._id;
+function EditEventController($scope, $mdDialog,item,idEvent) { 
+  $scope.id_Evento      = idEvent;
+  $scope.id_subEvento   = item._id;
   $scope.id_Tipo_Evento = item.tipo;
   $scope.Nocategoria    = item.categoria;
   $scope.Nogenero       = item.genero;
+  $scope.carriles       = item.carriles;
+  $scope.noOrden        = item.orden;
 }
 
 function EditTimeController($scope, $mdDialog,item) { 

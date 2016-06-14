@@ -1,7 +1,7 @@
 <link href="../css/event.css" rel="stylesheet">
 <title>Eventos</title>
 <div layout="row" style="height:100% !important; width:100% !important;" ng-controller="eventCtrl" >
-  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style ="background: #8BC34A;">
+  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style ="background: rgb(2, 119, 189);">
     <md-toolbar class="md-tall md-hue-2" >
     <md-toolbar class="md-tall md-hue-2" style ="width: 333px !important;">
       <span flex></span>
@@ -18,9 +18,9 @@
         <a>
           <md-item-content md-ink-ripple layout="row" layout-align="start center" ng-click="go(item.link)" style="cursor:pointer">
             <div class="inset">
-              <i style = "color:black !important;" class="fa {{item.icon}} fa-1x"></i>
+              <i style = "color:white !important;" class="fa {{item.icon}} fa-1x"></i>
             </div>
-            <div class="inset" style="color: black;">{{item.title}}
+            <div class="inset" style="color: white;">{{item.title}}
             </div>
           </md-item-content>
         </a>
@@ -79,7 +79,7 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-content flex md-scroll-y style ="background: #8BC34A;">
+    <md-content flex md-scroll-y style ="background: white;">
       <ui-view layout="column" layout-fill layout-padding >
         <div class="inset" hide-sm></div>
         <ng-switch on="data.selectedIndex" class="tabpanel-container">
@@ -92,36 +92,30 @@
             layout="row" layout-align="center center" id = "tab">
             <md-card flex-gt-sm="90" flex-gt-md="80">
               <md-card-content>
-              Elije el evento:
-             <md-input-container>
-                <select ng-options="genero as genero.nombre for genero in generos track by genero._id" ng-model="userGenderE"  style="width: 592px !important;max-width: 594px;">
-                </select>
-             </md-input-container>
+                Elije el evento:
+                <md-select placeholder="eventos" ng-model="event" ng-change="getEventos(event._id)" style="min-width: 200px;">
+                  <md-option ng-value="event" ng-repeat="event in events">{{event.nombre}}</md-option>
+                </md-select>
+                <md-button class="btn1" ng-click="reporte1()">Entry list.</md-button>
+                <md-button class="btn1" ng-click="reporte2()">Programa.</md-button>
+                <md-button class="btn1" ng-click="delete(event._id)">Eliminar</md-button>
                 <md-list>
-                  <md-item ng-repeat="item in events | filter:search">
-                    <md-item-content id = "event{{item._id}}">
-                      <div class="md-tile-content" style="background: rgba(2, 119, 189, 0.15);">
-                        <div>
-                          <span style="font-size: 14px; font-weight: bolder;">Nombre: </span> {{item.nombre}}
-                          <span style="font-size: 14px; font-weight: bolder;">Lugar: </span> {{item.lugar}}
-                          <span style="font-size: 14px; font-weight: bolder;">Categoria: </span> {{nombreCategoria(item.categoria)}}
-                          <span style="font-size: 14px; font-weight: bolder;">Genero: </span>{{nombreGenero(item.genero)}}
-                          <span style="font-size: 14px; font-weight: bolder;">No: </span>{{item.numeroEvento}}
-                          <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
-                          </md-checkbox>
-                          <div>
-                            <md-button class="btn1" ng-click="editEvent(item)">Editar</md-button>
-                            <md-button class="btn1" ng-click="showEditTimeAdvance(item)">Editar Tiempos</md-button>
-                            <md-button class="btn1" ng-click="showViewTimeAdvance(item)"> Tiempos Finales</md-button>
-                            <md-button class="btn1" ng-click="deleteEvent(item._id)" >Eliminar</md-button>
-                          </div>
-                        </div>
-                      </div>
-                    </md-item-content>
-                    <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                    <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                  </md-item>
-                  <md-divider></md-divider>
+                  <md-list-item class="md-3-line"  ng-repeat="item in subEvents | filter:search">
+                  <div class="md-list-item-text" id = "event{{item._id}}">
+                    <div class="md-tile-content boxStudent" >
+                      <h3 style="color:white;"> {{item.orden}} {{Categoria}}</h3>
+                      <h4 style="color:white;">Categoria: {{nombreCategoria(item.categoria)}}</h4>
+                      <p style="color:white;"> Genero: {{nombreGenero(item.genero)}}</p>
+                      <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" style="padding-right: 337px;"><span ng-if="exists(item, selected)"></span>
+                      </md-checkbox>
+                    </div>
+                    <div class="botones" alt ="eliminar">
+                      <i class="fa fa-minus-square fa-1x" ng-click="deleteEvent(item._id)"  style="cursor:pointer;"></i>
+                      <i class="fa fa-pencil-square-o fa-1x" style ="cursor:pointer;" ng-click="editEvent(item)"></i>
+                      <i class="fa fa-clock-o fa-1x" ng-click="showEditTimeAdvance(item)" style ="cursor:pointer;"></i>
+                      <i class="fa fa-eye fa-1x" ng-click="showViewTimeAdvance(item)" style ="cursor:pointer;"></i>
+                    </div>
+                  </div>
                 </md-list>
               </md-card-content>
             </md-card>
